@@ -4,12 +4,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/albumSearchFragment">
+    app:startDestination="@id/catalog">
 
     <fragment
-        android:id="@+id/albumSearchFragment"
-        android:name="com.babaetskv.muspert.AlbumSearchFragment"
-        android:label="Album Search Fragment"
-        tools:layout="@layout/fragment_album_search"/>
+        android:id="@+id/catalog"
+        android:name="com.babaetskv.muspert.CatalogFragment"
+        android:label="Catalog Fragment"
+        tools:layout="@layout/fragment_catalog"/>
+
+    <fragment
+        android:id="@+id/feed"
+        android:name="com.babaetskv.muspert.FeedFragment"
+        android:label="Feed Fragment"
+        tools:layout="@layout/fragment_feed"/>
+
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.babaetskv.muspert.ProfileFragment"
+        android:label="Profile Fragment"
+        tools:layout="@layout/fragment_profile"/>
 
 </navigation>
