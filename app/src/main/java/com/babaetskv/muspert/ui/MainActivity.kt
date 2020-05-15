@@ -1,9 +1,10 @@
-package com.babaetskv.muspert
+package com.babaetskv.muspert.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.babaetskv.muspert.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 

@@ -8,19 +8,19 @@
 
     <fragment
         android:id="@+id/catalog"
-        android:name="com.babaetskv.muspert.CatalogFragment"
+        android:name="com.babaetskv.muspert.ui.fragments.CatalogFragment"
         android:label="Catalog Fragment"
         tools:layout="@layout/fragment_catalog"/>
 
     <fragment
         android:id="@+id/feed"
-        android:name="com.babaetskv.muspert.FeedFragment"
+        android:name="com.babaetskv.muspert.ui.fragments.FeedFragment"
         android:label="Feed Fragment"
         tools:layout="@layout/fragment_feed"/>
 
     <fragment
         android:id="@+id/profile"
-        android:name="com.babaetskv.muspert.ProfileFragment"
+        android:name="com.babaetskv.muspert.ui.fragments.ProfileFragment"
         android:label="Profile Fragment"
         tools:layout="@layout/fragment_profile"/>
 
