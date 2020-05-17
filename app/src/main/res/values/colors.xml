@@ -12,4 +12,10 @@
 
     <color name="colorError">#D8000C</color>
     <color name="colorOnError">#FFF</color>
+
+    <color name="colorBackground">#DDD</color>
+    <color name="colorOnBackground">#000</color>
+
+    <color name="colorSurface">#FFF</color>
+    <color name="colorOnSurface">#000</color>
 </resources>

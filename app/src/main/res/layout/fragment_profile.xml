@@ -20,4 +20,10 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:text="TODO"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/settingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="To settings"/>
 </LinearLayout>

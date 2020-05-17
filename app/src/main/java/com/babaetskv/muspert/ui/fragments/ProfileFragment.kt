@@ -1,6 +1,9 @@
 package com.babaetskv.muspert.ui.fragments
 
 import android.os.Bundle
+import android.view.View
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.models.User
@@ -26,7 +29,18 @@ class ProfileFragment : BaseFragment(),
         presenter.setParams()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initListeners()
+    }
+
     override fun populateData(data: User) {
         usernameTextView.text = data.username
+    }
+
+    private fun initListeners() {
+        settingsButton.setOnClickListener {
+            navController.navigate(R.id.action_main_to_settings)
+        }
     }
 }

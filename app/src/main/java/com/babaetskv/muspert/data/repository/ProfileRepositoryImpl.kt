@@ -5,10 +5,12 @@ import com.babaetskv.muspert.data.models.User
 import io.reactivex.Completable
 import io.reactivex.Single
 
-class ProfileRepositoryImpl : ProfileRepository {
+class ProfileRepositoryImpl(
+    private val schedulersProvider: SchedulersProvider
+) : ProfileRepository {
 
     override fun syncProfile(): Completable = Completable.complete() // TODO: sync profile
-        .subscribeOn(SchedulersProvider.IO)
+        .subscribeOn(schedulersProvider.IO)
 
     override fun getProfile(): Single<User> =
         User(
@@ -17,5 +19,5 @@ class ProfileRepositoryImpl : ProfileRepository {
             firstName = "John",
             lastName = "Doe"
         ).let { Single.just(it) } // TODO: get profile
-            .subscribeOn(SchedulersProvider.IO)
+            .subscribeOn(schedulersProvider.IO)
 }

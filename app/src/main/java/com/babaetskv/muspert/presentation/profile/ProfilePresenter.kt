@@ -12,17 +12,18 @@ import org.koin.core.inject
 class ProfilePresenter : BasePresenter<ProfileView>() {
     private val profileRepository: ProfileRepository by inject()
     private val user: User by inject()
+    private val schedulersProvider: SchedulersProvider by inject()
 
     fun setParams() {
         profileRepository.syncProfile()
-            .observeOn(SchedulersProvider.UI)
+            .observeOn(schedulersProvider.UI)
             .subscribe(::onSyncProfileSuccess, ::onError)
             .unsubscribeOnDestroy()
     }
 
     private fun onSyncProfileSuccess() {
         profileRepository.getProfile()
-            .observeOn(SchedulersProvider.UI)
+            .observeOn(schedulersProvider.UI)
             .subscribe(::onGetProfileSuccess, ::onError)
             .unsubscribeOnDestroy()
     }
