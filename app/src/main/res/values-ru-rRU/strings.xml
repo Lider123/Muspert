@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Muspert</string>
+
+    <string name="in_development">Функция в разработке</string>
+
+    <!-- Tab names -->
+    <string name="catalog">Каталог</string>
+    <string name="feed">Лента</string>
+    <string name="profile">Профиль</string>
+
+    <!-- Button titles -->
+    <string name="login">Войти</string>
+    <string name="resend_sms_code">Отправить код повторно</string>
+
+    <!-- Toolbar titles -->
+    <string name="enter_sms_code">Введите SMS код</string>
+
+    <!-- Alerts -->
+    <string name="phone_number_is_null">Введите номер телефона</string>
+    <string name="invalid_phone_number">Номер телефона некорректный</string>
+    <string name="failure_authorization">Ошибка авторизации</string>
+    <string name="wrong_sms_code">Неверный SMS код</string>
+
+    <!-- Errors -->
+    <string name="network_error">Отсутствует соединение с сетью</string>
+    <string name="bad_request_error">Некорректный запрос</string>
+    <string name="security_error">Отсутствуют необходимые разрешения</string>
+    <string name="unknown_error">Неизвестная ошибка</string>
+    <string name="server_not_available_error">Сервер недоступен. Повторите попытку позже</string>
+    <string name="unauthorized_error">Пожалуйста, зарегистрируйтесь в приложении</string>
+    <string name="forbidden_error">Недостаточно прав</string>
+    <string name="not_found_error">Запись не найдена</string>
+    <string name="internal_server_error">Внутренняя ошибка сервера</string>
+    <string name="invalid_access_token_error">Некорректные данные авторизации</string>
+</resources>

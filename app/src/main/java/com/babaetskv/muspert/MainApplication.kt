@@ -1,6 +1,7 @@
 package com.babaetskv.muspert
 
 import android.app.Application
+import com.babaetskv.muspert.di.appModules
 import com.babaetskv.muspert.utils.logging.ReleaseTree
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.koin.android.ext.android.inject
