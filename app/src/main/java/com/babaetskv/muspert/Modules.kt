@@ -3,6 +3,7 @@ package com.babaetskv.muspert
 import com.babaetskv.muspert.data.models.User
 import com.babaetskv.muspert.data.repository.ProfileRepository
 import com.babaetskv.muspert.data.repository.ProfileRepositoryImpl
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -21,6 +22,7 @@ private val appModule = module {
                 get() = Schedulers.computation()
         } as SchedulersProvider
     }
+    single { FirebaseCrashlytics.getInstance() as FirebaseCrashlytics }
 }
 
 private val singletoneModule = module {
