@@ -18,7 +18,7 @@ class SplashFragment : BaseFragment(), SplashView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Handler().postDelayed({
-            navigator.replaceWith(R.id.action_splash_to_login)
+            presenter.onDelay()
         }, DELAY)
     }
 
