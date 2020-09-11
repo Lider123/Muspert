@@ -6,7 +6,7 @@ import io.reactivex.Single
 
 interface ProfileRepository {
 
-    fun syncProfile(): Completable
-
     fun getProfile(): Single<User>
+
+    fun updateProfile(profile: User): Completable
 }

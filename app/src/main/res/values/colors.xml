@@ -18,4 +18,7 @@
 
     <color name="colorSurface">#FFF</color>
     <color name="colorOnSurface">#000</color>
+
+    <color name="colorText">#000</color>
+    <color name="colorHint">#888</color>
 </resources>

@@ -1,4 +1,4 @@
-package com.babaetskv.muspert
+package com.babaetskv.muspert.data
 
 import io.reactivex.Scheduler
 
