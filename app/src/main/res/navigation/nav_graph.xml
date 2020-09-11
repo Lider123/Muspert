@@ -25,6 +25,20 @@
         <action
             android:id="@+id/action_login_to_main"
             app:destination="@id/main"/>
+
+        <action
+            android:id="@+id/action_login_to_sign_up"
+            app:destination="@id/sign_up"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/sign_up"
+        android:name="com.babaetskv.muspert.ui.fragments.SignUpFragment"
+        android:label="Sign Up Fragment"
+        tools:layout="@layout/fragment_sign_up">
+        <action
+            android:id="@+id/action_sign_up_to_main"
+            app:destination="@id/main" />
     </fragment>
 
     <fragment

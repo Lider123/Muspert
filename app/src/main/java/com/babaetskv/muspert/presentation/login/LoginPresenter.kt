@@ -6,6 +6,7 @@ import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.ErrorHandler
 import com.babaetskv.muspert.data.models.User
 import com.babaetskv.muspert.data.network.gateway.AuthGateway
+import com.babaetskv.muspert.data.prefs.PrefsHelper
 import com.babaetskv.muspert.data.repository.ProfileRepository
 import com.babaetskv.muspert.presentation.base.BasePresenter
 import com.babaetskv.muspert.utils.notifier.Notifier
@@ -19,6 +20,18 @@ class LoginPresenter : BasePresenter<LoginView>() {
     private val schedulersProvider: SchedulersProvider by inject()
     private val user: User by inject()
     private val errorHandler: ErrorHandler by inject()
+    private val prefs: PrefsHelper by inject()
+
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        val tokenPref = prefs.authTokenPreference
+        if (tokenPref.isSet) {
+            profileRepository.getProfile()
+                .observeOn(schedulersProvider.UI)
+                .subscribe(::onGetProfileSuccess, ::onError)
+                .unsubscribeOnDestroy()
+        }
+    }
 
     fun onLoginClick() {
         viewState.showAuthProgress()
@@ -26,6 +39,7 @@ class LoginPresenter : BasePresenter<LoginView>() {
     }
 
     fun onLogin(token: String) {
+        viewState.hideAuthProgress()
         authGateway.authorize(token)
             .andThen(profileRepository.getProfile())
             .observeOn(schedulersProvider.UI)
@@ -50,7 +64,11 @@ class LoginPresenter : BasePresenter<LoginView>() {
 
     private fun onGetProfileSuccess(user: User) {
         this.user.copy(user)
-        navigator.replaceWith(R.id.action_login_to_main)
+        if (user.isRegistered) {
+            navigator.replaceWith(R.id.action_login_to_main)
+        } else {
+            navigator.forward(R.id.action_login_to_sign_up)
+        }
     }
 
     private fun onError(t: Throwable) {

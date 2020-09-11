@@ -1,6 +1,7 @@
 package com.babaetskv.muspert.di
 
-import android.preference.PreferenceManager
+import android.content.SharedPreferences
+import androidx.preference.PreferenceManager
 import com.babaetskv.muspert.BuildConfig
 import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.ErrorHandler
@@ -12,6 +13,7 @@ import com.babaetskv.muspert.data.network.HeaderInterceptorFactory
 import com.babaetskv.muspert.data.network.gateway.AuthGateway
 import com.babaetskv.muspert.data.network.gateway.AuthGatewayImpl
 import com.babaetskv.muspert.data.network.mappers.UserModelToUserMapper
+import com.babaetskv.muspert.data.network.mappers.UserToUserModelMapper
 import com.babaetskv.muspert.data.prefs.PrefsHelper
 import com.babaetskv.muspert.data.repository.ProfileRepository
 import com.babaetskv.muspert.data.repository.ProfileRepositoryImpl
@@ -55,7 +57,7 @@ private val singletonModule = module {
 }
 
 val repositoryModule = module {
-    single<ProfileRepository> { ProfileRepositoryImpl(get(), get(), get()) }
+    single<ProfileRepository> { ProfileRepositoryImpl(get(), get(), get(), get()) }
 }
 
 val retrofitModule = module {
@@ -117,11 +119,12 @@ val apiModule = module {
 private val preferenceModule = module {
     single { PrefsHelper(get()) }
     factory { RxSharedPreferences.create(get()) }
-    factory { PreferenceManager.getDefaultSharedPreferences(androidContext()) }
+    factory<SharedPreferences> { PreferenceManager.getDefaultSharedPreferences(androidContext()) }
 }
 
 private val mapperModule = module {
     factory { UserModelToUserMapper() }
+    factory { UserToUserModelMapper() }
 }
 
 private val gatewayModule = module {

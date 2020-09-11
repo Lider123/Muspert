@@ -12,9 +12,16 @@
     <!-- Button titles -->
     <string name="login">Войти</string>
     <string name="resend_sms_code">Отправить код повторно</string>
+    <string name="done">Готово</string>
 
     <!-- Toolbar titles -->
     <string name="enter_sms_code">Введите SMS код</string>
+    <string name="sign_up">Регистрация</string>
+
+    <!-- Hints -->
+    <string name="enter_first_name">Введите имя</string>
+    <string name="enter_last_name">Введите фамилию</string>
+    <string name="think_up_nickname">Придумайте ник</string>
 
     <!-- Alerts -->
     <string name="phone_number_is_null">Введите номер телефона</string>

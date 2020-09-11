@@ -6,6 +6,8 @@ data class User(
     var firstName: String? = null,
     var lastName: String? = null
 ) {
+    val isRegistered: Boolean
+        get() = nickname != null && firstName != null && lastName != null
 
     fun copy(other: User) {
         this.id = other.id
