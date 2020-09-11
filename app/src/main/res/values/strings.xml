@@ -39,4 +39,7 @@
     <string name="not_found_error">Record not found</string>
     <string name="internal_server_error">Internal server error</string>
     <string name="invalid_access_token_error">Invalid authorization data</string>
+
+    <!-- Placeholders -->
+    <string name="username_placeholder" translatable="false">%s %s</string>
 </resources>

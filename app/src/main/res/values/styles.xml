@@ -11,6 +11,7 @@
         <item name="buttonStyle">@style/AppTheme.AppCompatButton</item>
         <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
         <item name="android:textViewStyle">@style/AppTheme.AppCompatTextView</item>
+        <item name="imageButtonStyle">@style/AppTheme.AppCompatImageButton</item>
     </style>
 
     <style name="AppTheme.AppCompatEditText" parent="Widget.AppCompat.EditText">
@@ -50,5 +51,19 @@
     <style name="AppTheme.AppCompatTextView.Hint" parent="AppTheme.AppCompatTextView">
         <item name="android:textColor">@color/colorHint</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="AppTheme.AppCompatTextView.Title" parent="AppTheme.AppCompatTextView">
+        <item name="android:textColor">@color/colorOnPrimary</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="AppTheme.AppCompatTextView.Subtitle" parent="AppTheme.AppCompatTextView.Title">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="AppTheme.AppCompatImageButton" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">@android:color/transparent</item>
     </style>
 </resources>

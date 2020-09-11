@@ -28,13 +28,13 @@ class SignUpFragment : BaseFragment(), SignUpView {
     }
 
     override fun showProgress() {
-        progressConfirm.setVisible()
-        btnConfirm.setInvisible()
+        confirmProgress.setVisible()
+        confirmButton.setInvisible()
     }
 
     override fun hideProgress() {
-        progressConfirm.setGone()
-        btnConfirm.setVisible()
+        confirmProgress.setGone()
+        confirmButton.setVisible()
     }
 
     private fun initToolbar() {
@@ -47,26 +47,26 @@ class SignUpFragment : BaseFragment(), SignUpView {
     }
 
     private fun initListeners() {
-        etFirstName.doOnTextChanged { s, _, _, _ ->
+        firstNameEditText.doOnTextChanged { s, _, _, _ ->
             presenter.firstName = s.toString()
-            btnConfirm.isEnabled = presenter.dataFilled
+            confirmButton.isEnabled = presenter.dataFilled
         }
-        etLastName.doOnTextChanged { s, _, _, _ ->
+        lastNameEditText.doOnTextChanged { s, _, _, _ ->
             presenter.lastName = s.toString()
-            btnConfirm.isEnabled = presenter.dataFilled
+            confirmButton.isEnabled = presenter.dataFilled
         }
-        etNickname.doOnTextChanged { s, _, _, _ ->
+        nicknameEditText.doOnTextChanged { s, _, _, _ ->
             presenter.nickname = s.toString()
-            btnConfirm.isEnabled = presenter.dataFilled
+            confirmButton.isEnabled = presenter.dataFilled
         }
-        etNickname.setOnEditorActionListener { _, actionId, _ ->
+        nicknameEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 presenter.onConfirm()
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
         }
-        btnConfirm.setOnClickListener {
+        confirmButton.setOnClickListener {
             presenter.onConfirm()
         }
     }

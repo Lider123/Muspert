@@ -27,7 +27,9 @@ class ProfileFragment : BaseFragment(),
     }
 
     override fun populateData(data: User) {
-        usernameTextView.text = data.nickname
+        usernameTextView.text = getString(R.string.username_placeholder, data.firstName, data.lastName)
+        nicknameTextView.text = data.nickname
+        // TODO: set avatar
     }
 
     private fun initListeners() {
