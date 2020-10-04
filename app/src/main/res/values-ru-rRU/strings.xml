@@ -13,6 +13,8 @@
     <string name="login">Войти</string>
     <string name="resend_sms_code">Отправить код повторно</string>
     <string name="done">Готово</string>
+    <string name="camera">Камера</string>
+    <string name="gallery">Галерея</string>
 
     <!-- Toolbar titles -->
     <string name="enter_sms_code">Введите SMS код</string>
@@ -22,6 +24,9 @@
     <string name="enter_first_name">Введите имя</string>
     <string name="enter_last_name">Введите фамилию</string>
     <string name="think_up_nickname">Придумайте ник</string>
+
+    <!--Messages-->
+    <string name="edit_avatar">Редактировать фото</string>
 
     <!-- Alerts -->
     <string name="phone_number_is_null">Введите номер телефона</string>

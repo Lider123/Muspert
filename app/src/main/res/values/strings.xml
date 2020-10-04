@@ -12,6 +12,8 @@
     <string name="login">Login</string>
     <string name="resend_sms_code">Resend SMS code</string>
     <string name="done">Done</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
 
     <!-- Toolbar titles -->
     <string name="enter_sms_code">Enter SMS code</string>
@@ -21,6 +23,9 @@
     <string name="enter_first_name">Enter first name</string>
     <string name="enter_last_name">Enter last name</string>
     <string name="think_up_nickname">Think up nickname</string>
+
+    <!--Messages-->
+    <string name="edit_avatar">Edit avatar</string>
 
     <!-- Alerts -->
     <string name="phone_number_is_null">Phone number is null</string>

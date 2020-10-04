@@ -8,6 +8,8 @@ import com.babaetskv.muspert.data.models.User
 import com.babaetskv.muspert.presentation.profile.ProfilePresenter
 import com.babaetskv.muspert.presentation.profile.ProfileView
 import com.babaetskv.muspert.ui.base.BaseFragment
+import com.babaetskv.muspert.utils.dialog.TwoChoiceDialogParams
+import com.babaetskv.muspert.utils.dialog.showDialog
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 /**
@@ -35,6 +37,23 @@ class ProfileFragment : BaseFragment(),
     private fun initListeners() {
         settingsButton.setOnClickListener {
             navigator.forward(R.id.action_main_to_settings)
+        }
+        avatarImageView.setOnClickListener {
+            TwoChoiceDialogParams(
+                message = getString(R.string.edit_avatar),
+                leftActionText = getString(R.string.camera),
+                rightActionText = getString(R.string.gallery),
+                onLeftActionClick = { dialog ->
+                    // TODO: pick photo from camera
+                    dialog.dismiss()
+                },
+                onRightActionClick = { dialog ->
+                    // TODO: pick photo from gallery
+                    dialog.dismiss()
+                }
+            ).let {
+                requireContext().showDialog(it)
+            }
         }
     }
 }
