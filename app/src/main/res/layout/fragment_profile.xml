@@ -1,29 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
     tools:context=".ui.fragments.ProfileFragment">
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/usernameTextView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        tools:text="nickname"/>
+        android:background="@color/colorPrimary"
+        android:paddingBottom="@dimen/layout_baseline_default">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="TODO"/>
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/settingsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_settings"
+            android:padding="@dimen/layout_baseline_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/settingsButton"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/avatarImageView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_avatar_placeholder"
+            app:layout_constraintTop_toBottomOf="@id/settingsButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintWidth_percent="0.33"
+            app:layout_constraintDimensionRatio="1"
+            app:civ_border_width="2dp"
+            app:civ_border_color="@color/colorOnPrimary"
+            app:civ_circle_background_color="@color/colorBackground"
+            tools:src="@tools:sample/avatars"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/usernameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_baseline_default"
+            android:paddingStart="@dimen/layout_baseline_default"
+            android:paddingEnd="@dimen/layout_baseline_default"
+            app:layout_constraintTop_toBottomOf="@id/avatarImageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@tools:sample/full_names"
+            style="@style/AppTheme.AppCompatTextView.Title"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/nicknameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_baseline_default"
+            android:paddingStart="@dimen/layout_baseline_default"
+            android:paddingEnd="@dimen/layout_baseline_default"
+            app:layout_constraintTop_toBottomOf="@id/usernameTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="@tools:sample/first_names"
+            style="@style/AppTheme.AppCompatTextView.Subtitle"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="To settings"/>
-</LinearLayout>
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+</RelativeLayout>

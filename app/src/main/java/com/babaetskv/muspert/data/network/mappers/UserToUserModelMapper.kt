@@ -10,7 +10,8 @@ class UserToUserModelMapper : Mapper<User, UserModel> {
             id = it.id,
             nickname = it.nickname ?: "",
             firstName = it.firstName ?: "",
-            lastName = it.lastName ?: ""
+            lastName = it.lastName ?: "",
+            avatar = it.avatar
         )
     }
 }

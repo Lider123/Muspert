@@ -22,7 +22,7 @@
         android:padding="@dimen/layout_baseline_default">
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/etFirstName"
+            android:id="@+id/firstNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/enter_first_name"
@@ -34,7 +34,7 @@
             android:layout_height="@dimen/layout_baseline_default"/>
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/etLastName"
+            android:id="@+id/lastNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/enter_last_name"
@@ -46,7 +46,7 @@
             android:layout_height="@dimen/layout_baseline_default"/>
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/etNickname"
+            android:id="@+id/nicknameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/think_up_nickname"
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnConfirm"
+                android:id="@+id/confirmButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -73,7 +73,7 @@
                 android:visibility="visible"/>
 
             <ProgressBar
-                android:id="@+id/progressConfirm"
+                android:id="@+id/confirmProgress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

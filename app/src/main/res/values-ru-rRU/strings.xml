@@ -13,21 +13,29 @@
     <string name="login">Войти</string>
     <string name="resend_sms_code">Отправить код повторно</string>
     <string name="done">Готово</string>
+    <string name="camera">Камера</string>
+    <string name="gallery">Галерея</string>
 
     <!-- Toolbar titles -->
     <string name="enter_sms_code">Введите SMS код</string>
     <string name="sign_up">Регистрация</string>
+    <string name="edit_photo">Редактирование фото</string>
 
     <!-- Hints -->
     <string name="enter_first_name">Введите имя</string>
     <string name="enter_last_name">Введите фамилию</string>
     <string name="think_up_nickname">Придумайте ник</string>
 
+    <!--Messages-->
+    <string name="edit_avatar">Редактировать фото</string>
+
     <!-- Alerts -->
     <string name="phone_number_is_null">Введите номер телефона</string>
     <string name="invalid_phone_number">Номер телефона некорректный</string>
     <string name="failure_authorization">Ошибка авторизации</string>
     <string name="wrong_sms_code">Неверный SMS код</string>
+    <string name="camera_permission_not_granted">No access to the camera. Check permissions in settings</string>
+    <string name="read_storage_permission_not_granted">No access to files. Check permissions in settings</string>
 
     <!-- Errors -->
     <string name="network_error">Отсутствует соединение с сетью</string>

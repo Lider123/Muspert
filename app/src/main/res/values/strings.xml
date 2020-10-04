@@ -12,21 +12,29 @@
     <string name="login">Login</string>
     <string name="resend_sms_code">Resend SMS code</string>
     <string name="done">Done</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
 
     <!-- Toolbar titles -->
     <string name="enter_sms_code">Enter SMS code</string>
     <string name="sign_up">Sign Up</string>
+    <string name="edit_photo">Edit photo</string>
 
     <!-- Hints -->
     <string name="enter_first_name">Enter first name</string>
     <string name="enter_last_name">Enter last name</string>
     <string name="think_up_nickname">Think up nickname</string>
 
+    <!--Messages-->
+    <string name="edit_avatar">Edit avatar</string>
+
     <!-- Alerts -->
     <string name="phone_number_is_null">Phone number is null</string>
     <string name="invalid_phone_number">Invalid phone number</string>
     <string name="failure_authorization">Failure authorization</string>
     <string name="wrong_sms_code">Wrong SMS code</string>
+    <string name="camera_permission_not_granted">Нет доступа к камере. Проверьте разрешения в настройках</string>
+    <string name="read_storage_permission_not_granted">Нет доступа к файлам. Проверьте разрешения в настройках</string>
 
     <!-- Errors -->
     <string name="network_error">No network connection</string>
@@ -39,4 +47,7 @@
     <string name="not_found_error">Record not found</string>
     <string name="internal_server_error">Internal server error</string>
     <string name="invalid_access_token_error">Invalid authorization data</string>
+
+    <!-- Placeholders -->
+    <string name="username_placeholder" translatable="false">%s %s</string>
 </resources>

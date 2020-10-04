@@ -25,7 +25,7 @@ class SignUpPresenter : BasePresenter<SignUpView>() {
         get() = firstName.isNotEmpty() && lastName.isNotEmpty() && nickname.isNotEmpty()
 
     private fun onUpdateProfileSuccess() {
-        navigator.replaceWith(R.id.action_sign_up_to_main)
+        navigator.newStack(R.id.action_sign_up_to_main)
     }
 
     private fun onError(t: Throwable) {
