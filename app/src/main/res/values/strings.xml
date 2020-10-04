@@ -18,6 +18,7 @@
     <!-- Toolbar titles -->
     <string name="enter_sms_code">Enter SMS code</string>
     <string name="sign_up">Sign Up</string>
+    <string name="edit_photo">Edit photo</string>
 
     <!-- Hints -->
     <string name="enter_first_name">Enter first name</string>
@@ -32,6 +33,8 @@
     <string name="invalid_phone_number">Invalid phone number</string>
     <string name="failure_authorization">Failure authorization</string>
     <string name="wrong_sms_code">Wrong SMS code</string>
+    <string name="camera_permission_not_granted">Нет доступа к камере. Проверьте разрешения в настройках</string>
+    <string name="read_storage_permission_not_granted">Нет доступа к файлам. Проверьте разрешения в настройках</string>
 
     <!-- Errors -->
     <string name="network_error">No network connection</string>

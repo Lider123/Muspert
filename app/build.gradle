@@ -40,13 +40,16 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'com.f2prateek.rx.preferences2:rx-preferences:2.0.1-beta1'
+    implementation "com.github.miguelbcr:RxPaparazzo:0.6.1-2.x"
     implementation 'com.google.firebase:firebase-analytics-ktx:17.4.1'
     implementation 'com.google.firebase:firebase-auth:19.3.1'
     implementation 'com.google.firebase:firebase-crashlytics:17.0.0'
     implementation 'com.hbb20:ccp:2.4.0'
     implementation 'com.jakewharton.rxrelay2:rxrelay:2.1.1'
     implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'com.karumi:dexter:6.2.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.4.0'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"

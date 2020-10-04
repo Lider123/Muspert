@@ -19,6 +19,7 @@
     <!-- Toolbar titles -->
     <string name="enter_sms_code">Введите SMS код</string>
     <string name="sign_up">Регистрация</string>
+    <string name="edit_photo">Редактирование фото</string>
 
     <!-- Hints -->
     <string name="enter_first_name">Введите имя</string>
@@ -33,6 +34,8 @@
     <string name="invalid_phone_number">Номер телефона некорректный</string>
     <string name="failure_authorization">Ошибка авторизации</string>
     <string name="wrong_sms_code">Неверный SMS код</string>
+    <string name="camera_permission_not_granted">No access to the camera. Check permissions in settings</string>
+    <string name="read_storage_permission_not_granted">No access to files. Check permissions in settings</string>
 
     <!-- Errors -->
     <string name="network_error">Отсутствует соединение с сетью</string>

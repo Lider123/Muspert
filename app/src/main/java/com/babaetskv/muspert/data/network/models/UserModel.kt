@@ -9,5 +9,6 @@ data class UserModel(
     @SerializedName("id") var id: Long,
     @SerializedName("nickname") var nickname: String,
     @SerializedName("first_name") var firstName: String,
-    @SerializedName("last_name") var lastName: String
+    @SerializedName("last_name") var lastName: String,
+    @SerializedName("avatar") val avatar: String?
 )
