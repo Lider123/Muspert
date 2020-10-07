@@ -21,7 +21,7 @@ class MainFragment : BaseFragment() {
     }
 
     private fun setupNavigation() {
-        val fragmentContainer = view!!.findViewById<View>(R.id.bottomNavHostFragment)
+        val fragmentContainer = requireView().findViewById<View>(R.id.bottomNavHostFragment)
         bottomNavController = Navigation.findNavController(fragmentContainer!!)
         NavigationUI.setupWithNavController(bottomNavigationView, bottomNavController)
     }

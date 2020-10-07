@@ -96,7 +96,7 @@ class ProfileFragment : BaseFragment(),
 
     private fun initListeners() {
         settingsButton.setOnClickListener {
-            navigator.forward(R.id.action_main_to_settings)
+            navigator.forward(MainFragmentDirections.actionMainFragmentToSettingsFragment())
         }
         avatarImageView.setOnClickListener {
             TwoChoiceDialogParams(

@@ -1,8 +1,7 @@
 package com.babaetskv.muspert.navigation
 
-import android.os.Bundle
-import androidx.annotation.IdRes
 import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import com.babaetskv.muspert.R
 
@@ -12,22 +11,22 @@ import com.babaetskv.muspert.R
 class AppNavigator {
     var controller: NavController? = null
 
-    fun forward(@IdRes dest: Int, args: Bundle? = null) = controller?.navigate(dest, args)
+    fun forward(action: NavDirections) = controller?.navigate(action)
 
-    fun replaceWith(@IdRes dest: Int, args: Bundle? = null) =
+    fun replaceWith(action: NavDirections) =
         NavOptions.Builder()
             .setPopUpTo(controller?.currentDestination!!.id, true)
             .build()
             .let {
-                controller?.navigate(dest, args, it)
+                controller?.navigate(action, it)
             }
 
-    fun newStack(@IdRes dest: Int, args: Bundle? = null) =
+    fun newStack(action: NavDirections) =
         NavOptions.Builder()
             .setPopUpTo(R.id.nav_graph, true)
             .build()
             .let {
-                controller?.navigate(dest, args, it)
+                controller?.navigate(action, it)
             }
 
     fun back() = controller?.navigateUp()

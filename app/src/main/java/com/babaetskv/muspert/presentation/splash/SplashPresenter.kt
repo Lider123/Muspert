@@ -1,13 +1,13 @@
 package com.babaetskv.muspert.presentation.splash
 
 import com.arellomobile.mvp.InjectViewState
-import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.ErrorHandler
 import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.models.User
 import com.babaetskv.muspert.data.prefs.PrefsHelper
 import com.babaetskv.muspert.data.repository.ProfileRepository
 import com.babaetskv.muspert.presentation.base.BasePresenter
+import com.babaetskv.muspert.ui.fragments.SplashFragmentDirections
 import com.babaetskv.muspert.utils.notifier.Notifier
 import org.koin.core.inject
 
@@ -26,20 +26,20 @@ class SplashPresenter : BasePresenter<SplashView>() {
                 .observeOn(schedulersProvider.UI)
                 .subscribe(::onGetProfileSuccess, ::onGetProfileError)
                 .unsubscribeOnDestroy()
-        } else navigator.replaceWith(R.id.action_splash_to_login)
+        } else navigator.replaceWith(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
     }
 
     private fun onGetProfileSuccess(user: User) {
         this.user.copy(user)
         if (user.isRegistered) {
-            navigator.replaceWith(R.id.action_splash_to_main)
+            navigator.replaceWith(SplashFragmentDirections.actionSplashFragmentToMainFragment())
         } else {
-            navigator.replaceWith(R.id.action_splash_to_sign_up)
+            navigator.replaceWith(SplashFragmentDirections.actionSplashFragmentToSignUpFragment())
         }
     }
 
     private fun onGetProfileError(t: Throwable) {
         errorHandler.handle(t) { notifier.sendMessage(it) }
-        navigator.replaceWith(R.id.action_splash_to_login)
+        navigator.replaceWith(SplashFragmentDirections.actionSplashFragmentToMainFragment())
     }
 }
