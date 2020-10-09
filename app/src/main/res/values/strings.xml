@@ -14,11 +14,16 @@
     <string name="done">Done</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
+    <string name="try_again">Try again</string>
 
     <!-- Toolbar titles -->
     <string name="enter_sms_code">Enter SMS code</string>
     <string name="sign_up">Sign Up</string>
     <string name="edit_photo">Edit photo</string>
+
+    <!-- Labels -->
+    <string name="albums">Albums</string>
+    <string name="genres">Genres</string>
 
     <!-- Hints -->
     <string name="enter_first_name">Enter first name</string>
@@ -27,6 +32,10 @@
 
     <!--Messages-->
     <string name="edit_avatar">Edit avatar</string>
+    <string name="empty_album_list_title">No albums</string>
+    <string name="empty_album_list_message">There are no available albums at the moment.\nPlease try again later.</string>
+    <string name="empty_genre_list_title">No genres</string>
+    <string name="empty_genre_list_message">There are no available genres at the moment.\nPlease try again later.</string>
 
     <!-- Alerts -->
     <string name="phone_number_is_null">Phone number is null</string>
@@ -47,6 +56,9 @@
     <string name="not_found_error">Record not found</string>
     <string name="internal_server_error">Internal server error</string>
     <string name="invalid_access_token_error">Invalid authorization data</string>
+    <string name="error_data_title">No data</string>
+    <string name="error_albums_message">An error occurred while retrieving albums. Please try again later.</string>
+    <string name="error_genres_message">An error occurred while retrieving genres. Please try again later.</string>
 
     <!-- Placeholders -->
     <string name="username_placeholder" translatable="false">%s %s</string>

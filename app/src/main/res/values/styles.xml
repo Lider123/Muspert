@@ -60,6 +60,14 @@
         <item name="android:textAlignment">center</item>
     </style>
 
+    <style name="AppTheme.AppCompatTextView.Label" parent="AppTheme.AppCompatTextView">
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="AppTheme.AppCompatTextView.Title.Item" parent="AppTheme.AppCompatTextView">
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="AppTheme.AppCompatTextView.Subtitle" parent="AppTheme.AppCompatTextView.Title">
         <item name="android:textSize">18sp</item>
     </style>

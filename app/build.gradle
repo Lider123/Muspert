@@ -50,6 +50,7 @@ dependencies {
     implementation 'com.jakewharton.rxrelay2:rxrelay:2.1.1'
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation 'com.karumi:dexter:6.2.1'
+    implementation "com.mikepenz:fastadapter:5.2.3"
     implementation 'com.squareup.okhttp3:logging-interceptor:4.4.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"

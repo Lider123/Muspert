@@ -17,6 +17,7 @@ class MainFragment : BaseFragment(), BottomNavigationView.OnNavigationItemSelect
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
+        bottomNavigationView.selectedItemId = R.id.catalog
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
