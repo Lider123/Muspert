@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="EmptyView">
+        <attr name="empty_banner" format="reference"/>
+        <attr name="empty_title" format="string"/>
+        <attr name="empty_message" format="string"/>
+        <attr name="empty_action_text" format="string"/>
+        <attr name="empty_title_color" format="color"/>
+        <attr name="empty_message_color" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="SmallEmptyView">
+        <attr name="small_empty_icon" format="reference"/>
+        <attr name="small_empty_message" format="string"/>
+        <attr name="small_empty_action_icon" format="reference"/>
+        <attr name="small_empty_message_color" format="color"/>
+    </declare-styleable>
+</resources>

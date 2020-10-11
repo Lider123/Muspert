@@ -1,5 +1,7 @@
 package com.babaetskv.muspert.data.network
 
+import com.babaetskv.muspert.data.network.models.AlbumModel
+import com.babaetskv.muspert.data.network.models.GenreModel
 import com.babaetskv.muspert.data.network.models.UserModel
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -25,4 +27,15 @@ interface AuthApi {
         @Part image: MultipartBody.Part
     ): Completable
 
+    @GET("api/albums")
+    fun getAlbums(
+        @Query("limit") limit: Long,
+        @Query("offset") offset: Long
+    ): Single<List<AlbumModel>>
+
+    @GET("api/genres")
+    fun getGenres(
+        @Query("limit") limit: Long,
+        @Query("offset") offset: Long
+    ): Single<List<GenreModel>>
 }

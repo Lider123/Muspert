@@ -78,6 +78,7 @@ class ProfileFragment : BaseFragment(),
         data.avatar?.let {
             Picasso.with(requireContext())
                 .load(BuildConfig.API_URL + it)
+                .resize(0, 400)
                 .placeholder(R.drawable.ic_avatar_placeholder)
                 .error(R.drawable.ic_avatar_placeholder)
                 .into(avatarImageView)
