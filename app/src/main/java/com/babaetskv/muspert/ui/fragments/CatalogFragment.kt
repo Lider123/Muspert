@@ -13,8 +13,8 @@ import com.babaetskv.muspert.presentation.catalog.CatalogPresenter
 import com.babaetskv.muspert.presentation.catalog.CatalogView
 import com.babaetskv.muspert.ui.EmptyDividerDecoration
 import com.babaetskv.muspert.ui.base.BaseFragment
-import com.babaetskv.muspert.ui.item.AlbumItem
-import com.babaetskv.muspert.ui.item.GenreItem
+import com.babaetskv.muspert.ui.item.AlbumSmallItem
+import com.babaetskv.muspert.ui.item.GenreSmallItem
 import com.babaetskv.muspert.utils.setGone
 import com.babaetskv.muspert.utils.setVisible
 import com.mikepenz.fastadapter.ClickListener
@@ -62,7 +62,7 @@ class CatalogFragment : BaseFragment(), CatalogView {
         } else {
             recyclerAlbums.setVisible()
             showAlbumsEmptyView(false)
-            albumsItemAdapter.setNewList(albums.map { AlbumItem(it) })
+            albumsItemAdapter.setNewList(albums.map { AlbumSmallItem(it) })
         }
     }
 
@@ -73,7 +73,7 @@ class CatalogFragment : BaseFragment(), CatalogView {
         } else {
             recyclerGenres.setVisible()
             showGenresEmptyView(false)
-            genresItemAdapter.setNewList(genres.map { GenreItem(it) })
+            genresItemAdapter.setNewList(genres.map { GenreSmallItem(it) })
         }
     }
 
@@ -149,7 +149,7 @@ class CatalogFragment : BaseFragment(), CatalogView {
                     adapter: IAdapter<IItem<*>>,
                     item: IItem<*>,
                     position: Int
-                ): Boolean = if (item is AlbumItem) {
+                ): Boolean = if (item is AlbumSmallItem) {
                     presenter.onSelectAlbum(item.album)
                     true
                 } else false
@@ -164,7 +164,7 @@ class CatalogFragment : BaseFragment(), CatalogView {
                     adapter: IAdapter<IItem<*>>,
                     item: IItem<*>,
                     position: Int
-                ): Boolean = if (item is GenreItem) {
+                ): Boolean = if (item is GenreSmallItem) {
                     presenter.onSelectGenre(item.genre)
                     true
                 } else false

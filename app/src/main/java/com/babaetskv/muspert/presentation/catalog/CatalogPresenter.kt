@@ -10,6 +10,7 @@ import com.babaetskv.muspert.data.models.GetAlbumsParams
 import com.babaetskv.muspert.data.models.GetGenresParams
 import com.babaetskv.muspert.data.repository.CatalogRepository
 import com.babaetskv.muspert.presentation.base.BasePresenter
+import com.babaetskv.muspert.ui.fragments.MainFragmentDirections
 import com.babaetskv.muspert.utils.notifier.Notifier
 import org.koin.core.inject
 
@@ -86,8 +87,8 @@ class CatalogPresenter : BasePresenter<CatalogView>() {
     }
 
     fun onAlbumsClick() {
-        // TODO: go to albums list page
-        notifier.sendMessage(R.string.in_development)
+        val actions = MainFragmentDirections.actionMainFragmentToAlbumsFragment()
+        navigator.forward(actions)
     }
 
     fun onSelectGenre(genre: Genre) {

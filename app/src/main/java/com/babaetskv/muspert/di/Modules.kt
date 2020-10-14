@@ -22,6 +22,7 @@ import com.babaetskv.muspert.data.repository.CatalogRepositoryImpl
 import com.babaetskv.muspert.data.repository.ProfileRepository
 import com.babaetskv.muspert.data.repository.ProfileRepositoryImpl
 import com.babaetskv.muspert.navigation.AppNavigator
+import com.babaetskv.muspert.viewmodel.albums.AlbumsViewModel
 import com.babaetskv.muspert.utils.notifier.Notifier
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -32,6 +33,7 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
+import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -138,6 +140,10 @@ private val gatewayModule = module {
     factory<AuthGateway> { AuthGatewayImpl(get(), get(), get()) }
 }
 
+private val viewModelModule = module {
+    viewModel { AlbumsViewModel(get(), get()) }
+}
+
 val appModules = listOf(
     appModule,
     singletonModule,
@@ -146,5 +152,6 @@ val appModules = listOf(
     apiModule,
     preferenceModule,
     mapperModule,
-    gatewayModule
+    gatewayModule,
+    viewModelModule
 )

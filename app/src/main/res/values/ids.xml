@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <item name="albumSmallItem" type="id"/>
     <item name="albumItem" type="id"/>
-    <item name="genreItem" type="id"/>
+    <item name="genreSmallItem" type="id"/>
 </resources>
