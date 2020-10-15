@@ -1,10 +1,10 @@
 package com.babaetskv.muspert.presentation.albums
 
 import com.arellomobile.mvp.InjectViewState
-import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.ErrorHandler
 import com.babaetskv.muspert.data.models.Album
 import com.babaetskv.muspert.presentation.base.BasePresenter
+import com.babaetskv.muspert.ui.fragments.AlbumsFragmentDirections
 import com.babaetskv.muspert.utils.notifier.Notifier
 import com.babaetskv.muspert.viewmodel.base.RequestState
 import org.koin.core.inject
@@ -15,8 +15,8 @@ class AlbumsPresenter : BasePresenter<AlbumsView>() {
     private val notifier: Notifier by inject()
 
     fun onSelectAlbum(album: Album) {
-        // TODO: open album fragment
-        notifier.sendMessage(R.string.in_development)
+        val action = AlbumsFragmentDirections.actionAlbumsFragmentToTracksFragment(album)
+        navigator.forward(action)
     }
 
     fun onRequestStateChanged(state: RequestState<*>) {

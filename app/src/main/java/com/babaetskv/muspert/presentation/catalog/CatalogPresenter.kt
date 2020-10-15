@@ -82,8 +82,8 @@ class CatalogPresenter : BasePresenter<CatalogView>() {
     }
     
     fun onSelectAlbum(album: Album) {
-        // TODO: go to the album page
-        notifier.sendMessage(R.string.in_development)
+        val action = MainFragmentDirections.actionMainFragmentToTracksFragment(album)
+        navigator.forward(action)
     }
 
     fun onAlbumsClick() {

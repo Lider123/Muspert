@@ -21,4 +21,6 @@
 
     <color name="colorText">#000</color>
     <color name="colorHint">#888</color>
+
+    <color name="colorFade">#8000</color>
 </resources>

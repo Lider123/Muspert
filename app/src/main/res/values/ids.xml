@@ -2,5 +2,6 @@
 <resources>
     <item name="albumSmallItem" type="id"/>
     <item name="albumItem" type="id"/>
+    <item name="trackItem" type="id"/>
     <item name="genreSmallItem" type="id"/>
 </resources>

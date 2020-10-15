@@ -12,10 +12,7 @@ import com.babaetskv.muspert.data.network.ErrorResponseInterceptor
 import com.babaetskv.muspert.data.network.HeaderInterceptorFactory
 import com.babaetskv.muspert.data.network.gateway.AuthGateway
 import com.babaetskv.muspert.data.network.gateway.AuthGatewayImpl
-import com.babaetskv.muspert.data.network.mappers.AlbumModelToAlbumMapper
-import com.babaetskv.muspert.data.network.mappers.GenreModelToGenreMapper
-import com.babaetskv.muspert.data.network.mappers.UserModelToUserMapper
-import com.babaetskv.muspert.data.network.mappers.UserToUserModelMapper
+import com.babaetskv.muspert.data.network.mappers.*
 import com.babaetskv.muspert.data.prefs.PrefsHelper
 import com.babaetskv.muspert.data.repository.CatalogRepository
 import com.babaetskv.muspert.data.repository.CatalogRepositoryImpl
@@ -64,7 +61,7 @@ private val singletonModule = module {
 
 val repositoryModule = module {
     single<ProfileRepository> { ProfileRepositoryImpl(get(), get(), get(), get()) }
-    single<CatalogRepository> { CatalogRepositoryImpl(get(), get(), get(), get()) }
+    single<CatalogRepository> { CatalogRepositoryImpl(get(), get(), get(), get(), get()) }
 }
 
 val retrofitModule = module {
@@ -134,6 +131,7 @@ private val mapperModule = module {
     factory { UserToUserModelMapper() }
     factory { AlbumModelToAlbumMapper() }
     factory { GenreModelToGenreMapper() }
+    factory { TrackModelToTrackMapper() }
 }
 
 private val gatewayModule = module {
