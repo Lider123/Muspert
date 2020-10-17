@@ -11,6 +11,7 @@ import com.babaetskv.muspert.BuildConfig
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.models.Album
 import com.babaetskv.muspert.data.models.Track
+import com.babaetskv.muspert.device.PlaybackService
 import com.babaetskv.muspert.presentation.tracks.TracksPresenter
 import com.babaetskv.muspert.presentation.tracks.TracksView
 import com.babaetskv.muspert.ui.EmptyDividerDecoration
@@ -163,7 +164,7 @@ class TracksFragment : BaseFragment(), TracksView {
                     item: TrackItem
                 ) {
                     // TODO
-                    notifier.sendMessage("Clicked track button ${item.track.title}") // TODO: remove
+                    PlaybackService.startPlaybackService(requireContext(), item.track)
                 }
             })
         }
