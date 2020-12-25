@@ -34,5 +34,13 @@
             android:name=".device.PlaybackService"
             android:enabled="true"
             android:exported="false"/>
+
+        <receiver
+            android:name=".NotificationReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="ru.valentinamiller.app.notification"/>
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

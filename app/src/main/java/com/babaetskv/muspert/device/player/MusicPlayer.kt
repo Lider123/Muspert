@@ -20,6 +20,9 @@ class MusicPlayer(context: Context) : IMusicPlayer {
     private val dataSourceFactory = DefaultDataSourceFactory(context, userAgent, null)
     private val extractorsFactory = DefaultExtractorsFactory()
 
+    override val isPlaying: Boolean
+        get() = exoPlayer.isPlaying
+
     init {
         val trackSelector = DefaultTrackSelector()
         val loadControl = DefaultLoadControl()
@@ -30,11 +33,20 @@ class MusicPlayer(context: Context) : IMusicPlayer {
         val uri = BuildConfig.API_URL + track.link
         val audioSource = ExtractorMediaSource(Uri.parse(uri), dataSourceFactory, extractorsFactory, null, null)
         exoPlayer.prepare(audioSource)
-        exoPlayer.playWhenReady = true
+        exoPlayer.seekTo(0)
+        exoPlayer.playWhenReady = playOnReady
     }
 
     override fun onDestroy() {
         exoPlayer.stop()
         exoPlayer.release()
+    }
+
+    override fun play() {
+        exoPlayer.playWhenReady = true
+    }
+
+    override fun pause() {
+        exoPlayer.playWhenReady = false
     }
 }

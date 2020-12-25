@@ -18,6 +18,7 @@ import com.babaetskv.muspert.data.repository.CatalogRepository
 import com.babaetskv.muspert.data.repository.CatalogRepositoryImpl
 import com.babaetskv.muspert.data.repository.ProfileRepository
 import com.babaetskv.muspert.data.repository.ProfileRepositoryImpl
+import com.babaetskv.muspert.device.NotificationReceiver
 import com.babaetskv.muspert.device.player.IMusicPlayer
 import com.babaetskv.muspert.device.player.MusicPlayer
 import com.babaetskv.muspert.navigation.AppNavigator
@@ -55,6 +56,7 @@ private val appModule = module {
     single { ErrorHandler(get(), get()) }
     single { AppNavigator() }
     single { FirebaseCrashlytics.getInstance() }
+    single { NotificationReceiver() }
     factory<IMusicPlayer> { MusicPlayer(get()) }
 }
 
