@@ -1,8 +1,8 @@
-package com.babaetskv.muspert.device.player
+package com.babaetskv.muspert.device.mediaplayer
 
 import com.babaetskv.muspert.data.models.Track
 
-interface IMusicPlayer {
+interface MediaPlayer {
     val isPlaying: Boolean
 
     fun setTrack(track: Track, playOnReady: Boolean)
@@ -12,4 +12,8 @@ interface IMusicPlayer {
     fun pause()
 
     fun onDestroy()
+
+    fun setOnCompleteListener(listener: () -> Unit)
+
+    fun removeOnCompleteListener()
 }

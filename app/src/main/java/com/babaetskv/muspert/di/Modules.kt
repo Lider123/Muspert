@@ -1,5 +1,7 @@
 package com.babaetskv.muspert.di
 
+import android.app.NotificationManager
+import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.babaetskv.muspert.BuildConfig
@@ -19,8 +21,6 @@ import com.babaetskv.muspert.data.repository.CatalogRepositoryImpl
 import com.babaetskv.muspert.data.repository.ProfileRepository
 import com.babaetskv.muspert.data.repository.ProfileRepositoryImpl
 import com.babaetskv.muspert.device.NotificationReceiver
-import com.babaetskv.muspert.device.player.IMusicPlayer
-import com.babaetskv.muspert.device.player.MusicPlayer
 import com.babaetskv.muspert.navigation.AppNavigator
 import com.babaetskv.muspert.viewmodel.albums.AlbumsViewModel
 import com.babaetskv.muspert.utils.notifier.Notifier
@@ -57,7 +57,7 @@ private val appModule = module {
     single { AppNavigator() }
     single { FirebaseCrashlytics.getInstance() }
     single { NotificationReceiver() }
-    factory<IMusicPlayer> { MusicPlayer(get()) }
+    single { get<Context>().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
 }
 
 private val singletonModule = module {

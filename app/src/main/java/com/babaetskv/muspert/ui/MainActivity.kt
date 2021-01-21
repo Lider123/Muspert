@@ -1,5 +1,6 @@
 package com.babaetskv.muspert.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -30,6 +31,11 @@ class MainActivity : AppCompatActivity() {
             val externalIntentProcessed = processExternalIntent(intent.getLongExtra(EXTRA_TRACK_ID, -1))
             // TODO: handle external intent
         }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        // TODO: handle external intent
     }
 
     override fun onStart() {

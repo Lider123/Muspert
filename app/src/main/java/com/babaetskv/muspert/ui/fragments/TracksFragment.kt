@@ -164,7 +164,7 @@ class TracksFragment : BaseFragment(), TracksView {
                     item: TrackItem
                 ) {
                     // TODO
-                    PlaybackService.startPlaybackService(requireContext(), item.track)
+                    PlaybackService.startPlaybackService(requireContext(), item.track.albumId, item.track.id)
                 }
             })
         }
