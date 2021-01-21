@@ -11,12 +11,14 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.SchedulersProvider
+import com.babaetskv.muspert.data.models.PlaybackData
 import com.babaetskv.muspert.data.models.Track
 import com.babaetskv.muspert.data.repository.CatalogRepository
 import com.babaetskv.muspert.device.mediaplayer.MediaPlayer
 import com.babaetskv.muspert.device.mediaplayer.MusicPlayer
 import com.babaetskv.muspert.ui.MainActivity
 import com.babaetskv.muspert.utils.getBitmap
+import io.reactivex.subjects.BehaviorSubject
 import org.koin.android.ext.android.inject
 import java.util.*
 
@@ -59,6 +61,7 @@ class PlaybackService : BaseService() {
 
     override fun onDestroy() {
         player.onDestroy()
+        commandQueue.onNext(PlaybackData(null, false))
         super.onDestroy()
     }
 
@@ -123,11 +126,12 @@ class PlaybackService : BaseService() {
     }
 
     private fun showNotification(track: Track, isPlaying: Boolean) {
+        commandQueue.onNext(PlaybackData(track, isPlaying))
         val notificationIntent = createPushIntent(track)
-        val previousIntent = createActionIntent(ACTION_PREV)
-        val nextIntent = createActionIntent(ACTION_NEXT)
-        val playIntent = createActionIntent(ACTION_PLAY)
-        val closeIntent = createActionIntent(ACTION_STOP)
+        val previousIntent = createActionIntent(this, ACTION_PREV)
+        val nextIntent = createActionIntent(this, ACTION_NEXT)
+        val playIntent = createActionIntent(this, ACTION_PLAY)
+        val closeIntent = createActionIntent(this, ACTION_STOP)
         val notificationLayout = RemoteViews(packageName, R.layout.layout_notification_playback).apply {
             setImageViewBitmap(R.id.imgCover, getBitmap(R.drawable.logo))
             setOnClickPendingIntent(R.id.btnPlay, playIntent)
@@ -170,13 +174,6 @@ class PlaybackService : BaseService() {
         startForeground(NOTIFICATION_ID, notification)
     }
 
-    private fun createActionIntent(action: String): PendingIntent =
-        Intent(this, PlaybackService::class.java).apply {
-            this.action = action
-        }.let {
-            PendingIntent.getService(this, 0, it, 0)
-        }
-
     private fun createPushIntent(track: Track): PendingIntent =
         Intent(NotificationReceiver.BROADCAST_ACTION).apply {
             putExtra(MainActivity.EXTRA_TRACK_ID, track.id)
@@ -197,16 +194,29 @@ class PlaybackService : BaseService() {
     companion object {
         private const val EXTRA_ALBUM_ID = "PlaybackService.AlbumId"
         private const val EXTRA_TRACK_ID = "PlaybackService.TrackId"
-        private const val ACTION_START = "PlaybackService.action.start"
-        private const val ACTION_STOP = "PlaybackService.action.stop"
-        private const val ACTION_PREV = "PlaybackService.action.prev"
-        private const val ACTION_NEXT = "PlaybackService.action.next"
-        private const val ACTION_PLAY = "PlaybackService.action.play"
-        private const val ACTION_MAIN = "PlaybackService.action.main"
         private const val NOTIFICATION_ID = 101
         private const val CHANNEL_ID = "MuspertNotifications"
         private const val CHANNEL_NAME = "Muspert notifications"
         private const val REQUEST_CODE = 1
+
+        const val ACTION_START = "PlaybackService.action.start"
+        const val ACTION_STOP = "PlaybackService.action.stop"
+        const val ACTION_PREV = "PlaybackService.action.prev"
+        const val ACTION_NEXT = "PlaybackService.action.next"
+        const val ACTION_PLAY = "PlaybackService.action.play"
+
+        val commandQueue = BehaviorSubject.createDefault(PlaybackData(null, false))
+
+        private fun createActionIntent(context: Context, action: String): PendingIntent =
+            Intent(context, PlaybackService::class.java).apply {
+                this.action = action
+            }.let {
+                PendingIntent.getService(context, 0, it, 0)
+            }
+
+        fun sendAction(context: Context, action: String) {
+            createActionIntent(context, action).send()
+        }
 
         fun startPlaybackService(context: Context, albumId: Long, trackId: Long) {
             Intent(context, PlaybackService::class.java).apply {
