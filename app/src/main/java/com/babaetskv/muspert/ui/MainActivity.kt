@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun subscribeOnPlaybackService() {
-        playbackDisposable = PlaybackService.commandQueue
+        playbackDisposable = PlaybackService.updateViewCommand
             .subscribeOn(schedulersProvider.IO)
             .observeOn(schedulersProvider.UI)
             .subscribe(::onNextPlaybackCommand)

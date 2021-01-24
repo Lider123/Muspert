@@ -32,6 +32,11 @@ class PlaybackService : BaseService() {
 
     override fun onCreate() {
         super.onCreate()
+        updateViewCommand
+            .subscribeOn(schedulersProvider.IO)
+            .observeOn(schedulersProvider.UI)
+            .subscribe(::onNextUpdateCommand)
+            .unsubscribeOnDestroy()
         initPlayer()
     }
 
@@ -49,7 +54,7 @@ class PlaybackService : BaseService() {
             ACTION_NEXT -> playNext()
             ACTION_PLAY -> {
                 togglePlaying()
-                showNotification(tracks.first, player.isPlaying)
+                updateViewCommand.onNext(PlaybackData(tracks.first, player.isPlaying))
             }
             ACTION_STOP -> {
                 stopForeground(true)
@@ -61,8 +66,12 @@ class PlaybackService : BaseService() {
 
     override fun onDestroy() {
         player.onDestroy()
-        commandQueue.onNext(PlaybackData(null, false))
+        updateViewCommand.onNext(PlaybackData(null, false))
         super.onDestroy()
+    }
+
+    private fun onNextUpdateCommand(data: PlaybackData) {
+        if (data.track != null) showNotification(data.track, true)
     }
 
     private fun initPlayer() {
@@ -80,7 +89,7 @@ class PlaybackService : BaseService() {
         tracks.addLast(item)
         val track = tracks.first()
         player.setTrack(track, true)
-        showNotification(track, true)
+        updateViewCommand.onNext(PlaybackData(track, true))
     }
 
     private fun playPrev() {
@@ -90,7 +99,7 @@ class PlaybackService : BaseService() {
         tracks.addFirst(item)
         val track = tracks.first()
         player.setTrack(track, true)
-        showNotification(track, true)
+        updateViewCommand.onNext(PlaybackData(track, true))
     }
 
     private fun loadAlbum(albumId: Long, trackId: Long) {
@@ -111,7 +120,7 @@ class PlaybackService : BaseService() {
         }
         this.tracks.firstOrNull()?.let {
             player.setTrack(it, true)
-            showNotification(it, true)
+            updateViewCommand.onNext(PlaybackData(it, true))
         }
     }
 
@@ -126,7 +135,6 @@ class PlaybackService : BaseService() {
     }
 
     private fun showNotification(track: Track, isPlaying: Boolean) {
-        commandQueue.onNext(PlaybackData(track, isPlaying))
         val notificationIntent = createPushIntent(track)
         val previousIntent = createActionIntent(this, ACTION_PREV)
         val nextIntent = createActionIntent(this, ACTION_NEXT)
@@ -205,7 +213,7 @@ class PlaybackService : BaseService() {
         const val ACTION_NEXT = "PlaybackService.action.next"
         const val ACTION_PLAY = "PlaybackService.action.play"
 
-        val commandQueue = BehaviorSubject.createDefault(PlaybackData(null, false))
+        val updateViewCommand = BehaviorSubject.createDefault(PlaybackData(null, false))
 
         private fun createActionIntent(context: Context, action: String): PendingIntent =
             Intent(context, PlaybackService::class.java).apply {
