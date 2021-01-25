@@ -1,5 +1,6 @@
 package com.babaetskv.muspert.device.mediaplayer
 
+import com.babaetskv.muspert.data.models.ProgressData
 import com.babaetskv.muspert.data.models.Track
 
 interface MediaPlayer {
@@ -16,4 +17,8 @@ interface MediaPlayer {
     fun setOnCompleteListener(listener: () -> Unit)
 
     fun removeOnCompleteListener()
+
+    fun setProgressListener(listener: (ProgressData) -> Unit)
+
+    fun removeProgressListener()
 }

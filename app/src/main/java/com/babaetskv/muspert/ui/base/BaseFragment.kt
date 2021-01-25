@@ -10,6 +10,7 @@ import com.babaetskv.muspert.BuildConfig
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.models.PlaybackData
+import com.babaetskv.muspert.data.models.ProgressData
 import com.babaetskv.muspert.device.PlaybackService
 import com.babaetskv.muspert.navigation.AppNavigator
 import com.babaetskv.muspert.utils.into
@@ -25,6 +26,7 @@ abstract class BaseFragment : MvpAppCompatFragment() {
     protected val navigator: AppNavigator by inject()
 
     private var playbackDisposable: Disposable? = null
+    private var progressDisposable: Disposable? = null
 
     protected abstract val playbackControls: PlaybackControls?
     @get:LayoutRes
@@ -47,15 +49,29 @@ abstract class BaseFragment : MvpAppCompatFragment() {
     }
 
     private fun subscribeOnPlaybackService() {
-        playbackDisposable = PlaybackService.updateViewSubject
+        playbackDisposable = PlaybackService.setTrackSubject
             .subscribeOn(schedulersProvider.IO)
             .observeOn(schedulersProvider.UI)
             .subscribe(::onNextPlaybackCommand)
+        progressDisposable = PlaybackService.setProgressSubject
+            .subscribeOn(schedulersProvider.IO)
+            .observeOn(schedulersProvider.UI)
+            .subscribe(::onNextProgressUpdate)
     }
 
     private fun unsubscribeFromPlaybackService() {
-        playbackDisposable?.let {
-            if (!it.isDisposed) it.dispose()
+        playbackDisposable?.run {
+            if (!isDisposed) dispose()
+        }
+        progressDisposable?.run {
+            if (!isDisposed) dispose()
+        }
+    }
+
+    private fun onNextProgressUpdate(data: ProgressData) {
+        playbackControls?.run {
+            setDuration(data.duration.div(1000).toInt())
+            setProgress(data.progress.div(1000).toInt())
         }
     }
 

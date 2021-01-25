@@ -13,6 +13,7 @@ import com.babaetskv.muspert.BuildConfig
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.models.PlaybackData
+import com.babaetskv.muspert.data.models.ProgressData
 import com.babaetskv.muspert.data.models.Track
 import com.babaetskv.muspert.data.repository.CatalogRepository
 import com.babaetskv.muspert.device.mediaplayer.MediaPlayer
@@ -20,6 +21,7 @@ import com.babaetskv.muspert.device.mediaplayer.MusicPlayer
 import com.babaetskv.muspert.ui.MainActivity
 import com.squareup.picasso.Picasso
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import org.koin.android.ext.android.inject
 import java.util.*
 
@@ -33,7 +35,7 @@ class PlaybackService : BaseService() {
 
     override fun onCreate() {
         super.onCreate()
-        updateViewSubject
+        setTrackSubject
             .subscribeOn(schedulersProvider.IO)
             .observeOn(schedulersProvider.UI)
             .subscribe(::onNextUpdateCommand)
@@ -55,7 +57,7 @@ class PlaybackService : BaseService() {
             ACTION_NEXT -> playNext()
             ACTION_PLAY -> {
                 togglePlaying()
-                updateViewSubject.onNext(PlaybackData(tracks.first, player.isPlaying))
+                setTrackSubject.onNext(PlaybackData(tracks.first, player.isPlaying))
             }
             ACTION_STOP -> {
                 stopForeground(true)
@@ -67,7 +69,7 @@ class PlaybackService : BaseService() {
 
     override fun onDestroy() {
         player.onDestroy()
-        updateViewSubject.onNext(PlaybackData(null, false))
+        setTrackSubject.onNext(PlaybackData(null, false))
         super.onDestroy()
     }
 
@@ -80,6 +82,9 @@ class PlaybackService : BaseService() {
             setOnCompleteListener {
                 playNext()
             }
+            setProgressListener {
+                setProgressSubject.onNext(it)
+            }
         }
     }
 
@@ -90,7 +95,7 @@ class PlaybackService : BaseService() {
         tracks.addLast(item)
         val track = tracks.first()
         player.setTrack(track, true)
-        updateViewSubject.onNext(PlaybackData(track, true))
+        setTrackSubject.onNext(PlaybackData(track, true))
     }
 
     private fun playPrev() {
@@ -100,7 +105,7 @@ class PlaybackService : BaseService() {
         tracks.addFirst(item)
         val track = tracks.first()
         player.setTrack(track, true)
-        updateViewSubject.onNext(PlaybackData(track, true))
+        setTrackSubject.onNext(PlaybackData(track, true))
     }
 
     private fun loadAlbum(albumId: Long, trackId: Long) {
@@ -121,7 +126,7 @@ class PlaybackService : BaseService() {
         }
         this.tracks.firstOrNull()?.let {
             player.setTrack(it, true)
-            updateViewSubject.onNext(PlaybackData(it, true))
+            setTrackSubject.onNext(PlaybackData(it, true))
         }
     }
 
@@ -221,7 +226,8 @@ class PlaybackService : BaseService() {
         const val ACTION_NEXT = "PlaybackService.action.next"
         const val ACTION_PLAY = "PlaybackService.action.play"
 
-        val updateViewSubject = BehaviorSubject.createDefault(PlaybackData(null, false))
+        val setTrackSubject = BehaviorSubject.createDefault(PlaybackData(null, false))
+        val setProgressSubject = PublishSubject.create<ProgressData>()
 
         private fun createActionIntent(context: Context, action: String): PendingIntent =
             Intent(context, PlaybackService::class.java).apply {

@@ -15,6 +15,8 @@ interface PlaybackControls {
     fun setPrevCallback(callback: (() -> Unit)?)
     fun setPlayCallback(callback: (() -> Unit)?)
     fun setNextCallback(callback: (() -> Unit)?)
+    fun setDuration(duration: Int)
+    fun setProgress(progress: Int)
     fun show()
     fun hide()
 }

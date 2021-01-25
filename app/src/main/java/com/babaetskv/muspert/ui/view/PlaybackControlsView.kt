@@ -80,6 +80,14 @@ class PlaybackControlsView @JvmOverloads constructor(
         nextCallback = callback
     }
 
+    override fun setDuration(duration: Int) {
+        progressMedia.max = duration
+    }
+
+    override fun setProgress(progress: Int) {
+        progressMedia.progress = progress
+    }
+
     override fun show() = setVisible()
 
     override fun hide() = setGone()
