@@ -11,6 +11,7 @@ import com.babaetskv.muspert.auth.PhoneAuthProvider
 import com.babaetskv.muspert.presentation.login.LoginPresenter
 import com.babaetskv.muspert.presentation.login.LoginView
 import com.babaetskv.muspert.ui.base.BaseFragment
+import com.babaetskv.muspert.ui.base.PlaybackControls
 import com.babaetskv.muspert.utils.*
 import com.babaetskv.muspert.utils.notifier.Notifier
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -29,6 +30,8 @@ class LoginFragment : BaseFragment(), LoginView, PhoneAuthProvider.OnSendSmsList
 
     override val layoutResId: Int
         get() = R.layout.fragment_login
+    override val playbackControls: PlaybackControls?
+        get() = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

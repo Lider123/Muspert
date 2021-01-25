@@ -9,9 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.babaetskv.muspert.BuildConfig
 import com.babaetskv.muspert.R
-import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.models.Album
-import com.babaetskv.muspert.data.models.PlaybackData
 import com.babaetskv.muspert.data.models.Track
 import com.babaetskv.muspert.device.PlaybackService
 import com.babaetskv.muspert.presentation.tracks.TracksPresenter
@@ -19,6 +17,7 @@ import com.babaetskv.muspert.presentation.tracks.TracksView
 import com.babaetskv.muspert.ui.EmptyDividerDecoration
 import com.babaetskv.muspert.ui.base.BaseFragment
 import com.babaetskv.muspert.ui.item.TrackItem
+import com.babaetskv.muspert.ui.base.PlaybackControls
 import com.babaetskv.muspert.utils.notifier.Notifier
 import com.babaetskv.muspert.utils.setGone
 import com.babaetskv.muspert.utils.setVisible
@@ -28,39 +27,27 @@ import com.mikepenz.fastadapter.IAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.listeners.ClickEventHook
 import com.squareup.picasso.Picasso
-import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_tracks.*
-import kotlinx.android.synthetic.main.fragment_tracks.toolbar
 import org.koin.android.ext.android.inject
 
 class TracksFragment : BaseFragment(), TracksView {
     @InjectPresenter
     lateinit var presenter: TracksPresenter
     private val notifier: Notifier by inject()
-    private val schedulersProvider: SchedulersProvider by inject()
 
     private val args: TracksFragmentArgs by navArgs()
     private lateinit var adapter: FastAdapter<TrackItem>
     private lateinit var itemAdapter: ItemAdapter<TrackItem>
-    private var playbackDisposable: Disposable? = null
 
     override val layoutResId: Int
         get() = R.layout.fragment_tracks
+    override val playbackControls: PlaybackControls?
+        get() = viewPlaybackControls
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter.onStart(args.album)
         initAdapter()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        subscribeOnPlaybackService()
-    }
-
-    override fun onStop() {
-        unsubscribeFromPlaybackService()
-        super.onStop()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -112,40 +99,6 @@ class TracksFragment : BaseFragment(), TracksView {
         } else {
             showEmptyView(false)
             itemAdapter.setNewList(tracks.map { TrackItem(it) })
-        }
-    }
-
-    private fun subscribeOnPlaybackService() {
-        playbackDisposable = PlaybackService.updateViewSubject
-            .subscribeOn(schedulersProvider.IO)
-            .observeOn(schedulersProvider.UI)
-            .subscribe(::onNextPlaybackCommand)
-    }
-
-    private fun unsubscribeFromPlaybackService() {
-        playbackDisposable?.let {
-            if (!it.isDisposed) it.dispose()
-        }
-    }
-
-    private fun onNextPlaybackCommand(data: PlaybackData) {
-        with (viewPlaybackControls) {
-            if (data.track == null) setGone() else {
-                setTitle(data.track.title)
-                setIsPlaying(data.isPlaying)
-                setPlayCallback {
-                    PlaybackService.sendAction(requireContext(), PlaybackService.ACTION_PLAY)
-                }
-                setPrevCallback {
-                    PlaybackService.sendAction(requireContext(), PlaybackService.ACTION_PREV)
-                }
-                setNextCallback {
-                    PlaybackService.sendAction(requireContext(), PlaybackService.ACTION_NEXT)
-                }
-                setCover(R.drawable.logo_white)
-                // TODO: do smth with cover and progress
-                setVisible()
-            }
         }
     }
 

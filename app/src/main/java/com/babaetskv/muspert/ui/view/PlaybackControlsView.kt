@@ -8,6 +8,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.babaetskv.muspert.R
+import com.babaetskv.muspert.ui.base.PlaybackControls
 import com.babaetskv.muspert.utils.setGone
 import com.babaetskv.muspert.utils.setVisible
 import kotlinx.android.synthetic.main.view_playback_controls.view.*
@@ -16,7 +17,7 @@ class PlaybackControlsView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-    ) : ConstraintLayout(context, attrs, defStyleAttr) {
+    ) : ConstraintLayout(context, attrs, defStyleAttr), PlaybackControls {
     private var prevCallback: (() -> Unit)? = null
     private var playCallback: (() -> Unit)? = null
     private var nextCallback: (() -> Unit)? = null
@@ -42,34 +43,38 @@ class PlaybackControlsView @JvmOverloads constructor(
         setIsPlaying(isPlaying)
     }
 
-    fun setCover(drawable: Drawable?) {
+    override fun setCover(drawable: Drawable?) {
         imgCover.setImageDrawable(drawable)
     }
 
-    fun setCover(@DrawableRes drawableRes: Int) {
+    override fun setCover(@DrawableRes drawableRes: Int) {
         imgCover.setImageResource(drawableRes)
     }
 
-    fun setTitle(text: String?) {
+    override fun setTitle(text: String?) {
         tvTrackTitle.text = text
         if (text.isNullOrEmpty()) tvTrackTitle.setGone() else tvTrackTitle.setVisible()
     }
 
-    fun setTitle(@StringRes stringRes: Int) = setTitle(resources.getString(stringRes))
+    override fun setTitle(@StringRes stringRes: Int) = setTitle(resources.getString(stringRes))
 
-    fun setIsPlaying(isPlaying: Boolean) {
+    override fun setIsPlaying(isPlaying: Boolean) {
         btnPlay.setImageResource(if (isPlaying) R.drawable.ic_pause_onprimary else R.drawable.ic_play_onprimary)
     }
 
-    fun setPrevCallback(callback: (() -> Unit)?) {
+    override fun setPrevCallback(callback: (() -> Unit)?) {
         prevCallback = callback
     }
 
-    fun setPlayCallback(callback: (() -> Unit)?) {
+    override fun setPlayCallback(callback: (() -> Unit)?) {
         playCallback = callback
     }
 
-    fun setNextCallback(callback: (() -> Unit)?) {
+    override fun setNextCallback(callback: (() -> Unit)?) {
         nextCallback = callback
     }
+
+    override fun show() = setVisible()
+
+    override fun hide() = setGone()
 }
