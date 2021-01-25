@@ -6,11 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import com.arellomobile.mvp.MvpAppCompatFragment
+import com.babaetskv.muspert.BuildConfig
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.models.PlaybackData
 import com.babaetskv.muspert.device.PlaybackService
 import com.babaetskv.muspert.navigation.AppNavigator
+import com.babaetskv.muspert.utils.into
+import com.squareup.picasso.Picasso
 import io.reactivex.disposables.Disposable
 import org.koin.android.ext.android.inject
 
@@ -70,8 +73,13 @@ abstract class BaseFragment : MvpAppCompatFragment() {
                 setNextCallback {
                     PlaybackService.sendAction(requireContext(), PlaybackService.ACTION_NEXT)
                 }
-                setCover(R.drawable.logo_white)
-                // TODO: do smth with cover and progress
+                Picasso.with(requireContext())
+                    .load(BuildConfig.API_URL + data.track.cover)
+                    .resize(0, 200)
+                    .placeholder(R.drawable.logo_white)
+                    .error(R.drawable.logo_white)
+                    .into(this)
+                // TODO: do smth with progress
                 show()
             }
         }

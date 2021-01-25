@@ -9,6 +9,7 @@ import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import com.babaetskv.muspert.BuildConfig
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.models.PlaybackData
@@ -17,7 +18,7 @@ import com.babaetskv.muspert.data.repository.CatalogRepository
 import com.babaetskv.muspert.device.mediaplayer.MediaPlayer
 import com.babaetskv.muspert.device.mediaplayer.MusicPlayer
 import com.babaetskv.muspert.ui.MainActivity
-import com.babaetskv.muspert.utils.getBitmap
+import com.squareup.picasso.Picasso
 import io.reactivex.subjects.BehaviorSubject
 import org.koin.android.ext.android.inject
 import java.util.*
@@ -125,7 +126,7 @@ class PlaybackService : BaseService() {
     }
 
     private fun onError(t: Throwable) {
-        // TODO
+        // TODO: if we failed to load data
     }
 
     private fun togglePlaying() {
@@ -141,7 +142,7 @@ class PlaybackService : BaseService() {
         val playIntent = createActionIntent(this, ACTION_PLAY)
         val closeIntent = createActionIntent(this, ACTION_STOP)
         val notificationLayout = RemoteViews(packageName, R.layout.layout_notification_playback).apply {
-            setImageViewBitmap(R.id.imgCover, getBitmap(R.drawable.logo)) // TODO: set album cover
+            setImageViewResource(R.id.imgCover, R.drawable.logo)
             setOnClickPendingIntent(R.id.btnPlay, playIntent)
             setOnClickPendingIntent(R.id.btnPrev, previousIntent)
             setOnClickPendingIntent(R.id.btnNext, nextIntent)
@@ -154,15 +155,15 @@ class PlaybackService : BaseService() {
             packageName,
             R.layout.layout_notification_playback_expanded
         ).apply {
-            setImageViewBitmap(R.id.imgCover, getBitmap(R.drawable.logo)) // TODO: set album cover
+            setImageViewResource(R.id.imgCover, R.drawable.logo)
             setOnClickPendingIntent(R.id.btnPlay, playIntent)
             setOnClickPendingIntent(R.id.btnPrev, previousIntent)
             setOnClickPendingIntent(R.id.btnNext, nextIntent)
             setOnClickPendingIntent(R.id.btnClose, closeIntent)
             setImageViewResource(R.id.btnPlay, if (isPlaying) R.drawable.ic_pause_accent else R.drawable.ic_play_accent)
             setTextViewText(R.id.tvTrackTitle, track.title)
+            setTextViewText(R.id.tvAlbumTitle, track.albumTitle)
             // TODO: set artist name
-            // TODO: set album title
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannelIfNotExists()
@@ -178,6 +179,13 @@ class PlaybackService : BaseService() {
             .apply {
                 flags = Notification.FLAG_ONGOING_EVENT
                 contentIntent = notificationIntent
+            }
+        Picasso.with(this)
+            .load(BuildConfig.API_URL + track.cover)
+            .resize(0, 200)
+            .run {
+                into(notificationLayout, R.id.imgCover, NOTIFICATION_ID, notification)
+                into(notificationLayoutExpanded, R.id.imgCover, NOTIFICATION_ID, notification)
             }
         startForeground(NOTIFICATION_ID, notification)
     }

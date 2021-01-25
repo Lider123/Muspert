@@ -6,5 +6,7 @@ data class TrackModel(
     @SerializedName("id") val id: Long,
     @SerializedName("title") val title: String,
     @SerializedName("link") val link: String,
-    @SerializedName("albumId") val albumId: Long
+    @SerializedName("albumId") val albumId: Long,
+    @SerializedName("cover") val cover: String,
+    @SerializedName("albumTitle") val albumTitle: String
 )

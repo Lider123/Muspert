@@ -10,7 +10,9 @@ class TrackModelToTrackMapper : Mapper<TrackModel, Track> {
             id = it.id,
             title = it.title,
             link = it.link,
-            albumId = it.albumId
+            albumId = it.albumId,
+            cover = it.cover,
+            albumTitle = it.albumTitle
         )
     }
 }

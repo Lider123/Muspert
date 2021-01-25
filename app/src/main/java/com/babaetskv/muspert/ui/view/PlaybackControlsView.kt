@@ -1,6 +1,7 @@
 package com.babaetskv.muspert.ui.view
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
@@ -49,6 +50,10 @@ class PlaybackControlsView @JvmOverloads constructor(
 
     override fun setCover(@DrawableRes drawableRes: Int) {
         imgCover.setImageResource(drawableRes)
+    }
+
+    override fun setCover(bitmap: Bitmap?) {
+        imgCover.setImageBitmap(bitmap)
     }
 
     override fun setTitle(text: String?) {
