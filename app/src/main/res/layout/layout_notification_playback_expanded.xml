@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imgCover"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:layout_alignParentStart="true"
+        tools:src="@drawable/logo"/>
+
+    <ImageButton
+        android:id="@+id/btnClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:padding="@dimen/layout_baseline_small"
+        android:src="@drawable/ic_close_error"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"/>
+
+    <LinearLayout
+        android:id="@+id/layoutText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/layout_baseline_default"
+        android:paddingEnd="0dp"
+        android:layout_toEndOf="@id/imgCover"
+        android:layout_toStartOf="@id/btnClose"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/layoutActions">
+
+        <TextView
+            android:id="@+id/tvTrackTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:fadingEdge="horizontal"
+            android:singleLine="true"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            tools:text="@tools:sample/lorem"/>
+
+        <TextView
+            android:id="@+id/tvArtistName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:singleLine="true"
+            android:textSize="16sp"
+            tools:text="@tools:sample/lorem"/>
+
+        <TextView
+            android:id="@+id/tvAlbumTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:singleLine="true"
+            android:textSize="14sp"
+            tools:text="@tools:sample/lorem"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutActions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/imgCover">
+
+        <ImageButton
+            android:id="@+id/btnPrev"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:padding="@dimen/layout_baseline_small"
+            android:src="@drawable/ic_prev_accent"
+            android:scaleType="fitCenter"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/btnPlay"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:padding="@dimen/layout_baseline_small"
+            android:src="@drawable/ic_play_accent"
+            android:scaleType="fitCenter"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/btnNext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:padding="@dimen/layout_baseline_small"
+            android:src="@drawable/ic_next_accent"
+            android:scaleType="fitCenter"
+            android:layout_weight="1" />
+    </LinearLayout>
+</RelativeLayout>

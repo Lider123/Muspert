@@ -1,5 +1,7 @@
 package com.babaetskv.muspert.di
 
+import android.app.NotificationManager
+import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.babaetskv.muspert.BuildConfig
@@ -12,15 +14,13 @@ import com.babaetskv.muspert.data.network.ErrorResponseInterceptor
 import com.babaetskv.muspert.data.network.HeaderInterceptorFactory
 import com.babaetskv.muspert.data.network.gateway.AuthGateway
 import com.babaetskv.muspert.data.network.gateway.AuthGatewayImpl
-import com.babaetskv.muspert.data.network.mappers.AlbumModelToAlbumMapper
-import com.babaetskv.muspert.data.network.mappers.GenreModelToGenreMapper
-import com.babaetskv.muspert.data.network.mappers.UserModelToUserMapper
-import com.babaetskv.muspert.data.network.mappers.UserToUserModelMapper
+import com.babaetskv.muspert.data.network.mappers.*
 import com.babaetskv.muspert.data.prefs.PrefsHelper
 import com.babaetskv.muspert.data.repository.CatalogRepository
 import com.babaetskv.muspert.data.repository.CatalogRepositoryImpl
 import com.babaetskv.muspert.data.repository.ProfileRepository
 import com.babaetskv.muspert.data.repository.ProfileRepositoryImpl
+import com.babaetskv.muspert.device.NotificationReceiver
 import com.babaetskv.muspert.navigation.AppNavigator
 import com.babaetskv.muspert.viewmodel.albums.AlbumsViewModel
 import com.babaetskv.muspert.utils.notifier.Notifier
@@ -56,6 +56,8 @@ private val appModule = module {
     single { ErrorHandler(get(), get()) }
     single { AppNavigator() }
     single { FirebaseCrashlytics.getInstance() }
+    single { NotificationReceiver() }
+    single { get<Context>().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
 }
 
 private val singletonModule = module {
@@ -64,7 +66,7 @@ private val singletonModule = module {
 
 val repositoryModule = module {
     single<ProfileRepository> { ProfileRepositoryImpl(get(), get(), get(), get()) }
-    single<CatalogRepository> { CatalogRepositoryImpl(get(), get(), get(), get()) }
+    single<CatalogRepository> { CatalogRepositoryImpl(get(), get(), get(), get(), get()) }
 }
 
 val retrofitModule = module {
@@ -134,6 +136,7 @@ private val mapperModule = module {
     factory { UserToUserModelMapper() }
     factory { AlbumModelToAlbumMapper() }
     factory { GenreModelToGenreMapper() }
+    factory { TrackModelToTrackMapper() }
 }
 
 private val gatewayModule = module {

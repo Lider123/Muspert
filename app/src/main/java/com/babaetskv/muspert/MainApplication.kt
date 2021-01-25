@@ -1,6 +1,8 @@
 package com.babaetskv.muspert
 
 import android.app.Application
+import android.content.IntentFilter
+import com.babaetskv.muspert.device.NotificationReceiver
 import com.babaetskv.muspert.di.appModules
 import com.babaetskv.muspert.utils.logging.ReleaseTree
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -12,6 +14,7 @@ import timber.log.Timber
 
 class MainApplication : Application() {
     private val firebaseCrashlytics: FirebaseCrashlytics by inject()
+    private val notificationReceiver: NotificationReceiver by inject()
 
     override fun onCreate() {
         super.onCreate()
@@ -19,6 +22,7 @@ class MainApplication : Application() {
         initLogging()
         initCrashlytics()
         initRxPaparazzo()
+        registerReceiver(notificationReceiver, IntentFilter(NotificationReceiver.BROADCAST_ACTION))
     }
 
     private fun initRxPaparazzo() {

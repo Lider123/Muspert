@@ -37,6 +37,8 @@
     <string name="empty_album_list_message">В настоящее время нет доступных альбомов.\nПопробуйте позже.</string>
     <string name="empty_genre_list_title">Нет жанров</string>
     <string name="empty_genre_list_message">В настоящее время нет доступных жанров.\nПопробуйте позже.</string>
+    <string name="empty_track_list_title">Нет треков</string>
+    <string name="empty_track_list_message">В настоящее время нет доступных треков.\nПопробуйте позже.</string>
 
     <!-- Alerts -->
     <string name="phone_number_is_null">Введите номер телефона</string>
@@ -59,5 +61,6 @@
     <string name="invalid_access_token_error">Некорректные данные авторизации</string>
     <string name="error_data_title">Нет данных</string>
     <string name="error_albums_message">При загрузке альбомов произошла ошибка. Попробуйте позже.</string>
-    <string name="error_genres_message">При зфгрузке жанров произошла ошибка. Попробуйте позже.</string>
+    <string name="error_genres_message">При загрузке жанров произошла ошибка. Попробуйте позже.</string>
+    <string name="error_tracks_message">При загрузке треков произошла ошибка. Попробуйте позже.</string>
 </resources>

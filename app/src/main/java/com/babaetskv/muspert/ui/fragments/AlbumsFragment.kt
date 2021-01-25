@@ -14,6 +14,7 @@ import com.babaetskv.muspert.presentation.albums.AlbumsView
 import com.babaetskv.muspert.viewmodel.albums.AlbumsViewModel
 import com.babaetskv.muspert.ui.EmptyDividerDecoration
 import com.babaetskv.muspert.ui.base.BaseFragment
+import com.babaetskv.muspert.ui.base.PlaybackControls
 import com.babaetskv.muspert.ui.item.AlbumItem
 import com.babaetskv.muspert.utils.setGone
 import com.babaetskv.muspert.utils.setVisible
@@ -36,6 +37,8 @@ class AlbumsFragment : BaseFragment(), AlbumsView {
 
     override val layoutResId: Int
         get() = R.layout.fragment_albums
+    override val playbackControls: PlaybackControls?
+        get() = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

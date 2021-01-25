@@ -1,5 +1,6 @@
 package com.babaetskv.muspert.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +16,6 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 
-
 class MainActivity : AppCompatActivity() {
     private val notifier: Notifier by inject()
     private val schedulersProvider: SchedulersProvider by inject()
@@ -27,6 +27,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         navigator.controller = findNavController(R.id.navHostFragment)
+        if (savedInstanceState == null) {
+            val externalIntentProcessed = processExternalIntent(intent.getLongExtra(EXTRA_TRACK_ID, -1))
+            // TODO: handle external intent
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        // TODO: handle external intent
     }
 
     override fun onStart() {
@@ -39,8 +48,15 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
     }
 
-
     override fun onSupportNavigateUp() = findNavController(R.id.navHostFragment).navigateUp()
+
+    private fun processExternalIntent(trackId: Long): Boolean {
+        var processed = false
+        if (trackId != -1L) {
+            // TODO
+        }
+        return processed
+    }
 
     private fun subscribeOnSystemMessages() {
         notifierDisposable = notifier.notifier
@@ -115,5 +131,9 @@ class MainActivity : AppCompatActivity() {
                 actionCallback?.invoke()
             }
         }.show()
+    }
+
+    companion object {
+        const val EXTRA_TRACK_ID = "EXTRA_TRACK_ID"
     }
 }

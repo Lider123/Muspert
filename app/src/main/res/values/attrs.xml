@@ -16,4 +16,10 @@
         <attr name="small_empty_action_icon" format="reference"/>
         <attr name="small_empty_message_color" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="PlaybackControlsView">
+        <attr name="cover" format="reference"/>
+        <attr name="title" format="string"/>
+        <attr name="isPlaying" format="boolean"/>
+    </declare-styleable>
 </resources>

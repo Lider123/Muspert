@@ -36,6 +36,8 @@
     <string name="empty_album_list_message">There are no available albums at the moment.\nPlease try again later.</string>
     <string name="empty_genre_list_title">No genres</string>
     <string name="empty_genre_list_message">There are no available genres at the moment.\nPlease try again later.</string>
+    <string name="empty_track_list_title">No tracks</string>
+    <string name="empty_track_list_message">There are no available tracks at the moment.\nPlease try again later.</string>
 
     <!-- Alerts -->
     <string name="phone_number_is_null">Phone number is null</string>
@@ -59,7 +61,9 @@
     <string name="error_data_title">No data</string>
     <string name="error_albums_message">An error occurred while retrieving albums. Please try again later.</string>
     <string name="error_genres_message">An error occurred while retrieving genres. Please try again later.</string>
+    <string name="error_tracks_message">An error occurred while retrieving tracks. Please try again later.</string>
 
     <!-- Placeholders -->
     <string name="username_placeholder" translatable="false">%s %s</string>
+    <string name="track_with_artist_placeholder" translatable="false">%s - %s</string>
 </resources>
