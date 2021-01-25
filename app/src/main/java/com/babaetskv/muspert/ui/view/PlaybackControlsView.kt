@@ -58,6 +58,7 @@ class PlaybackControlsView @JvmOverloads constructor(
 
     override fun setTitle(text: String?) {
         tvTrackTitle.text = text
+        tvTrackTitle.isSelected = true // TODO: fix marquee doesn't work for the first time
         if (text.isNullOrEmpty()) tvTrackTitle.setGone() else tvTrackTitle.setVisible()
     }
 

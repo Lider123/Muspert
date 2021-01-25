@@ -6,5 +6,6 @@ data class Track(
     val link: String,
     val albumId: Long,
     val cover: String,
-    val albumTitle: String
+    val albumTitle: String,
+    val artistName: String
 )

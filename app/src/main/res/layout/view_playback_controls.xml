@@ -28,6 +28,8 @@
         android:gravity="center_vertical"
         android:singleLine="true"
         android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
         android:textColor="@color/colorOnPrimary"
         app:layout_constraintStart_toEndOf="@id/imgCover"
         app:layout_constraintEnd_toStartOf="@id/btnPrev"

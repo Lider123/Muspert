@@ -62,7 +62,7 @@ abstract class BaseFragment : MvpAppCompatFragment() {
     private fun onNextPlaybackCommand(data: PlaybackData) {
         playbackControls?.run {
             if (data.track == null) hide() else {
-                setTitle(data.track.title)
+                setTitle(getString(R.string.track_with_artist_placeholder, data.track.artistName, data.track.title))
                 setIsPlaying(data.isPlaying)
                 setPlayCallback {
                     PlaybackService.sendAction(requireContext(), PlaybackService.ACTION_PLAY)

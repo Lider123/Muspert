@@ -149,7 +149,7 @@ class PlaybackService : BaseService() {
             setOnClickPendingIntent(R.id.btnClose, closeIntent)
             setImageViewResource(R.id.btnPlay, if (isPlaying) R.drawable.ic_pause_accent else R.drawable.ic_play_accent)
             setTextViewText(R.id.tvTrackTitle, track.title)
-            // TODO: set artist name
+            setTextViewText(R.id.tvArtistName, track.artistName)
         }
         val notificationLayoutExpanded = RemoteViews(
             packageName,
@@ -163,7 +163,7 @@ class PlaybackService : BaseService() {
             setImageViewResource(R.id.btnPlay, if (isPlaying) R.drawable.ic_pause_accent else R.drawable.ic_play_accent)
             setTextViewText(R.id.tvTrackTitle, track.title)
             setTextViewText(R.id.tvAlbumTitle, track.albumTitle)
-            // TODO: set artist name
+            setTextViewText(R.id.tvArtistName, track.artistName)
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannelIfNotExists()

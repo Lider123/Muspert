@@ -65,4 +65,5 @@
 
     <!-- Placeholders -->
     <string name="username_placeholder" translatable="false">%s %s</string>
+    <string name="track_with_artist_placeholder" translatable="false">%s - %s</string>
 </resources>
