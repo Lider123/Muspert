@@ -8,13 +8,9 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.SchedulersProvider
-import com.babaetskv.muspert.data.models.PlaybackData
-import com.babaetskv.muspert.device.PlaybackService
 import com.babaetskv.muspert.navigation.AppNavigator
 import com.babaetskv.muspert.utils.notifier.Notifier
 import com.babaetskv.muspert.utils.notifier.SystemMessage
-import com.babaetskv.muspert.utils.setGone
-import com.babaetskv.muspert.utils.setVisible
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,7 +22,6 @@ class MainActivity : AppCompatActivity() {
     private val navigator: AppNavigator by inject()
 
     private var notifierDisposable: Disposable? = null
-    private var playbackDisposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,12 +41,10 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         subscribeOnSystemMessages()
-        subscribeOnPlaybackService()
     }
 
     override fun onStop() {
         unsubscribeOnSystemMessages()
-        unsubscribeFromPlaybackService()
         super.onStop()
     }
 
@@ -76,32 +69,6 @@ class MainActivity : AppCompatActivity() {
     private fun unsubscribeOnSystemMessages() {
         notifierDisposable?.let {
             if (!it.isDisposed) it.dispose()
-        }
-    }
-
-    private fun subscribeOnPlaybackService() {
-        playbackDisposable = PlaybackService.updateViewCommand
-            .subscribeOn(schedulersProvider.IO)
-            .observeOn(schedulersProvider.UI)
-            .subscribe(::onNextPlaybackCommand)
-    }
-
-    private fun unsubscribeFromPlaybackService() {
-        playbackDisposable?.let {
-            if (!it.isDisposed) it.dispose()
-        }
-    }
-
-    private fun onNextPlaybackCommand(data: PlaybackData) {
-        if (data.track == null) {
-            layoutPlaybackControls.setGone()
-        } else {
-            tvTrackTitle.text = data.track.title
-            btnPlay.setImageResource(if (data.isPlaying) R.drawable.ic_pause_accent else R.drawable.ic_play_accent)
-            btnPlay.setOnClickListener {
-                PlaybackService.sendAction(this, PlaybackService.ACTION_PLAY)
-            }
-            layoutPlaybackControls.setVisible()
         }
     }
 
