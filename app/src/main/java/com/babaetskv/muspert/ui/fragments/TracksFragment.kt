@@ -30,9 +30,7 @@ import com.mikepenz.fastadapter.listeners.ClickEventHook
 import com.squareup.picasso.Picasso
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_tracks.*
-import kotlinx.android.synthetic.main.fragment_tracks.layoutPlaybackControls
 import kotlinx.android.synthetic.main.fragment_tracks.toolbar
-import kotlinx.android.synthetic.main.layout_playback_controls.*
 import org.koin.android.ext.android.inject
 
 class TracksFragment : BaseFragment(), TracksView {
@@ -131,23 +129,23 @@ class TracksFragment : BaseFragment(), TracksView {
     }
 
     private fun onNextPlaybackCommand(data: PlaybackData) {
-        if (data.track == null) {
-            layoutPlaybackControls.setGone()
-        } else {
-            tvTrackTitle.text = data.track.title
-            btnPlay.setImageResource(if (data.isPlaying) R.drawable.ic_pause_onprimary else R.drawable.ic_play_onprimary)
-            btnPlay.setOnClickListener {
-                PlaybackService.sendAction(requireContext(), PlaybackService.ACTION_PLAY)
+        with (viewPlaybackControls) {
+            if (data.track == null) setGone() else {
+                setTitle(data.track.title)
+                setIsPlaying(data.isPlaying)
+                setPlayCallback {
+                    PlaybackService.sendAction(requireContext(), PlaybackService.ACTION_PLAY)
+                }
+                setPrevCallback {
+                    PlaybackService.sendAction(requireContext(), PlaybackService.ACTION_PREV)
+                }
+                setNextCallback {
+                    PlaybackService.sendAction(requireContext(), PlaybackService.ACTION_NEXT)
+                }
+                setCover(R.drawable.logo_white)
+                // TODO: do smth with cover and progress
+                setVisible()
             }
-            btnPrev.setOnClickListener {
-                PlaybackService.sendAction(requireContext(), PlaybackService.ACTION_PREV)
-            }
-            btnNext.setOnClickListener {
-                PlaybackService.sendAction(requireContext(), PlaybackService.ACTION_NEXT)
-            }
-            imgCover.setImageResource(R.drawable.logo_white)
-            // TODO: do smth with cover and progress
-            layoutPlaybackControls.setVisible()
         }
     }
 
