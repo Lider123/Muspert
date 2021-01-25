@@ -95,7 +95,6 @@ abstract class BaseFragment : MvpAppCompatFragment() {
                     .placeholder(R.drawable.logo_white)
                     .error(R.drawable.logo_white)
                     .into(this)
-                // TODO: do smth with progress
                 show()
             }
         }
