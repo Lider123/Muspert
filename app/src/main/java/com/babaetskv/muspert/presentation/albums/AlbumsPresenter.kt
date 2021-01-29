@@ -3,6 +3,7 @@ package com.babaetskv.muspert.presentation.albums
 import com.arellomobile.mvp.InjectViewState
 import com.babaetskv.muspert.data.ErrorHandler
 import com.babaetskv.muspert.data.models.Album
+import com.babaetskv.muspert.device.PlaybackService
 import com.babaetskv.muspert.presentation.base.BasePresenter
 import com.babaetskv.muspert.ui.fragments.AlbumsFragmentDirections
 import com.babaetskv.muspert.utils.notifier.Notifier
@@ -16,6 +17,11 @@ class AlbumsPresenter : BasePresenter<AlbumsView>() {
 
     fun onSelectAlbum(album: Album) {
         val action = AlbumsFragmentDirections.actionAlbumsFragmentToTracksFragment(album)
+        navigator.forward(action)
+    }
+
+    fun onPlaybackControlsClick() {
+        val action = AlbumsFragmentDirections.actionAlbumsFragmentToPlayerFragment(PlaybackService.albumId, PlaybackService.trackId)
         navigator.forward(action)
     }
 

@@ -9,7 +9,7 @@ interface PlaybackControls {
     fun setCover(drawable: Drawable?)
     fun setCover(@DrawableRes drawableRes: Int)
     fun setCover(bitmap: Bitmap?)
-    fun setTitle(text: String?)
+    fun setTitle(artistName: String, trackTitle: String)
     fun setTitle(@StringRes stringRes: Int)
     fun setIsPlaying(isPlaying: Boolean)
     fun setPrevCallback(callback: (() -> Unit)?)

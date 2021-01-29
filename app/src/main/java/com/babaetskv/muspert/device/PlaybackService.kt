@@ -51,7 +51,11 @@ class PlaybackService : BaseService() {
             ACTION_START -> {
                 val albumId = intent.getLongExtra(EXTRA_ALBUM_ID, -1L)
                 val trackId = intent.getLongExtra(EXTRA_TRACK_ID, -1L)
-                if (albumId != -1L) loadAlbum(albumId, trackId)
+                if (albumId != -1L) {
+                    if (PlaybackService.albumId != albumId) loadAlbum(albumId, trackId) else {
+                        if (PlaybackService.trackId != trackId) setTrackById(trackId)
+                    }
+                }
             }
             ACTION_PREV -> playPrev()
             ACTION_NEXT -> playNext()
@@ -70,6 +74,8 @@ class PlaybackService : BaseService() {
     override fun onDestroy() {
         player.onDestroy()
         setTrackSubject.onNext(PlaybackData(null, false))
+        albumId = -1
+        trackId = -1
         super.onDestroy()
     }
 
@@ -95,6 +101,7 @@ class PlaybackService : BaseService() {
         tracks.addLast(item)
         val track = tracks.first()
         player.setTrack(track, true)
+        trackId = track.id
         setTrackSubject.onNext(PlaybackData(track, true))
     }
 
@@ -105,27 +112,36 @@ class PlaybackService : BaseService() {
         tracks.addFirst(item)
         val track = tracks.first()
         player.setTrack(track, true)
+        trackId = track.id
         setTrackSubject.onNext(PlaybackData(track, true))
     }
 
     private fun loadAlbum(albumId: Long, trackId: Long) {
         catalogRepository.getTracks(albumId)
             .observeOn(schedulersProvider.UI)
-            .subscribe({ onGetTracksSuccess(it, trackId) }, ::onError)
+            .subscribe({
+                onGetTracksSuccess(it, albumId, trackId)
+            }, ::onError)
             .unsubscribeOnDestroy()
     }
 
-    private fun onGetTracksSuccess(tracks: List<Track>, startTrackId: Long) {
+    private fun onGetTracksSuccess(tracks: List<Track>, albumId: Long, startTrackId: Long) {
         this.tracks.clear()
         this.tracks.addAll(tracks)
-        if (this.tracks.find { it.id == startTrackId } != null) {
-            while (this.tracks.first().id != startTrackId) {
+        PlaybackService.albumId = albumId
+        setTrackById(startTrackId)
+    }
+
+    private fun setTrackById(firstTrackId: Long) {
+        if (this.tracks.find { it.id == firstTrackId } != null) {
+            while (this.tracks.first().id != firstTrackId) {
                 val item = this.tracks.poll()
                 this.tracks.add(item)
             }
         }
         this.tracks.firstOrNull()?.let {
             player.setTrack(it, true)
+            trackId = it.id
             setTrackSubject.onNext(PlaybackData(it, true))
         }
     }
@@ -226,6 +242,8 @@ class PlaybackService : BaseService() {
         const val ACTION_NEXT = "PlaybackService.action.next"
         const val ACTION_PLAY = "PlaybackService.action.play"
 
+        var albumId: Long = -1L
+        var trackId: Long = -1L
         val setTrackSubject = BehaviorSubject.createDefault(PlaybackData(null, false))
         val setProgressSubject = PublishSubject.create<ProgressData>()
 
@@ -235,6 +253,9 @@ class PlaybackService : BaseService() {
             }.let {
                 PendingIntent.getService(context, 0, it, 0)
             }
+
+        fun checkCurrTrack(albumId: Long, trackId: Long): Boolean =
+            this.albumId == albumId && this.trackId == trackId
 
         fun sendAction(context: Context, action: String) {
             createActionIntent(context, action).send()
