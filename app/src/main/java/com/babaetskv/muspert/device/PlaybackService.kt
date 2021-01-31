@@ -21,7 +21,6 @@ import com.babaetskv.muspert.device.mediaplayer.MusicPlayer
 import com.babaetskv.muspert.ui.MainActivity
 import com.squareup.picasso.Picasso
 import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.PublishSubject
 import org.koin.android.ext.android.inject
 import java.util.*
 
@@ -245,7 +244,7 @@ class PlaybackService : BaseService() {
         var albumId: Long = -1L
         var trackId: Long = -1L
         val setTrackSubject = BehaviorSubject.createDefault(PlaybackData(null, false))
-        val setProgressSubject = PublishSubject.create<ProgressData>()
+        val setProgressSubject = BehaviorSubject.createDefault(ProgressData(0, 0))
 
         private fun createActionIntent(context: Context, action: String): PendingIntent =
             Intent(context, PlaybackService::class.java).apply {

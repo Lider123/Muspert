@@ -35,6 +35,7 @@ class PlayerFragment : BaseFragment(), PlayerView, PlaybackControls {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initToolbar()
         initListeners()
     }
 
@@ -91,10 +92,16 @@ class PlayerFragment : BaseFragment(), PlayerView, PlaybackControls {
 
     override fun show() = Unit
 
-    private fun initListeners() {
-        btnBack.setOnClickListener {
-            onBackPressed()
+    private fun initToolbar() {
+        with (toolbar) {
+            setNavigationIcon(R.drawable.ic_arrow_back_accent)
+            setNavigationOnClickListener {
+                onBackPressed()
+            }
         }
+    }
+
+    private fun initListeners() {
         btnPrev.setOnClickListener {
             prevCallback?.invoke()
         }
