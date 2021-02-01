@@ -15,8 +15,15 @@ interface PlaybackControls {
     fun setPrevCallback(callback: (() -> Unit)?)
     fun setPlayCallback(callback: (() -> Unit)?)
     fun setNextCallback(callback: (() -> Unit)?)
+    fun setProgressListener(listener: ProgressListener)
     fun setDuration(duration: Int)
     fun setProgress(progress: Int)
     fun show()
     fun hide()
+
+    interface ProgressListener {
+        fun onChangeStart(): Boolean
+        fun onChangeEnd(resumePlayback: Boolean)
+        fun onProgressChanged(progress: Int, duration: Int)
+    }
 }

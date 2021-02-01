@@ -21,4 +21,6 @@ interface MediaPlayer {
     fun setProgressListener(listener: (ProgressData) -> Unit)
 
     fun removeProgressListener()
+
+    fun setProgress(percentage: Float)
 }

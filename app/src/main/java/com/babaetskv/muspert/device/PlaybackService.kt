@@ -31,9 +31,12 @@ class PlaybackService : BaseService() {
 
     private lateinit var player: MediaPlayer
     private var tracks: Deque<Track> = ArrayDeque()
+    private var albumId: Long = -1L
+    private var trackId: Long = -1L
 
     override fun onCreate() {
         super.onCreate()
+        instance = this
         setTrackSubject
             .subscribeOn(schedulersProvider.IO)
             .observeOn(schedulersProvider.UI)
@@ -47,24 +50,28 @@ class PlaybackService : BaseService() {
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
         when (intent.action) {
-            ACTION_START -> {
+            Action.Start.id -> {
                 val albumId = intent.getLongExtra(EXTRA_ALBUM_ID, -1L)
                 val trackId = intent.getLongExtra(EXTRA_TRACK_ID, -1L)
                 if (albumId != -1L) {
-                    if (PlaybackService.albumId != albumId) loadAlbum(albumId, trackId) else {
-                        if (PlaybackService.trackId != trackId) setTrackById(trackId)
+                    if (this.albumId != albumId) loadAlbum(albumId, trackId) else {
+                        if (this.trackId != trackId) setTrackById(trackId)
                     }
                 }
             }
-            ACTION_PREV -> playPrev()
-            ACTION_NEXT -> playNext()
-            ACTION_PLAY -> {
+            Action.Prev.id -> playPrev()
+            Action.Next.id -> playNext()
+            Action.Play.id -> {
                 togglePlaying()
                 setTrackSubject.onNext(PlaybackData(tracks.first, player.isPlaying))
             }
-            ACTION_STOP -> {
+            Action.Stop.id -> {
                 stopForeground(true)
                 stopSelf()
+            }
+            Action.Progress(0f).id -> {
+                val progressPercent = intent.getFloatExtra(EXTRA_PROGRESS_PERCENT, -1F)
+                if (progressPercent != -1F) player.setProgress(progressPercent)
             }
         }
         return START_STICKY
@@ -75,6 +82,7 @@ class PlaybackService : BaseService() {
         setTrackSubject.onNext(PlaybackData(null, false))
         albumId = -1
         trackId = -1
+        instance = null
         super.onDestroy()
     }
 
@@ -127,7 +135,7 @@ class PlaybackService : BaseService() {
     private fun onGetTracksSuccess(tracks: List<Track>, albumId: Long, startTrackId: Long) {
         this.tracks.clear()
         this.tracks.addAll(tracks)
-        PlaybackService.albumId = albumId
+        this.albumId = albumId
         setTrackById(startTrackId)
     }
 
@@ -157,10 +165,10 @@ class PlaybackService : BaseService() {
 
     private fun showNotification(track: Track, isPlaying: Boolean) {
         val notificationIntent = createPushIntent(track)
-        val previousIntent = createActionIntent(this, ACTION_PREV)
-        val nextIntent = createActionIntent(this, ACTION_NEXT)
-        val playIntent = createActionIntent(this, ACTION_PLAY)
-        val closeIntent = createActionIntent(this, ACTION_STOP)
+        val previousIntent = createActionIntent(this, Action.Prev)
+        val nextIntent = createActionIntent(this, Action.Next)
+        val playIntent = createActionIntent(this, Action.Play)
+        val closeIntent = createActionIntent(this, Action.Stop)
         val notificationLayout = RemoteViews(packageName, R.layout.layout_notification_playback).apply {
             setImageViewResource(R.id.imgCover, R.drawable.logo)
             setOnClickPendingIntent(R.id.btnPlay, playIntent)
@@ -227,42 +235,56 @@ class PlaybackService : BaseService() {
         notificationManager.createNotificationChannel(channel)
     }
 
+    sealed class Action(val id: String) {
+        object Start : Action("PlaybackService.action.start")
+        object Stop : Action("PlaybackService.action.stop")
+        object Prev : Action("PlaybackService.action.prev")
+        object Next : Action("PlaybackService.action.next")
+        object Play : Action("PlaybackService.action.play")
+        data class Progress(val progressPercent: Float) : Action("PlaybackService.action.progress")
+    }
+
     companion object {
         private const val EXTRA_ALBUM_ID = "PlaybackService.AlbumId"
         private const val EXTRA_TRACK_ID = "PlaybackService.TrackId"
+        private const val EXTRA_PROGRESS_PERCENT = "PlaybackService.ProgressPercentage"
         private const val NOTIFICATION_ID = 101
         private const val CHANNEL_ID = "MuspertNotifications"
         private const val CHANNEL_NAME = "Muspert notifications"
         private const val REQUEST_CODE = 1
 
-        const val ACTION_START = "PlaybackService.action.start"
-        const val ACTION_STOP = "PlaybackService.action.stop"
-        const val ACTION_PREV = "PlaybackService.action.prev"
-        const val ACTION_NEXT = "PlaybackService.action.next"
-        const val ACTION_PLAY = "PlaybackService.action.play"
+        private var instance: PlaybackService? = null
 
-        var albumId: Long = -1L
-        var trackId: Long = -1L
         val setTrackSubject = BehaviorSubject.createDefault(PlaybackData(null, false))
         val setProgressSubject = BehaviorSubject.createDefault(ProgressData(0, 0))
+        val isPlaying: Boolean
+            get() = instance?.player?.isPlaying ?: false
+        val albumId: Long
+            get() = instance?.albumId ?: -1L
+        val trackId: Long
+            get() = instance?.trackId ?: -1L
 
-        private fun createActionIntent(context: Context, action: String): PendingIntent =
+        private fun createActionIntent(context: Context, action: Action): PendingIntent =
             Intent(context, PlaybackService::class.java).apply {
-                this.action = action
+                this.action = action.id
+                when (action) {
+                    is Action.Progress -> putExtra(EXTRA_PROGRESS_PERCENT, action.progressPercent)
+                    else -> {}
+                }
             }.let {
-                PendingIntent.getService(context, 0, it, 0)
+                PendingIntent.getService(context, 0, it, PendingIntent.FLAG_UPDATE_CURRENT)
             }
 
         fun checkCurrTrack(albumId: Long, trackId: Long): Boolean =
-            this.albumId == albumId && this.trackId == trackId
+            instance?.albumId == albumId && instance?.trackId == trackId
 
-        fun sendAction(context: Context, action: String) {
+        fun sendAction(context: Context, action: Action) {
             createActionIntent(context, action).send()
         }
 
         fun startPlaybackService(context: Context, albumId: Long, trackId: Long) {
             Intent(context, PlaybackService::class.java).apply {
-                action = ACTION_START
+                action = Action.Start.id
                 putExtra(EXTRA_ALBUM_ID, albumId)
                 putExtra(EXTRA_TRACK_ID, trackId)
             }.let {

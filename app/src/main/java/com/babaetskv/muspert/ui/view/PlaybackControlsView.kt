@@ -89,6 +89,8 @@ class PlaybackControlsView @JvmOverloads constructor(
 
     override fun hide() = setGone()
 
+    override fun setProgressListener(listener: PlaybackControls.ProgressListener) = Unit
+
     private fun setTitle(text: String?) {
         tvTrackTitle.text = text
         tvTrackTitle.isSelected = true // TODO: fix marquee doesn't work for the first time

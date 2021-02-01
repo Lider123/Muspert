@@ -81,14 +81,33 @@ abstract class BaseFragment : MvpAppCompatFragment() {
                 setTitle(data.track.artistName, data.track.title)
                 setIsPlaying(data.isPlaying)
                 setPlayCallback {
-                    PlaybackService.sendAction(requireContext(), PlaybackService.ACTION_PLAY)
+                    PlaybackService.sendAction(requireContext(), PlaybackService.Action.Play)
                 }
                 setPrevCallback {
-                    PlaybackService.sendAction(requireContext(), PlaybackService.ACTION_PREV)
+                    PlaybackService.sendAction(requireContext(), PlaybackService.Action.Prev)
                 }
                 setNextCallback {
-                    PlaybackService.sendAction(requireContext(), PlaybackService.ACTION_NEXT)
+                    PlaybackService.sendAction(requireContext(), PlaybackService.Action.Next)
                 }
+                setProgressListener(object : PlaybackControls.ProgressListener {
+
+                    override fun onChangeStart(): Boolean =
+                        if (PlaybackService.isPlaying) {
+                            PlaybackService.sendAction(requireContext(), PlaybackService.Action.Play)
+                            true
+                        } else false
+
+                    override fun onChangeEnd(resumePlayback: Boolean) {
+                        if (resumePlayback) {
+                            PlaybackService.sendAction(requireContext(), PlaybackService.Action.Play)
+                        }
+                    }
+
+                    override fun onProgressChanged(progress: Int, duration: Int) {
+                        val percentage = progress.toFloat().div(duration.toFloat())
+                        PlaybackService.sendAction(requireContext(), PlaybackService.Action.Progress(percentage))
+                    }
+                })
                 Picasso.with(requireContext())
                     .load(BuildConfig.API_URL + data.track.cover)
                     .resize(0, 200)

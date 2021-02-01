@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
+import android.widget.SeekBar
 import androidx.navigation.fragment.navArgs
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.babaetskv.muspert.R
@@ -27,6 +28,7 @@ class PlayerFragment : BaseFragment(), PlayerView, PlaybackControls {
     private var prevCallback: (() -> Unit)? = null
     private var playCallback: (() -> Unit)? = null
     private var nextCallback: (() -> Unit)? = null
+    private var progressListener: PlaybackControls.ProgressListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,6 +94,10 @@ class PlayerFragment : BaseFragment(), PlayerView, PlaybackControls {
 
     override fun show() = Unit
 
+    override fun setProgressListener(listener: PlaybackControls.ProgressListener) {
+        progressListener = listener
+    }
+
     private fun initToolbar() {
         with (toolbar) {
             setNavigationIcon(R.drawable.ic_arrow_back_accent)
@@ -111,5 +117,22 @@ class PlayerFragment : BaseFragment(), PlayerView, PlaybackControls {
         btnNext.setOnClickListener {
             nextCallback?.invoke()
         }
+        seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            private var shouldResumePlayback: Boolean = false
+
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) = Unit
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                progressListener?.let {
+                    shouldResumePlayback = it.onChangeStart()
+                }
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                progressListener?.onProgressChanged(seekBar.progress, seekBar.max)
+                progressListener?.onChangeEnd(shouldResumePlayback)
+                shouldResumePlayback = false
+            }
+        })
     }
 }
