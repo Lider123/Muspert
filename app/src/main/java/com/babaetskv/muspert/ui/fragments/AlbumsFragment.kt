@@ -38,7 +38,7 @@ class AlbumsFragment : BaseFragment(), AlbumsView {
     override val layoutResId: Int
         get() = R.layout.fragment_albums
     override val playbackControls: PlaybackControls?
-        get() = null
+        get() = viewPlaybackControls
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +50,7 @@ class AlbumsFragment : BaseFragment(), AlbumsView {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         initRecyclerView()
+        initListeners()
     }
 
     override fun showProgress() {
@@ -91,6 +92,12 @@ class AlbumsFragment : BaseFragment(), AlbumsView {
                 }
                 setVisible()
             } else setGone()
+        }
+    }
+
+    private fun initListeners() {
+        viewPlaybackControls.setOnClickListener {
+            presenter.onPlaybackControlsClick()
         }
     }
 

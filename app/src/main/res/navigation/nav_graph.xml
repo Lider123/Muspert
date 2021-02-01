@@ -67,6 +67,10 @@
         <action
             android:id="@+id/action_mainFragment_to_tracksFragment"
             app:destination="@id/tracksFragment"/>
+
+        <action
+            android:id="@+id/action_mainFragment_to_playerFragment"
+            app:destination="@id/playerFragment"/>
     </fragment>
 
     <fragment
@@ -80,9 +84,14 @@
         android:name="com.babaetskv.muspert.ui.fragments.AlbumsFragment"
         android:label="Albums"
         tools:layout="@layout/fragment_albums">
+
         <action
             android:id="@+id/action_albumsFragment_to_tracksFragment"
             app:destination="@id/tracksFragment"/>
+
+        <action
+            android:id="@+id/action_albumsFragment_to_playerFragment"
+            app:destination="@id/playerFragment"/>
     </fragment>
 
     <fragment
@@ -90,8 +99,30 @@
         android:name="com.babaetskv.muspert.ui.fragments.TracksFragment"
         android:label="Tracks"
         tools:layout="@layout/fragment_tracks">
+
         <argument
             android:name="album"
             app:argType="com.babaetskv.muspert.data.models.Album"/>
+
+        <action
+            android:id="@+id/action_tracksFragment_to_playerFragment"
+            app:destination="@id/playerFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/playerFragment"
+        android:name="com.babaetskv.muspert.ui.fragments.PlayerFragment"
+        android:label="Player"
+        tools:layout="@layout/fragment_player">
+
+        <argument
+            android:name="trackId"
+            app:argType="long"
+            app:defaultValue="-1"/>
+
+        <argument
+            android:name="albumId"
+            app:argType="long"
+            app:defaultValue="-1"/>
     </fragment>
 </navigation>

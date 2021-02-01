@@ -56,11 +56,8 @@ class PlaybackControlsView @JvmOverloads constructor(
         imgCover.setImageBitmap(bitmap)
     }
 
-    override fun setTitle(text: String?) {
-        tvTrackTitle.text = text
-        tvTrackTitle.isSelected = true // TODO: fix marquee doesn't work for the first time
-        if (text.isNullOrEmpty()) tvTrackTitle.setGone() else tvTrackTitle.setVisible()
-    }
+    override fun setTitle(artistName: String, trackTitle: String) =
+        setTitle(resources.getString(R.string.track_with_artist_placeholder, artistName, trackTitle))
 
     override fun setTitle(@StringRes stringRes: Int) = setTitle(resources.getString(stringRes))
 
@@ -91,4 +88,12 @@ class PlaybackControlsView @JvmOverloads constructor(
     override fun show() = setVisible()
 
     override fun hide() = setGone()
+
+    override fun setProgressListener(listener: PlaybackControls.ProgressListener) = Unit
+
+    private fun setTitle(text: String?) {
+        tvTrackTitle.text = text
+        tvTrackTitle.isSelected = true // TODO: fix marquee doesn't work for the first time
+        if (text.isNullOrEmpty()) tvTrackTitle.setGone() else tvTrackTitle.setVisible()
+    }
 }

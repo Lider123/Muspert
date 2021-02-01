@@ -6,7 +6,9 @@ import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.models.Album
 import com.babaetskv.muspert.data.models.Track
 import com.babaetskv.muspert.data.repository.CatalogRepository
+import com.babaetskv.muspert.device.PlaybackService
 import com.babaetskv.muspert.presentation.base.BasePresenter
+import com.babaetskv.muspert.ui.fragments.TracksFragmentDirections
 import com.babaetskv.muspert.utils.notifier.Notifier
 import org.koin.core.inject
 
@@ -46,5 +48,15 @@ class TracksPresenter : BasePresenter<TracksView>() {
             }
             .subscribe(::onGetTracksSuccess, ::onError)
             .unsubscribeOnDestroy()
+    }
+
+    fun onSelectTrack(track: Track) {
+        val action = TracksFragmentDirections.actionTracksFragmentToPlayerFragment(track.id, track.albumId)
+        navigator.forward(action)
+    }
+
+    fun onPlaybackControlsClick() {
+        val action = TracksFragmentDirections.actionTracksFragmentToPlayerFragment(PlaybackService.albumId, PlaybackService.trackId)
+        navigator.forward(action)
     }
 }

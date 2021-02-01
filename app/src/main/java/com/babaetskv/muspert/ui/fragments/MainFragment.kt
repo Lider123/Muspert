@@ -4,13 +4,18 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.arellomobile.mvp.presenter.InjectPresenter
 import com.babaetskv.muspert.R
+import com.babaetskv.muspert.presentation.main.MainPresenter
+import com.babaetskv.muspert.presentation.main.MainView
 import com.babaetskv.muspert.ui.base.BaseFragment
 import com.babaetskv.muspert.ui.base.PlaybackControls
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.fragment_main.*
 
-class MainFragment : BaseFragment(), BottomNavigationView.OnNavigationItemSelectedListener {
+class MainFragment : BaseFragment(), MainView, BottomNavigationView.OnNavigationItemSelectedListener {
+    @InjectPresenter
+    lateinit var presenter: MainPresenter
 
     override val layoutResId: Int
         get() = R.layout.fragment_main
@@ -19,8 +24,8 @@ class MainFragment : BaseFragment(), BottomNavigationView.OnNavigationItemSelect
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bottomNavigationView.setOnNavigationItemSelectedListener(this)
-        bottomNavigationView.selectedItemId = R.id.catalog
+        initListeners()
+        initBottomNavigation()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -34,5 +39,16 @@ class MainFragment : BaseFragment(), BottomNavigationView.OnNavigationItemSelect
             .replace(R.id.container, selectedFragment)
             .commit()
         return true
+    }
+
+    private fun initListeners() {
+        viewPlaybackControls.setOnClickListener {
+            presenter.onPlaybackControlsClick()
+        }
+    }
+
+    private fun initBottomNavigation() {
+        bottomNavigationView.setOnNavigationItemSelectedListener(this)
+        bottomNavigationView.selectedItemId = R.id.catalog
     }
 }

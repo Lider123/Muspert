@@ -98,4 +98,10 @@ class MusicPlayer(context: Context) : MediaPlayer, Player.EventListener {
             }
         }
     }
+
+    override fun setProgress(percentage: Float) {
+        val newPosition = exoPlayer.contentDuration.toDouble().times(percentage.toDouble()).toLong()
+        exoPlayer.seekTo(newPosition)
+        progressListener?.invoke(ProgressData(exoPlayer.contentPosition, exoPlayer.contentDuration))
+    }
 }

@@ -18,7 +18,6 @@ import com.babaetskv.muspert.ui.EmptyDividerDecoration
 import com.babaetskv.muspert.ui.base.BaseFragment
 import com.babaetskv.muspert.ui.item.TrackItem
 import com.babaetskv.muspert.ui.base.PlaybackControls
-import com.babaetskv.muspert.utils.notifier.Notifier
 import com.babaetskv.muspert.utils.setGone
 import com.babaetskv.muspert.utils.setVisible
 import com.mikepenz.fastadapter.ClickListener
@@ -28,12 +27,10 @@ import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.listeners.ClickEventHook
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_tracks.*
-import org.koin.android.ext.android.inject
 
 class TracksFragment : BaseFragment(), TracksView {
     @InjectPresenter
     lateinit var presenter: TracksPresenter
-    private val notifier: Notifier by inject()
 
     private val args: TracksFragmentArgs by navArgs()
     private lateinit var adapter: FastAdapter<TrackItem>
@@ -54,6 +51,7 @@ class TracksFragment : BaseFragment(), TracksView {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         initRecyclerView()
+        initListeners()
     }
 
     override fun populateAlbum(album: Album) {
@@ -149,9 +147,8 @@ class TracksFragment : BaseFragment(), TracksView {
                     item: TrackItem,
                     position: Int
                 ): Boolean {
-                    // TODO
-                    notifier.sendMessage("Clicked track ${item.track.title}") // TODO: remove
-                    return false
+                    presenter.onSelectTrack(item.track)
+                    return true
                 }
             }
             addEventHook(object : ClickEventHook<TrackItem>() {
@@ -169,6 +166,12 @@ class TracksFragment : BaseFragment(), TracksView {
                     PlaybackService.startPlaybackService(requireContext(), item.track.albumId, item.track.id)
                 }
             })
+        }
+    }
+
+    private fun initListeners() {
+        viewPlaybackControls.setOnClickListener {
+            presenter.onPlaybackControlsClick()
         }
     }
 }
