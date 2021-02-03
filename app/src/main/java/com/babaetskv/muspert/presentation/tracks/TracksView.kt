@@ -1,12 +1,12 @@
 package com.babaetskv.muspert.presentation.tracks
 
-import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.babaetskv.muspert.data.models.Album
 import com.babaetskv.muspert.data.models.Track
+import com.babaetskv.muspert.presentation.base.BaseView
 
-interface TracksView : MvpView {
+interface TracksView : BaseView {
 
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun populateTracks(tracks: List<Track>)

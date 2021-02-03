@@ -7,6 +7,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.babaetskv.muspert.BuildConfig
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.models.Album
@@ -43,7 +44,6 @@ class TracksFragment : BaseFragment(), TracksView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter.onStart(args.album)
         initAdapter()
     }
 
@@ -174,4 +174,7 @@ class TracksFragment : BaseFragment(), TracksView {
             presenter.onPlaybackControlsClick()
         }
     }
+
+    @ProvidePresenter
+    fun providePresenter() = TracksPresenter(args.album)
 }

@@ -1,5 +1,5 @@
 package com.babaetskv.muspert.presentation.main
 
-import com.arellomobile.mvp.MvpView
+import com.babaetskv.muspert.presentation.base.BaseView
 
-interface MainView : MvpView
+interface MainView : BaseView

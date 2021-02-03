@@ -1,5 +1,5 @@
 package com.babaetskv.muspert.presentation.splash
 
-import com.arellomobile.mvp.MvpView
+import com.babaetskv.muspert.presentation.base.BaseView
 
-interface SplashView : MvpView
+interface SplashView : BaseView

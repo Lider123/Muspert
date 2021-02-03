@@ -1,11 +1,11 @@
 package com.babaetskv.muspert.presentation.login
 
-import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
+import com.babaetskv.muspert.presentation.base.BaseView
 
-interface LoginView : MvpView {
+interface LoginView : BaseView {
 
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun showAuthProgress()

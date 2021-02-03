@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.SeekBar
 import androidx.navigation.fragment.navArgs
 import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.device.PlaybackService
 import com.babaetskv.muspert.presentation.player.PlayerPresenter
@@ -29,11 +30,6 @@ class PlayerFragment : BaseFragment(), PlayerView, PlaybackControls {
     private var playCallback: (() -> Unit)? = null
     private var nextCallback: (() -> Unit)? = null
     private var progressListener: PlaybackControls.ProgressListener? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        presenter.onStart(args.albumId, args.trackId)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -135,4 +131,7 @@ class PlayerFragment : BaseFragment(), PlayerView, PlaybackControls {
             }
         })
     }
+
+    @ProvidePresenter
+    fun providePresenter() = PlayerPresenter(args.albumId, args.trackId)
 }

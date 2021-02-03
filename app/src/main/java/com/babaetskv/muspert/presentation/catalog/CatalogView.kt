@@ -1,12 +1,12 @@
 package com.babaetskv.muspert.presentation.catalog
 
-import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.babaetskv.muspert.data.models.Album
 import com.babaetskv.muspert.data.models.Genre
+import com.babaetskv.muspert.presentation.base.BaseView
 
-interface CatalogView : MvpView {
+interface CatalogView : BaseView {
 
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun showProgress()

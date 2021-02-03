@@ -13,13 +13,19 @@ import com.babaetskv.muspert.utils.notifier.Notifier
 import org.koin.core.inject
 
 @InjectViewState
-class TracksPresenter : BasePresenter<TracksView>() {
+class TracksPresenter(
+    private val album: Album
+) : BasePresenter<TracksView>() {
     private val catalogRepository: CatalogRepository by inject()
     private val schedulersProvider: SchedulersProvider by inject()
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
 
-    private lateinit var album: Album
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        viewState.populateAlbum(album)
+        loadTracks()
+    }
 
     private fun onGetTracksSuccess(tracks: List<Track>) {
         viewState.showErrorView(false)
@@ -29,12 +35,6 @@ class TracksPresenter : BasePresenter<TracksView>() {
     private fun onError(t: Throwable) {
         errorHandler.handle(t) { notifier.sendMessage(it) }
         viewState.showErrorView(true)
-    }
-
-    fun onStart(album: Album) {
-        this.album = album
-        viewState.populateAlbum(album)
-        loadTracks()
     }
 
     fun loadTracks() {

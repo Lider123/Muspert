@@ -8,7 +8,7 @@ import io.reactivex.disposables.Disposable
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
-abstract class BasePresenter<T : MvpView> : MvpPresenter<T>(), KoinComponent {
+abstract class BasePresenter<T : BaseView> : MvpPresenter<T>(), KoinComponent {
     protected val navigator: AppNavigator by inject()
 
     private val compositeDisposable = CompositeDisposable()
