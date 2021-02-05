@@ -7,7 +7,6 @@ import com.babaetskv.muspert.R
 import com.babaetskv.muspert.presentation.splash.SplashPresenter
 import com.babaetskv.muspert.presentation.splash.SplashView
 import com.babaetskv.muspert.ui.base.BaseFragment
-import com.babaetskv.muspert.ui.base.PlaybackControls
 
 class SplashFragment : BaseFragment(), SplashView {
     @InjectPresenter
@@ -15,8 +14,6 @@ class SplashFragment : BaseFragment(), SplashView {
 
     override val layoutResId: Int
         get() = R.layout.fragment_splash
-    override val playbackControls: PlaybackControls?
-        get() = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

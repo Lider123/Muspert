@@ -12,6 +12,4 @@ class FeedFragment : BaseFragment() {
 
     override val layoutResId: Int
         get() = R.layout.fragment_feed
-    override val playbackControls: PlaybackControls?
-        get() = null
 }

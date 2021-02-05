@@ -12,17 +12,17 @@ import com.babaetskv.muspert.R
 import com.babaetskv.muspert.device.PlaybackService
 import com.babaetskv.muspert.presentation.player.PlayerPresenter
 import com.babaetskv.muspert.presentation.player.PlayerView
-import com.babaetskv.muspert.ui.base.BaseFragment
 import com.babaetskv.muspert.ui.base.PlaybackControls
+import com.babaetskv.muspert.ui.base.PlaybackFragment
 import kotlinx.android.synthetic.main.fragment_player.*
 
-class PlayerFragment : BaseFragment(), PlayerView, PlaybackControls {
+class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
     @InjectPresenter
     lateinit var presenter: PlayerPresenter
 
     override val layoutResId: Int
         get() = R.layout.fragment_player
-    override val playbackControls: PlaybackControls?
+    override val playbackControls: PlaybackControls
         get() = this
 
     private val args: PlayerFragmentArgs by navArgs()

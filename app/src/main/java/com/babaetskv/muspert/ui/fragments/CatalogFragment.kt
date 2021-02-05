@@ -13,7 +13,6 @@ import com.babaetskv.muspert.presentation.catalog.CatalogPresenter
 import com.babaetskv.muspert.presentation.catalog.CatalogView
 import com.babaetskv.muspert.ui.EmptyDividerDecoration
 import com.babaetskv.muspert.ui.base.BaseFragment
-import com.babaetskv.muspert.ui.base.PlaybackControls
 import com.babaetskv.muspert.ui.item.AlbumSmallItem
 import com.babaetskv.muspert.ui.item.GenreSmallItem
 import com.babaetskv.muspert.utils.setGone
@@ -36,8 +35,6 @@ class CatalogFragment : BaseFragment(), CatalogView {
 
     override val layoutResId: Int
         get() = R.layout.fragment_catalog
-    override val playbackControls: PlaybackControls?
-        get() = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -30,8 +30,6 @@ class LoginFragment : BaseFragment(), LoginView, PhoneAuthProvider.OnSendSmsList
 
     override val layoutResId: Int
         get() = R.layout.fragment_login
-    override val playbackControls: PlaybackControls?
-        get() = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

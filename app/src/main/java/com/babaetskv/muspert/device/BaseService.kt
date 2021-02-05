@@ -1,6 +1,7 @@
 package com.babaetskv.muspert.device
 
 import android.app.Service
+import com.babaetskv.muspert.utils.safeDispose
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
@@ -12,9 +13,7 @@ abstract class BaseService : Service() {
     }
 
     override fun onDestroy() {
-        with (disposable) {
-            if (!isDisposed) dispose()
-        }
+        disposable.safeDispose()
         super.onDestroy()
     }
 }

@@ -13,8 +13,8 @@ import com.babaetskv.muspert.presentation.albums.AlbumsPresenter
 import com.babaetskv.muspert.presentation.albums.AlbumsView
 import com.babaetskv.muspert.viewmodel.albums.AlbumsViewModel
 import com.babaetskv.muspert.ui.EmptyDividerDecoration
-import com.babaetskv.muspert.ui.base.BaseFragment
 import com.babaetskv.muspert.ui.base.PlaybackControls
+import com.babaetskv.muspert.ui.base.PlaybackFragment
 import com.babaetskv.muspert.ui.item.AlbumItem
 import com.babaetskv.muspert.utils.setGone
 import com.babaetskv.muspert.utils.setVisible
@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.fragment_albums.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 @ExperimentalPagedSupport
-class AlbumsFragment : BaseFragment(), AlbumsView {
+class AlbumsFragment : PlaybackFragment(), AlbumsView {
     @InjectPresenter
     lateinit var presenter: AlbumsPresenter
     private val albumsViewModel: AlbumsViewModel by viewModel()
@@ -37,7 +37,7 @@ class AlbumsFragment : BaseFragment(), AlbumsView {
 
     override val layoutResId: Int
         get() = R.layout.fragment_albums
-    override val playbackControls: PlaybackControls?
+    override val playbackControls: PlaybackControls
         get() = viewPlaybackControls
 
     override fun onCreate(savedInstanceState: Bundle?) {
