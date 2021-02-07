@@ -28,8 +28,8 @@ class AlbumSmallItem(val album: Album) : AbstractItem<AlbumSmallItem.ViewHolder>
             Picasso.with(imgCover.context)
                 .load(BuildConfig.API_URL + item.album.cover)
                 .resize(0, 400)
-                .placeholder(R.drawable.logo_white)
-                .error(R.drawable.logo_white)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
                 .into(imgCover)
         }
 

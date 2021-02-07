@@ -93,8 +93,8 @@ abstract class PlaybackFragment : BaseFragment() {
             Picasso.with(requireContext())
                 .load(BuildConfig.API_URL + data.track.cover)
                 .resize(0, 200)
-                .placeholder(R.drawable.logo_white)
-                .error(R.drawable.logo_white)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
                 .into(this)
             show()
         }

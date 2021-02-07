@@ -3,6 +3,7 @@ package com.babaetskv.muspert.viewmodel.base
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 
+@Deprecated("Use pagination instead")
 abstract class BaseViewModel : ViewModel() {
     protected val compositeDisposable = CompositeDisposable()
 

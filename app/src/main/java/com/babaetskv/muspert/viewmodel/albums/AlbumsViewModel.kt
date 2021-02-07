@@ -9,6 +9,7 @@ import com.babaetskv.muspert.data.repository.CatalogRepository
 import com.babaetskv.muspert.viewmodel.base.BaseViewModel
 import com.babaetskv.muspert.viewmodel.base.RequestState
 
+@Deprecated("Use presenter instead")
 class AlbumsViewModel(
     catalogRepository: CatalogRepository,
     schedulersProvider: SchedulersProvider

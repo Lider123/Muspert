@@ -58,8 +58,8 @@ class TracksFragment : PlaybackFragment(), TracksView {
             toolbar.title = album.title
             Picasso.with(requireContext())
                 .load(BuildConfig.API_URL + album.cover)
-                .placeholder(R.drawable.logo_white)
-                .error(R.drawable.logo_white)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
                 .resize(0, 600)
                 .into(imgBackdrop)
         }

@@ -34,8 +34,8 @@ class AlbumItem(val album: Album?) : AbstractItem<AlbumItem.ViewHolder>() {
             Picasso.with(imgCover.context)
                 .load(BuildConfig.API_URL + album.cover)
                 .resize(0, 400)
-                .placeholder(R.drawable.logo_white)
-                .error(R.drawable.logo_white)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
                 .into(imgCover)
         }
 
@@ -43,7 +43,7 @@ class AlbumItem(val album: Album?) : AbstractItem<AlbumItem.ViewHolder>() {
 
         private fun bindPlaceholder() {
             tvTitle.text = "..."
-            imgCover.setImageResource(R.drawable.logo_white)
+            imgCover.setImageResource(R.drawable.placeholder)
         }
     }
 }

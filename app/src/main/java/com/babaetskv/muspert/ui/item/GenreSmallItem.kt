@@ -27,8 +27,8 @@ class GenreSmallItem(val genre: Genre) : AbstractItem<GenreSmallItem.ViewHolder>
             Picasso.with(imgCover.context)
                 .load(BuildConfig.API_URL + item.genre.image)
                 .resize(0, 400)
-                .placeholder(R.drawable.logo_white)
-                .error(R.drawable.logo_white)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
                 .into(imgCover)
         }
 

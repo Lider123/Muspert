@@ -3,15 +3,13 @@ package com.babaetskv.muspert.ui.fragments
 import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.models.Album
 import com.babaetskv.muspert.presentation.albums.AlbumsPresenter
 import com.babaetskv.muspert.presentation.albums.AlbumsView
-import com.babaetskv.muspert.viewmodel.albums.AlbumsViewModel
 import com.babaetskv.muspert.ui.EmptyDividerDecoration
 import com.babaetskv.muspert.ui.base.PlaybackControls
 import com.babaetskv.muspert.ui.base.PlaybackFragment
@@ -21,19 +19,18 @@ import com.babaetskv.muspert.utils.setVisible
 import com.mikepenz.fastadapter.ClickListener
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IAdapter
+import com.mikepenz.fastadapter.adapters.ItemAdapter
+import com.mikepenz.fastadapter.listeners.OnBindViewHolderListenerImpl
 import com.mikepenz.fastadapter.paged.ExperimentalPagedSupport
-import com.mikepenz.fastadapter.paged.PagedModelAdapter
 import kotlinx.android.synthetic.main.fragment_albums.*
-import org.koin.android.viewmodel.ext.android.viewModel
 
 @ExperimentalPagedSupport
 class AlbumsFragment : PlaybackFragment(), AlbumsView {
     @InjectPresenter
     lateinit var presenter: AlbumsPresenter
-    private val albumsViewModel: AlbumsViewModel by viewModel()
 
     private lateinit var adapter: FastAdapter<AlbumItem>
-    private lateinit var itemAdapter: PagedModelAdapter<Album, AlbumItem>
+    private lateinit var itemAdapter: ItemAdapter<AlbumItem>
 
     override val layoutResId: Int
         get() = R.layout.fragment_albums
@@ -43,7 +40,6 @@ class AlbumsFragment : PlaybackFragment(), AlbumsView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initAdapter()
-        initViewModel()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,7 +66,7 @@ class AlbumsFragment : PlaybackFragment(), AlbumsView {
                 setMessageColor(ContextCompat.getColor(requireContext(), R.color.colorOnBackground))
                 setActionText(R.string.try_again)
                 setActionCallback {
-                    albumsViewModel.updateAlbums()
+                    presenter.refreshAlbums()
                 }
                 setVisible()
             } else setGone()
@@ -87,11 +83,15 @@ class AlbumsFragment : PlaybackFragment(), AlbumsView {
                 setMessageColor(ContextCompat.getColor(requireContext(), R.color.colorError))
                 setActionText(R.string.try_again)
                 setActionCallback {
-                    albumsViewModel.updateAlbums()
+                    presenter.refreshAlbums()
                 }
                 setVisible()
             } else setGone()
         }
+    }
+
+    override fun populateAlbums(albums: List<Album>) {
+        itemAdapter.setNewList(albums.map { AlbumItem(it) })
     }
 
     private fun initListeners() {
@@ -104,7 +104,7 @@ class AlbumsFragment : PlaybackFragment(), AlbumsView {
         toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_refresh -> {
-                    albumsViewModel.updateAlbums()
+                    presenter.refreshAlbums()
                     true
                 }
                 else -> false
@@ -113,13 +113,25 @@ class AlbumsFragment : PlaybackFragment(), AlbumsView {
     }
 
     private fun initAdapter() {
-        val config = AsyncDifferConfig.Builder<Album>(Album.CALLBACK)
-            .build()
-        val placeholderInterceptor = { _: Int -> AlbumItem(null) }
-        val placeholder = { album: Album ->  AlbumItem(album) }
-        itemAdapter = PagedModelAdapter<Album, AlbumItem>(config, placeholderInterceptor, placeholder)
+        itemAdapter = ItemAdapter()
         adapter = FastAdapter.with(itemAdapter).apply {
             setHasStableIds(true)
+            val preloadMargin: Int = resources.getInteger(R.integer.preload_margin)
+            onBindViewHolderListener = object : OnBindViewHolderListenerImpl<AlbumItem>() {
+
+                override fun onBindViewHolder(
+                    viewHolder: RecyclerView.ViewHolder,
+                    position: Int,
+                    payloads: List<Any>
+                ) {
+                    super.onBindViewHolder(viewHolder, position, payloads)
+                    if (position == adapter.itemCount - preloadMargin) {
+                        recyclerAlbums.post {
+                            presenter.loadNextPage()
+                        }
+                    }
+                }
+            }
             onClickListener = object : ClickListener<AlbumItem> {
 
                 override fun invoke(
@@ -133,15 +145,6 @@ class AlbumsFragment : PlaybackFragment(), AlbumsView {
                 } ?: false
             }
         }
-    }
-
-    private fun initViewModel() {
-        albumsViewModel.albumsLiveData.observe(this, Observer { albums ->
-            itemAdapter.submitList(albums)
-        })
-        albumsViewModel.getState().observe(this, Observer { status ->
-            presenter.onRequestStateChanged(status)
-        })
     }
 
     private fun initRecyclerView() {
