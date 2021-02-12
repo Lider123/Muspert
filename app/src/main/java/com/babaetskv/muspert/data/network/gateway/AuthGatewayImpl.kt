@@ -3,7 +3,7 @@ package com.babaetskv.muspert.data.network.gateway
 import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.network.CommonApi
 import com.babaetskv.muspert.data.network.models.AccessTokenModel
-import com.babaetskv.muspert.data.prefs.PrefsHelper
+import com.babaetskv.muspert.data.prefs.AppPrefs
 import io.reactivex.Completable
 
 /**
@@ -11,14 +11,13 @@ import io.reactivex.Completable
  */
 class AuthGatewayImpl(
     private val commonApi: CommonApi,
-    private val prefsHelper: PrefsHelper,
     private val schedulersProvider: SchedulersProvider
 ) : AuthGateway {
 
     override fun authorize(accessToken: String): Completable =
         commonApi.authorize(AccessTokenModel(accessToken))
             .flatMapCompletable {
-                prefsHelper.authTokenPreference.set(it.token)
+                AppPrefs.authToken = it.token
                 Completable.complete()
             }
             .subscribeOn(schedulersProvider.IO)
