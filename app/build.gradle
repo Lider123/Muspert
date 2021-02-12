@@ -47,6 +47,9 @@ dependencies {
     implementation "androidx.paging:paging-rxjava2-ktx:$paging_version"
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'com.chibatching.kotpref:kotpref:2.13.1'
+    implementation "com.facebook.stetho:stetho:$stetho_version"
+    implementation "com.facebook.stetho:stetho-okhttp3:$stetho_version"
+    implementation "com.facebook.stetho:stetho-urlconnection:$stetho_version"
     implementation "com.github.miguelbcr:RxPaparazzo:0.6.1-2.x"
     implementation 'com.google.android.exoplayer:exoplayer:2.11.4'
     implementation 'com.google.firebase:firebase-analytics-ktx:17.4.1'

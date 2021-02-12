@@ -20,6 +20,7 @@ import com.babaetskv.muspert.data.repository.ProfileRepositoryImpl
 import com.babaetskv.muspert.device.NotificationReceiver
 import com.babaetskv.muspert.navigation.AppNavigator
 import com.babaetskv.muspert.utils.notifier.Notifier
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.gson.GsonBuilder
 import io.reactivex.Scheduler
@@ -104,12 +105,14 @@ val retrofitModule = module {
             .addInterceptor(getHttpLoggingInterceptor())
             .addInterceptor(HeaderInterceptorFactory.createAuthInterceptor())
             .addInterceptor(ErrorResponseInterceptor())
+            .addNetworkInterceptor(StethoInterceptor())
             .build()
     }
     factory(named("CommonClient")) {
         OkHttpClient.Builder()
             .addInterceptor(getHttpLoggingInterceptor())
             .addInterceptor(ErrorResponseInterceptor())
+            .addNetworkInterceptor(StethoInterceptor())
             .build()
     }
 }
