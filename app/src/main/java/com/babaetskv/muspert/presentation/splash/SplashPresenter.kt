@@ -15,25 +15,27 @@ import org.koin.core.inject
 class SplashPresenter : BasePresenter<SplashView>() {
     private val profileRepository: ProfileRepository by inject()
     private val schedulersProvider: SchedulersProvider by inject()
-    private val user: User by inject()
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
 
     fun onDelay() {
-        if (AppPrefs.authToken.isNotEmpty()) {
-            profileRepository.getProfile()
-                .observeOn(schedulersProvider.UI)
-                .subscribe(::onGetProfileSuccess, ::onGetProfileError)
-                .unsubscribeOnDestroy()
+        if (AppPrefs.isAuthorized) {
+            loadProfile()
         } else navigator.replaceWith(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
     }
 
+    private fun loadProfile() {
+        profileRepository.getProfile()
+            .observeOn(schedulersProvider.UI)
+            .subscribe(::onGetProfileSuccess, ::onGetProfileError)
+            .unsubscribeOnDestroy()
+    }
+
     private fun onGetProfileSuccess(user: User) {
-        this.user.copy(user)
         if (user.isRegistered) {
             navigator.replaceWith(SplashFragmentDirections.actionSplashFragmentToMainFragment())
         } else {
-            navigator.replaceWith(SplashFragmentDirections.actionSplashFragmentToSignUpFragment())
+            navigator.replaceWith(SplashFragmentDirections.actionSplashFragmentToSignUpFragment(user))
         }
     }
 

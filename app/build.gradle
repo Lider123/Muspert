@@ -72,7 +72,7 @@ dependencies {
     implementation "org.koin:koin-android:$koin_version"
     implementation "org.koin:koin-android-ext:$koin_version"
     implementation "tech.schoolhelper:moxy-x:$moxy_version"
-    implementation 'tech.schoolhelper:moxy-x-androidx:1.7.0'
+    implementation "tech.schoolhelper:moxy-x-androidx:$moxy_version"
     testImplementation 'junit:junit:4.12'
     testImplementation "org.koin:koin-test:$koin_version"
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"

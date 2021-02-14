@@ -18,9 +18,9 @@ object HeaderInterceptorFactory {
             val request = chain.request()
             val requestBuilder = request.newBuilder()
             requestBuilder.removeHeader(AUTHORIZATION)
-            val authToken = AppPrefs.authToken
-            if (authToken.isNotEmpty()) {
-                requestBuilder.addHeader(AUTHORIZATION, String.format(TOKEN_TEMPLATE, authToken))
+            if (AppPrefs.isAuthorized) {
+                val authHeader = String.format(TOKEN_TEMPLATE, AppPrefs.authToken)
+                requestBuilder.addHeader(AUTHORIZATION, authHeader)
             }
             return chain.proceed(requestBuilder.build())
         }

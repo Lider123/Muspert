@@ -7,4 +7,6 @@ import com.chibatching.kotpref.KotprefModel
  */
 object AppPrefs : KotprefModel() {
     var authToken by stringPref()
+    val isAuthorized: Boolean
+        get() = authToken.isNotEmpty()
 }

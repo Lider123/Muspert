@@ -5,7 +5,6 @@ import android.content.Context
 import com.babaetskv.muspert.BuildConfig
 import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.ErrorHandler
-import com.babaetskv.muspert.data.models.User
 import com.babaetskv.muspert.data.network.AuthApi
 import com.babaetskv.muspert.data.network.CommonApi
 import com.babaetskv.muspert.data.network.ErrorResponseInterceptor
@@ -53,10 +52,6 @@ private val appModule = module {
     single { FirebaseCrashlytics.getInstance() }
     single { NotificationReceiver() }
     single { get<Context>().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
-}
-
-private val singletonModule = module {
-    single { User() }
 }
 
 val repositoryModule = module {
@@ -136,7 +131,6 @@ private val gatewayModule = module {
 
 val appModules = listOf(
     appModule,
-    singletonModule,
     repositoryModule,
     retrofitModule,
     apiModule,

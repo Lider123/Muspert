@@ -45,6 +45,11 @@
         android:name="com.babaetskv.muspert.ui.fragments.SignUpFragment"
         android:label="Sign Up"
         tools:layout="@layout/fragment_sign_up">
+
+        <argument
+            android:name="user"
+            app:argType="com.babaetskv.muspert.data.models.User"/>
+
         <action
             android:id="@+id/action_signUpFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
