@@ -13,25 +13,34 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:title="@string/albums"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_arrow_back_white"
+        app:menu="@menu/albums_menu"/>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_container"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerAlbums"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toTopOf="@id/viewPlaybackControls">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerAlbums"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:scrollbars="vertical"
-            tools:itemCount="5"
-            tools:listitem="@layout/item_album"
-            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:spanCount="2"/>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        app:layout_constraintBottom_toTopOf="@id/viewPlaybackControls"
+        tools:itemCount="5"
+        tools:listitem="@layout/item_album"
+        tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        tools:spanCount="2"/>
+
+    <!-- TODO: replace with custom progress bar -->
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/viewPlaybackControls"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible"/>
 
     <com.babaetskv.muspert.ui.view.EmptyView
         android:id="@+id/emptyViewAlbums"

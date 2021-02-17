@@ -15,6 +15,7 @@
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="try_again">Try again</string>
+    <string name="refresh">Refresh</string>
 
     <!-- Toolbar titles -->
     <string name="enter_sms_code">Enter SMS code</string>

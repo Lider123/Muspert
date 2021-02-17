@@ -46,6 +46,7 @@
                     android:background="@android:color/transparent"
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:navigationIcon="@drawable/ic_arrow_back_white"
                     tools:title="Album"/>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>

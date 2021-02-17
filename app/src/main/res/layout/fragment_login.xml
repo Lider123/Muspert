@@ -18,7 +18,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
-            app:title="@string/enter_sms_code" />
+            app:title="@string/enter_sms_code"
+            app:navigationIcon="@drawable/ic_arrow_back_white"/>
 
         <LinearLayout
             android:layout_width="match_parent"
