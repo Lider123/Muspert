@@ -16,6 +16,7 @@
     <string name="camera">Камера</string>
     <string name="gallery">Галерея</string>
     <string name="try_again">Повторить</string>
+    <string name="refresh">Обновить</string>
 
     <!-- Toolbar titles -->
     <string name="enter_sms_code">Введите SMS код</string>

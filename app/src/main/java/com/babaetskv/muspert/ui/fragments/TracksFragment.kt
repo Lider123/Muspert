@@ -49,7 +49,6 @@ class TracksFragment : BaseFragment(), TracksView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initToolbar()
         initRecyclerView()
         initListeners()
     }
@@ -117,15 +116,6 @@ class TracksFragment : BaseFragment(), TracksView {
         }
     }
 
-    private fun initToolbar() {
-        with (toolbar) {
-            setNavigationIcon(R.drawable.ic_arrow_back_white)
-            setNavigationOnClickListener {
-                onBackPressed()
-            }
-        }
-    }
-
     private fun initRecyclerView() {
         recyclerTracks.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -170,6 +160,9 @@ class TracksFragment : BaseFragment(), TracksView {
     }
 
     private fun initListeners() {
+        toolbar.setNavigationOnClickListener {
+            onBackPressed()
+        }
         viewPlaybackControls.setOnClickListener {
             presenter.onPlaybackControlsClick()
         }

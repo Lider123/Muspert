@@ -47,7 +47,6 @@ class LoginFragment : BaseFragment(), LoginView, PhoneAuthProvider.OnSendSmsList
         super.onViewCreated(view, savedInstanceState)
         initListeners()
         countryCodePicker.registerCarrierNumberEditText(etPhone)
-        initToolbar()
         setMode(LoginView.Mode.LOGIN)
     }
 
@@ -123,14 +122,10 @@ class LoginFragment : BaseFragment(), LoginView, PhoneAuthProvider.OnSendSmsList
         setMode(LoginView.Mode.SMS)
     }
 
-    private fun initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white)
+    private fun initListeners() {
         toolbar.setNavigationOnClickListener {
             setMode(LoginView.Mode.LOGIN)
         }
-    }
-
-    private fun initListeners() {
         loginButton.setOnClickListener {
             etPhone.hideKeyboard()
             presenter.onLoginClick()

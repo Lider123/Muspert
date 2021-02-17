@@ -1,7 +1,7 @@
 package com.babaetskv.muspert.ui.fragments
 
 import android.os.Bundle
-import android.view.View
+import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.AsyncDifferConfig
@@ -48,17 +48,16 @@ class AlbumsFragment : BaseFragment(), AlbumsView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initToolbar()
         initRecyclerView()
         initListeners()
     }
 
     override fun showProgress() {
-        swipe_container.isRefreshing = true
+        progress.setVisible()
     }
 
     override fun hideProgress() {
-        swipe_container.isRefreshing = false
+        progress.setGone()
     }
 
     override fun showEmptyView(show: Boolean) {
@@ -99,6 +98,18 @@ class AlbumsFragment : BaseFragment(), AlbumsView {
         viewPlaybackControls.setOnClickListener {
             presenter.onPlaybackControlsClick()
         }
+        toolbar.setNavigationOnClickListener {
+            onBackPressed()
+        }
+        toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_refresh -> {
+                    albumsViewModel.updateAlbums()
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     private fun initAdapter() {
@@ -133,24 +144,12 @@ class AlbumsFragment : BaseFragment(), AlbumsView {
         })
     }
 
-    private fun initToolbar() {
-        with (toolbar) {
-            setNavigationIcon(R.drawable.ic_arrow_back_white)
-            setNavigationOnClickListener {
-                onBackPressed()
-            }
-        }
-    }
-
     private fun initRecyclerView() {
         recyclerAlbums.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = this@AlbumsFragment.adapter
             itemAnimator = null
             addItemDecoration(EmptyDividerDecoration(requireContext(), R.dimen.layout_baseline_default))
-        }
-        swipe_container.setOnRefreshListener {
-            albumsViewModel.updateAlbums()
         }
     }
 }

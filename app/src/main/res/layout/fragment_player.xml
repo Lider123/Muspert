@@ -10,8 +10,9 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@android:color/transparent"/>
+        app:navigationIcon="@drawable/ic_arrow_back_accent" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgCover"
