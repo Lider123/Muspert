@@ -5,6 +5,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
+@Deprecated("Use common adapter with pagination")
 abstract class BasePagedListAdapter<T : Any>(
     callback: DiffUtil.ItemCallback<T>
 ) : PagedListAdapter<T, BasePagedListAdapter.BaseViewHolder<T>>(callback) {

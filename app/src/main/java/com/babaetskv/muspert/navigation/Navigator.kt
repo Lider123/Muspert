@@ -9,12 +9,24 @@ import com.babaetskv.muspert.R
  * @author Konstantin on 26.06.2020
  */
 class AppNavigator {
+    private val navBuilder: NavOptions.Builder
+        get() = NavOptions.Builder()
+            .setEnterAnim(R.anim.slide_in_left)
+            .setExitAnim(R.anim.slide_out_left)
+            .setPopEnterAnim(R.anim.slide_in_right)
+            .setPopExitAnim(R.anim.slide_out_right)
     var controller: NavController? = null
 
-    fun forward(action: NavDirections) = controller?.navigate(action)
+    fun forward(action: NavDirections) {
+        navBuilder
+            .build()
+            .let {
+                controller?.navigate(action, it)
+            }
+    }
 
     fun replaceWith(action: NavDirections) =
-        NavOptions.Builder()
+        navBuilder
             .setPopUpTo(controller?.currentDestination!!.id, true)
             .build()
             .let {
@@ -22,7 +34,7 @@ class AppNavigator {
             }
 
     fun newStack(action: NavDirections) =
-        NavOptions.Builder()
+        navBuilder
             .setPopUpTo(R.id.nav_graph, true)
             .build()
             .let {

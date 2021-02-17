@@ -10,6 +10,7 @@ import com.babaetskv.muspert.viewmodel.base.BaseDataSource
 import com.babaetskv.muspert.viewmodel.base.RequestState
 import io.reactivex.disposables.CompositeDisposable
 
+@Deprecated("Use pagination instead")
 class AlbumsDataSource(
     private val compositeDisposable: CompositeDisposable,
     private val catalogRepository: CatalogRepository,

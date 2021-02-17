@@ -11,8 +11,9 @@ import com.babaetskv.muspert.utils.notifier.Notifier
 import org.koin.core.inject
 
 @InjectViewState
-class SignUpPresenter : BasePresenter<SignUpView>() {
-    private val profile: User by inject()
+class SignUpPresenter(
+    private val user: User
+) : BasePresenter<SignUpView>() {
     private val profileRepository: ProfileRepository by inject()
     private val schedulersProvider: SchedulersProvider by inject()
     private val errorHandler: ErrorHandler by inject()
@@ -33,7 +34,7 @@ class SignUpPresenter : BasePresenter<SignUpView>() {
     }
 
     fun onConfirm() {
-        profile.apply {
+        user.apply {
             firstName = this@SignUpPresenter.firstName
             lastName = this@SignUpPresenter.lastName
             nickname = this@SignUpPresenter.nickname

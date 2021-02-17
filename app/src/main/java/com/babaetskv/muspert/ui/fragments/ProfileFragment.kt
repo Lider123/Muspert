@@ -15,7 +15,6 @@ import com.babaetskv.muspert.data.models.User
 import com.babaetskv.muspert.presentation.profile.ProfilePresenter
 import com.babaetskv.muspert.presentation.profile.ProfileView
 import com.babaetskv.muspert.ui.base.BaseFragment
-import com.babaetskv.muspert.ui.base.PlaybackControls
 import com.babaetskv.muspert.utils.dialog.TwoChoiceDialogParams
 import com.babaetskv.muspert.utils.dialog.showDialog
 import com.babaetskv.muspert.utils.notifier.Notifier
@@ -67,8 +66,6 @@ class ProfileFragment : BaseFragment(),
 
     override val layoutResId: Int
         get() = R.layout.fragment_profile
-    override val playbackControls: PlaybackControls?
-        get() = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

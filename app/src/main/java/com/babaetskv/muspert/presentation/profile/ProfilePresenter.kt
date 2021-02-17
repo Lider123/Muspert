@@ -12,7 +12,6 @@ import org.koin.core.inject
 
 @InjectViewState
 class ProfilePresenter : BasePresenter<ProfileView>() {
-    private val user: User by inject()
     private val profileRepository: ProfileRepository by inject()
     private val schedulersProvider: SchedulersProvider by inject()
     private val errorHandler: ErrorHandler by inject()
@@ -24,10 +23,12 @@ class ProfilePresenter : BasePresenter<ProfileView>() {
     }
 
     private fun loadProfile() {
-        viewState.showProgress()
         profileRepository.getProfile()
             .observeOn(schedulersProvider.UI)
-            .doFinally {
+            .doOnSubscribe {
+                viewState.showProgress()
+            }
+            .doAfterTerminate {
                 viewState.hideProgress()
             }
             .subscribe(::onGetProfileSuccess, ::onError)
@@ -35,7 +36,6 @@ class ProfilePresenter : BasePresenter<ProfileView>() {
     }
 
     private fun onGetProfileSuccess(user: User) {
-        this.user.copy(user)
         viewState.populateData(user)
     }
 
@@ -48,10 +48,12 @@ class ProfilePresenter : BasePresenter<ProfileView>() {
     }
 
     fun onChangeAvatar(imageUri: Uri) {
-        viewState.showProgress()
         profileRepository.updateAvatar(imageUri)
             .observeOn(schedulersProvider.UI)
-            .doFinally {
+            .doOnSubscribe {
+                viewState.showProgress()
+            }
+            .doAfterTerminate {
                 viewState.hideProgress()
             }
             .subscribe(::onUploadAvatarSuccess, ::onError)

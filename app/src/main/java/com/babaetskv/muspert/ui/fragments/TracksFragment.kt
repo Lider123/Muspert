@@ -16,9 +16,9 @@ import com.babaetskv.muspert.device.PlaybackService
 import com.babaetskv.muspert.presentation.tracks.TracksPresenter
 import com.babaetskv.muspert.presentation.tracks.TracksView
 import com.babaetskv.muspert.ui.EmptyDividerDecoration
-import com.babaetskv.muspert.ui.base.BaseFragment
 import com.babaetskv.muspert.ui.item.TrackItem
 import com.babaetskv.muspert.ui.base.PlaybackControls
+import com.babaetskv.muspert.ui.base.PlaybackFragment
 import com.babaetskv.muspert.utils.setGone
 import com.babaetskv.muspert.utils.setVisible
 import com.mikepenz.fastadapter.ClickListener
@@ -29,7 +29,7 @@ import com.mikepenz.fastadapter.listeners.ClickEventHook
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_tracks.*
 
-class TracksFragment : BaseFragment(), TracksView {
+class TracksFragment : PlaybackFragment(), TracksView {
     @InjectPresenter
     lateinit var presenter: TracksPresenter
 
@@ -39,7 +39,7 @@ class TracksFragment : BaseFragment(), TracksView {
 
     override val layoutResId: Int
         get() = R.layout.fragment_tracks
-    override val playbackControls: PlaybackControls?
+    override val playbackControls: PlaybackControls
         get() = viewPlaybackControls
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,8 +58,8 @@ class TracksFragment : BaseFragment(), TracksView {
             toolbar.title = album.title
             Picasso.with(requireContext())
                 .load(BuildConfig.API_URL + album.cover)
-                .placeholder(R.drawable.logo_white)
-                .error(R.drawable.logo_white)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
                 .resize(0, 600)
                 .into(imgBackdrop)
         }

@@ -11,6 +11,7 @@ import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.navigation.AppNavigator
 import com.babaetskv.muspert.utils.notifier.Notifier
 import com.babaetskv.muspert.utils.notifier.SystemMessage
+import com.babaetskv.muspert.utils.safeDispose
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
@@ -67,9 +68,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun unsubscribeOnSystemMessages() {
-        notifierDisposable?.let {
-            if (!it.isDisposed) it.dispose()
-        }
+        notifierDisposable?.safeDispose()
     }
 
     private fun onNextMessageNotify(message: SystemMessage) {

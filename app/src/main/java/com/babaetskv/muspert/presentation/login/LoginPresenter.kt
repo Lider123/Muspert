@@ -17,7 +17,6 @@ class LoginPresenter : BasePresenter<LoginView>() {
     private val authGateway: AuthGateway by inject()
     private val profileRepository: ProfileRepository by inject()
     private val schedulersProvider: SchedulersProvider by inject()
-    private val user: User by inject()
     private val errorHandler: ErrorHandler by inject()
 
     fun onLoginClick() {
@@ -50,11 +49,10 @@ class LoginPresenter : BasePresenter<LoginView>() {
     }
 
     private fun onGetProfileSuccess(user: User) {
-        this.user.copy(user)
         if (user.isRegistered) {
             navigator.replaceWith(LoginFragmentDirections.actionLoginFragmentToMainFragment())
         } else {
-            navigator.forward(LoginFragmentDirections.actionLoginFragmentToSignUpFragment())
+            navigator.forward(LoginFragmentDirections.actionLoginFragmentToSignUpFragment(user))
         }
     }
 

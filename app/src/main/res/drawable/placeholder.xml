@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorOnPrimary"/>
+            <padding
+                android:right="@dimen/layout_baseline_default"
+                android:left="@dimen/layout_baseline_default"
+                android:top="@dimen/layout_baseline_default"
+                android:bottom="@dimen/layout_baseline_default" />
+        </shape>
+    </item>
+
+    <item android:drawable="@drawable/logo_accent"/>
+</layer-list>
