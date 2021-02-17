@@ -28,8 +28,32 @@
     </style>
 
     <style name="AppTheme.AppCompatButton" parent="TextAppearance.AppCompat.Widget.Button.Colored">
-        <item name="android:background">@drawable/bg_button</item>
+        <item name="android:background">@drawable/bg_button_contained</item>
         <item name="android:textColor">@android:color/black</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="AppTheme.AppCompatButton.Text" parent="TextAppearance.AppCompat.Widget.Button.Borderless.Colored">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="AppTheme.AppCompatButton.Outline" parent="TextAppearance.AppCompat.Widget.Button.Colored">
+        <item name="android:background">@drawable/bg_button_outline</item>
+        <item name="android:textColor">@color/colorAccent</item>
         <item name="android:paddingTop">16dp</item>
         <item name="android:paddingBottom">16dp</item>
         <item name="android:paddingStart">16dp</item>

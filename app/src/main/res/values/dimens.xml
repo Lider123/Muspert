@@ -2,4 +2,6 @@
 <resources>
     <dimen name="layout_baseline_default">16dp</dimen>
     <dimen name="layout_baseline_small">8dp</dimen>
+    <dimen name="layout_baseline_large">32dp</dimen>
+    <dimen name="layout_baseline_extra_large">64dp</dimen>
 </resources>

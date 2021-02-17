@@ -16,6 +16,9 @@
     <string name="gallery">Gallery</string>
     <string name="try_again">Try again</string>
     <string name="refresh">Refresh</string>
+    <string name="logout">Log out</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <!-- Toolbar titles -->
     <string name="enter_sms_code">Enter SMS code</string>
@@ -39,6 +42,7 @@
     <string name="empty_genre_list_message">There are no available genres at the moment.\nPlease try again later.</string>
     <string name="empty_track_list_title">No tracks</string>
     <string name="empty_track_list_message">There are no available tracks at the moment.\nPlease try again later.</string>
+    <string name="logout_message">Are you sure you want to log out?</string>
 
     <!-- Alerts -->
     <string name="phone_number_is_null">Phone number is null</string>

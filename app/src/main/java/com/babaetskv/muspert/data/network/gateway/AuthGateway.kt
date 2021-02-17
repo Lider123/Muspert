@@ -8,4 +8,6 @@ import io.reactivex.Completable
 interface AuthGateway {
 
     fun authorize(accessToken: String): Completable
+
+    fun logout(): Completable
 }

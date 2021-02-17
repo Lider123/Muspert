@@ -62,10 +62,6 @@
         tools:layout="@layout/fragment_main">
 
         <action
-            android:id="@+id/action_mainFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment"/>
-
-        <action
             android:id="@+id/action_mainFragment_to_albumsFragment"
             app:destination="@id/albumsFragment"/>
 
@@ -76,13 +72,11 @@
         <action
             android:id="@+id/action_mainFragment_to_playerFragment"
             app:destination="@id/playerFragment"/>
-    </fragment>
 
-    <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.babaetskv.muspert.ui.fragments.SettingsFragment"
-        android:label="Settings"
-        tools:layout="@layout/fragment_settings"/>
+        <action
+            android:id="@+id/action_mainFragment_to_loginFragment"
+            app:destination="@id/loginFragment"/>
+    </fragment>
 
     <fragment
         android:id="@+id/albumsFragment"

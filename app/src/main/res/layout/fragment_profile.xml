@@ -7,63 +7,80 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     tools:context=".ui.fragments.ProfileFragment">
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:paddingBottom="@dimen/layout_baseline_default">
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/settingsButton"
-            android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_settings"
-            android:padding="@dimen/layout_baseline_default"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:orientation="vertical">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/avatarImageView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@drawable/ic_avatar_placeholder"
-            app:layout_constraintTop_toBottomOf="@id/settingsButton"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintWidth_percent="0.33"
-            app:layout_constraintDimensionRatio="1"
-            app:civ_border_width="2dp"
-            app:civ_border_color="@color/colorOnPrimary"
-            app:civ_circle_background_color="@color/colorBackground"
-            tools:src="@tools:sample/avatars"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:paddingTop="@dimen/layout_baseline_extra_large"
+                android:paddingBottom="@dimen/layout_baseline_default">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/usernameTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_baseline_default"
-            android:paddingStart="@dimen/layout_baseline_default"
-            android:paddingEnd="@dimen/layout_baseline_default"
-            app:layout_constraintTop_toBottomOf="@id/avatarImageView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="@tools:sample/full_names"
-            style="@style/AppTheme.AppCompatTextView.Title"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/avatarImageView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:src="@drawable/ic_avatar_placeholder"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintWidth_percent="0.33"
+                    app:layout_constraintDimensionRatio="1"
+                    app:civ_border_width="2dp"
+                    app:civ_border_color="@color/colorOnPrimary"
+                    app:civ_circle_background_color="@color/colorBackground"
+                    tools:src="@tools:sample/avatars"/>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/nicknameTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_baseline_default"
-            android:paddingStart="@dimen/layout_baseline_default"
-            android:paddingEnd="@dimen/layout_baseline_default"
-            app:layout_constraintTop_toBottomOf="@id/usernameTextView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="@tools:sample/first_names"
-            style="@style/AppTheme.AppCompatTextView.Subtitle"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/usernameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_baseline_default"
+                    android:paddingStart="@dimen/layout_baseline_default"
+                    android:paddingEnd="@dimen/layout_baseline_default"
+                    app:layout_constraintTop_toBottomOf="@id/avatarImageView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="@tools:sample/full_names"
+                    style="@style/AppTheme.AppCompatTextView.Title"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/nicknameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_baseline_default"
+                    android:paddingStart="@dimen/layout_baseline_default"
+                    android:paddingEnd="@dimen/layout_baseline_default"
+                    app:layout_constraintTop_toBottomOf="@id/usernameTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="@tools:sample/first_names"
+                    style="@style/AppTheme.AppCompatTextView.Subtitle"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnLogout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/layout_baseline_default"
+                android:textColor="@color/colorError"
+                android:text="@string/logout"
+                style="@style/AppTheme.AppCompatButton.Text" />
+        </LinearLayout>
+    </ScrollView>
 
     <com.babaetskv.muspert.ui.view.SquareProgress
         android:id="@+id/progress"

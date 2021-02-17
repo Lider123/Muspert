@@ -96,11 +96,26 @@ class ProfileFragment : BaseFragment(),
     }
 
     private fun initListeners() {
-        settingsButton.setOnClickListener {
-            navigator.forward(MainFragmentDirections.actionMainFragmentToSettingsFragment())
+        btnLogout.setOnClickListener {
+            TwoChoiceDialogParams(
+                schema = TwoChoiceDialogParams.Schema.ACCENT_RIGHT,
+                message = getString(R.string.logout_message),
+                leftActionText = getString(R.string.yes),
+                rightActionText = getString(R.string.no),
+                onLeftActionClick = { dialog ->
+                    dialog.dismiss()
+                    presenter.onLogout()
+                },
+                onRightActionClick = { dialog ->
+                    dialog.dismiss()
+                }
+            ).let {
+                requireContext().showDialog(it)
+            }
         }
         avatarImageView.setOnClickListener {
             TwoChoiceDialogParams(
+                schema = TwoChoiceDialogParams.Schema.ACCENT_BOTH,
                 message = getString(R.string.edit_avatar),
                 leftActionText = getString(R.string.camera),
                 rightActionText = getString(R.string.gallery),
