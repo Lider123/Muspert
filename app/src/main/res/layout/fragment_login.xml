@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/layout_baseline_default"/>
 
-            <ProgressBar
+            <com.babaetskv.muspert.ui.view.SquareProgress
                 android:id="@+id/progressVerification"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -139,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/login" />
 
-            <ProgressBar
+            <com.babaetskv.muspert.ui.view.SquareProgress
                 android:id="@+id/progressAuth"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
