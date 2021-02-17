@@ -73,7 +73,7 @@
                 android:enabled="false"
                 android:visibility="visible"/>
 
-            <ProgressBar
+            <com.babaetskv.muspert.ui.view.SquareProgress
                 android:id="@+id/confirmProgress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
