@@ -8,7 +8,11 @@ import com.babaetskv.muspert.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 fun Context.showDialog(params: DialogParams) {
-    val dialogView = View.inflate(this, params.layoutId, null)
+    val layoutId: Int = when (params) {
+        is TwoChoiceDialogParams -> params.schema.layoutId
+        else -> params.layoutId
+    }
+    val dialogView = View.inflate(this, layoutId, null)
     val dialog = BottomSheetDialog(this).apply {
         setContentView(dialogView)
         window?.setBackgroundDrawableResource(android.R.color.transparent)

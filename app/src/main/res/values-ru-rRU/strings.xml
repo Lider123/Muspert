@@ -17,6 +17,9 @@
     <string name="gallery">Галерея</string>
     <string name="try_again">Повторить</string>
     <string name="refresh">Обновить</string>
+    <string name="logout">Выйти</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
 
     <!-- Toolbar titles -->
     <string name="enter_sms_code">Введите SMS код</string>
@@ -40,6 +43,7 @@
     <string name="empty_genre_list_message">В настоящее время нет доступных жанров.\nПопробуйте позже.</string>
     <string name="empty_track_list_title">Нет треков</string>
     <string name="empty_track_list_message">В настоящее время нет доступных треков.\nПопробуйте позже.</string>
+    <string name="logout_message">Вы уверены, что хотите выйти?</string>
 
     <!-- Alerts -->
     <string name="phone_number_is_null">Введите номер телефона</string>
