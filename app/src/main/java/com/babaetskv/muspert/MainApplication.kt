@@ -9,6 +9,7 @@ import com.chibatching.kotpref.Kotpref
 import com.facebook.stetho.Stetho
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.miguelbcr.ui.rx_paparazzo2.RxPaparazzo
+import net.danlew.android.joda.JodaTimeAndroid
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -26,7 +27,12 @@ class MainApplication : Application() {
         initRxPaparazzo()
         initKotpref()
         initStetho()
+        initJodaTime()
         registerReceiver(notificationReceiver, IntentFilter(NotificationReceiver.BROADCAST_ACTION))
+    }
+
+    private fun initJodaTime() {
+        JodaTimeAndroid.init(this)
     }
 
     private fun initStetho() {

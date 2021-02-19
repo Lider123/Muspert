@@ -14,6 +14,7 @@ import com.babaetskv.muspert.presentation.player.PlayerPresenter
 import com.babaetskv.muspert.presentation.player.PlayerView
 import com.babaetskv.muspert.ui.base.PlaybackControls
 import com.babaetskv.muspert.ui.base.PlaybackFragment
+import com.babaetskv.muspert.utils.formatTime
 import kotlinx.android.synthetic.main.fragment_player.*
 
 class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
@@ -56,6 +57,7 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
 
     override fun setDuration(duration: Int) {
         seekbar.max = duration
+        tvDuration.text = formatTime(duration.toLong() * 1000)
     }
 
     override fun setIsPlaying(isPlaying: Boolean) {
@@ -76,6 +78,7 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
 
     override fun setProgress(progress: Int) {
         seekbar.progress = progress
+        tvProgress.text = formatTime(progress.toLong() * 1000)
     }
 
     override fun setTitle(stringRes: Int) {
