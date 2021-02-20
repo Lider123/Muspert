@@ -11,6 +11,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.babaetskv.muspert.BuildConfig
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.models.Album
+import com.babaetskv.muspert.data.models.PlaybackData
 import com.babaetskv.muspert.data.models.Track
 import com.babaetskv.muspert.device.PlaybackService
 import com.babaetskv.muspert.presentation.tracks.TracksPresenter
@@ -51,6 +52,18 @@ class TracksFragment : PlaybackFragment(), TracksView {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         initListeners()
+    }
+
+    override fun onNextPlaybackCommand(data: PlaybackData) {
+        super.onNextPlaybackCommand(data)
+        val track = data.track
+        val isPlaying = data.isPlaying
+        itemAdapter.adapterItems.mapIndexed { position, item ->
+            if (item.track.id == track?.id) {
+                item.isPlaying = isPlaying
+                adapter.notifyItemChanged(position)
+            }
+        }
     }
 
     override fun populateAlbum(album: Album) {
@@ -95,7 +108,7 @@ class TracksFragment : PlaybackFragment(), TracksView {
             showEmptyView(true)
         } else {
             showEmptyView(false)
-            itemAdapter.setNewList(tracks.map { TrackItem(it) })
+            itemAdapter.setNewList(tracks.map { TrackItem(it, it.id == PlaybackService.trackId) })
         }
     }
 
@@ -152,8 +165,11 @@ class TracksFragment : PlaybackFragment(), TracksView {
                     fastAdapter: FastAdapter<TrackItem>,
                     item: TrackItem
                 ) {
-                    // TODO
-                    PlaybackService.startPlaybackService(requireContext(), item.track.albumId, item.track.id)
+                    if (item.track.id == PlaybackService.trackId) {
+                        PlaybackService.sendAction(requireContext(), PlaybackService.Action.Play)
+                    } else {
+                        PlaybackService.startPlaybackService(requireContext(), item.track.albumId, item.track.id)
+                    }
                 }
             })
         }
