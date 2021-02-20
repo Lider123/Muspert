@@ -16,47 +16,89 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgCover"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/layout_baseline_large"
         android:scaleType="fitCenter"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/layoutTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintWidth_percent=".66"
+        app:layout_constraintVertical_chainStyle="spread_inside"
         tools:src="@tools:sample/backgrounds/scenic"/>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvTitle"
+    <LinearLayout
+        android:id="@+id/layoutTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imgCover"
-        app:layout_constraintBottom_toTopOf="@id/tvArtistName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        tools:text="@tools:sample/lorem"
-        style="@style/AppTheme.AppCompatTextView.Label"/>
+        app:layout_constraintBottom_toTopOf="@id/layoutSeekbar">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvArtistName"
-        android:layout_width="wrap_content"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            tools:text="@tools:sample/lorem"
+            style="@style/AppTheme.AppCompatTextView.Label"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvArtistName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            tools:text="@tools:sample/lorem"/>
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutSeekbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        android:layout_marginHorizontal="16dp"
         app:layout_constraintBottom_toTopOf="@id/layoutControls"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="@tools:sample/lorem"/>
+        app:layout_constraintTop_toBottomOf="@id/layoutTitle">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_baseline_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/seekbar"
+            tools:text="02:30"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/layout_baseline_default"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/seekbar"
+            tools:text="01:01:00"/>
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:max="100"
+            tools:progress="33"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/layoutControls"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="24dp"
         android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@id/seekbar">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutSeekbar">
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btnPrev"
@@ -83,15 +125,4 @@
             android:padding="8dp"
             android:src="@drawable/ic_next_accent"/>
     </LinearLayout>
-
-    <androidx.appcompat.widget.AppCompatSeekBar
-        android:id="@+id/seekbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:max="100"
-        tools:progress="33"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
