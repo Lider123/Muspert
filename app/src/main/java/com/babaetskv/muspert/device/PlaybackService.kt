@@ -54,18 +54,26 @@ class PlaybackService : BaseService() {
                 val albumId = intent.getLongExtra(EXTRA_ALBUM_ID, -1L)
                 val trackId = intent.getLongExtra(EXTRA_TRACK_ID, -1L)
                 if (albumId != -1L) {
+                    stopCurrentTrack()
                     if (this.albumId != albumId) loadAlbum(albumId, trackId) else {
                         if (this.trackId != trackId) setTrackById(trackId)
                     }
                 }
             }
-            Action.Prev.id -> playPrev()
-            Action.Next.id -> playNext()
+            Action.Prev.id -> {
+                stopCurrentTrack()
+                playPrev()
+            }
+            Action.Next.id -> {
+                stopCurrentTrack()
+                playNext()
+            }
             Action.Play.id -> {
                 togglePlaying()
                 setTrackSubject.onNext(PlaybackData(tracks.first, player.isPlaying))
             }
             Action.Stop.id -> {
+                stopCurrentTrack()
                 stopForeground(true)
                 stopSelf()
             }
@@ -84,6 +92,12 @@ class PlaybackService : BaseService() {
         trackId = -1
         instance = null
         super.onDestroy()
+    }
+
+    private fun stopCurrentTrack() {
+        tracks.firstOrNull()?.let {
+            setTrackSubject.onNext(PlaybackData(it, false))
+        }
     }
 
     private fun onNextUpdateCommand(data: PlaybackData) {

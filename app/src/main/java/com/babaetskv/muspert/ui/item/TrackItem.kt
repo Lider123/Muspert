@@ -8,7 +8,8 @@ import com.babaetskv.muspert.data.models.Track
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 
-class TrackItem(val track: Track) : AbstractItem<TrackItem.ViewHolder>() {
+class TrackItem(val track: Track, var isPlaying: Boolean) : AbstractItem<TrackItem.ViewHolder>() {
+
     override val type: Int
         get() = R.id.trackItem
     override val layoutRes: Int
@@ -16,14 +17,18 @@ class TrackItem(val track: Track) : AbstractItem<TrackItem.ViewHolder>() {
 
     override fun getViewHolder(v: View): ViewHolder = ViewHolder(v)
 
-    class ViewHolder(view: View) : FastAdapter.ViewHolder<TrackItem>(view) {
+    override fun bindView(holder: ViewHolder, payloads: List<Any>) {
+        super.bindView(holder, payloads)
+        holder.buttonPlayPause.setImageResource(if (isPlaying) R.drawable.ic_pause_accent else R.drawable.ic_play_accent)
+    }
+
+    inner class ViewHolder(view: View) : FastAdapter.ViewHolder<TrackItem>(view) {
         private val tvTitle: AppCompatTextView = view.findViewById(R.id.tvTitle)
         val buttonPlayPause: AppCompatImageButton = view.findViewById(R.id.buttonPlayPause)
 
         override fun bindView(item: TrackItem, payloads: List<Any>) {
             tvTitle.text = item.track.title
             tvTitle.isSelected = true
-            buttonPlayPause.setImageResource(R.drawable.ic_play_accent)
         }
 
         override fun unbindView(item: TrackItem) = Unit

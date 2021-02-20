@@ -53,7 +53,7 @@ abstract class PlaybackFragment : BaseFragment() {
         }
     }
 
-    private fun onNextPlaybackCommand(data: PlaybackData) {
+    protected open fun onNextPlaybackCommand(data: PlaybackData) {
         playbackControls.run {
             if (data.track == null) {
                 hide()
