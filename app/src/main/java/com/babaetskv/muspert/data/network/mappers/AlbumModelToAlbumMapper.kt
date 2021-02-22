@@ -10,6 +10,7 @@ class AlbumModelToAlbumMapper : Mapper<AlbumModel, Album> {
             id = it.id,
             title = it.title,
             cover = it.cover,
+            artistName = it.artistName,
             createdAt = it.createdAt
         )
     }

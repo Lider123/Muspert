@@ -27,11 +27,9 @@
         app:layout_constraintBottom_toTopOf="@id/viewPlaybackControls"
         tools:itemCount="5"
         tools:listitem="@layout/item_album"
-        tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        tools:spanCount="2"/>
+        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-    <!-- TODO: replace with custom progress bar -->
-    <ProgressBar
+    <com.babaetskv.muspert.ui.view.SquareProgress
         android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
