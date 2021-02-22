@@ -3,7 +3,9 @@ package com.babaetskv.muspert.ui.fragments
 import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.babaetskv.muspert.R
@@ -149,10 +151,16 @@ class AlbumsFragment : PlaybackFragment(), AlbumsView {
 
     private fun initRecyclerView() {
         recyclerAlbums.apply {
-            layoutManager = GridLayoutManager(requireContext(), 2)
+            val orientation: Int
+            layoutManager = LinearLayoutManager(requireContext()).also {
+                orientation = it.orientation
+            }
             adapter = this@AlbumsFragment.adapter
             itemAnimator = null
-            addItemDecoration(EmptyDividerDecoration(requireContext(), R.dimen.layout_baseline_default))
+            addItemDecoration(DividerItemDecoration(context, orientation).apply {
+                val color = ContextCompat.getColor(requireContext(), R.color.colorHint)
+                setBackgroundColor(color)
+            })
         }
     }
 }

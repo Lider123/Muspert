@@ -96,6 +96,12 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="AppTheme.AppCompatTextView.Subtitle.Item" parent="AppTheme.AppCompatTextView.Subtitle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/colorHint</item>
+        <item name="android:textAlignment">viewStart</item>
+    </style>
+
     <style name="AppTheme.AppCompatImageButton" parent="Widget.AppCompat.ImageButton">
         <item name="android:background">@android:color/transparent</item>
     </style>

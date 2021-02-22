@@ -22,6 +22,7 @@ class AlbumItem(val album: Album?) : AbstractItem<AlbumItem.ViewHolder>() {
     inner class ViewHolder(view: View) : FastAdapter.ViewHolder<AlbumItem>(view) {
         private val imgCover: AppCompatImageView = view.findViewById(R.id.imgCover)
         private val tvTitle: AppCompatTextView = view.findViewById(R.id.tvTitle)
+        private val tvArtistName: AppCompatTextView = view.findViewById(R.id.tvArtistName)
 
         override fun bindView(item: AlbumItem, payloads: List<Any>) {
             val album = item.album ?: run {
@@ -31,6 +32,7 @@ class AlbumItem(val album: Album?) : AbstractItem<AlbumItem.ViewHolder>() {
 
             tvTitle.text = album.title
             tvTitle.isSelected = true
+            tvArtistName.text = album.artistName
             Picasso.with(imgCover.context)
                 .load(BuildConfig.API_URL + album.cover)
                 .resize(0, 400)

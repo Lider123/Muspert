@@ -4,29 +4,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/colorSurface"
+    android:padding="@dimen/layout_baseline_default">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgCover"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         tools:src="@tools:sample/backgrounds/scenic"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvTitle"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_baseline_default"
+        android:paddingTop="@dimen/layout_baseline_small"
         android:singleLine="true"
         android:ellipsize="marquee"
         android:marqueeRepeatLimit ="marquee_forever"
         android:scrollHorizontally="true"
-        android:padding="@dimen/layout_baseline_small"
-        android:background="@color/colorAccentDark"
-        android:textColor="@color/colorOnPrimary"
-        app:layout_constraintTop_toBottomOf="@id/imgCover"
-        tools:text="@tools:sample/lorem/random"
+        android:textColor="@color/colorOnSurface"
+        app:layout_constraintStart_toEndOf="@id/imgCover"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@tools:sample/lorem"
         style="@style/AppTheme.AppCompatTextView.Title.Item"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvArtistName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_baseline_default"
+        android:layout_marginTop="@dimen/layout_baseline_small"
+        android:paddingBottom="@dimen/layout_baseline_small"
+        android:singleLine="true"
+        app:layout_constraintStart_toEndOf="@id/imgCover"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        tools:text="@tools:sample/lorem"
+        style="@style/AppTheme.AppCompatTextView.Subtitle.Item"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
