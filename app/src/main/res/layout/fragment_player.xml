@@ -91,14 +91,24 @@
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutControls"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layoutSeekbar">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnShuffle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_baseline_default"
+            android:padding="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:src="@drawable/ic_shuffle_inactive"/>
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btnPrev"
@@ -106,15 +116,24 @@
             android:layout_height="56dp"
             android:scaleType="fitCenter"
             android:padding="8dp"
-            android:src="@drawable/ic_prev_accent"/>
+            android:src="@drawable/ic_prev_accent"
+            app:layout_constraintStart_toEndOf="@id/btnShuffle"
+            app:layout_constraintEnd_toStartOf="@id/btnPlay"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/btnPlay"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:scaleType="fitCenter"
-            android:layout_marginHorizontal="24dp"
+            android:layout_marginHorizontal="8dp"
             android:padding="8dp"
+            app:layout_constraintStart_toEndOf="@id/btnPrev"
+            app:layout_constraintEnd_toStartOf="@id/btnNext"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:src="@drawable/play"/>
 
         <androidx.appcompat.widget.AppCompatImageButton
@@ -123,6 +142,21 @@
             android:layout_height="56dp"
             android:scaleType="fitCenter"
             android:padding="8dp"
-            android:src="@drawable/ic_next_accent"/>
-    </LinearLayout>
+            android:src="@drawable/ic_next_accent"
+            app:layout_constraintStart_toEndOf="@id/btnPlay"
+            app:layout_constraintEnd_toStartOf="@id/btnRepeat"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnRepeat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/layout_baseline_default"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:src="@drawable/ic_repeat_inactive"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

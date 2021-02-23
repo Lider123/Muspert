@@ -77,6 +77,10 @@ class PlaybackControlsView @JvmOverloads constructor(
         nextCallback = callback
     }
 
+    override fun setRepeatCallback(callback: (() -> Unit)?) = Unit
+
+    override fun setShuffleCallback(callback: (() -> Unit)?) = Unit
+
     override fun setDuration(duration: Int) {
         progressMedia.max = duration
     }
@@ -84,6 +88,10 @@ class PlaybackControlsView @JvmOverloads constructor(
     override fun setProgress(progress: Int) {
         progressMedia.progress = progress
     }
+
+    override fun setShuffleEnabled(enabled: Boolean) = Unit
+
+    override fun setRepeatEnabled(enabled: Boolean) = Unit
 
     override fun show() = setVisible()
 

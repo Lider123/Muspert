@@ -1,6 +1,6 @@
 package com.babaetskv.muspert.data.network
 
-import com.babaetskv.muspert.data.prefs.AppPrefs
+import com.babaetskv.muspert.data.prefs.app.AppPrefs
 import mu.KotlinLogging
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -11,14 +11,16 @@ import java.io.IOException
  */
 private val logger = KotlinLogging.logger {}
 
-class ErrorResponseInterceptor : Interceptor {
+class ErrorResponseInterceptor(
+    private val appPrefs: AppPrefs
+) : Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val response = chain.proceed(chain.request())
         if (response.code >= BAD_REQUEST) logger.warn(response.toString())
         if (response.code == UNAUTHORIZED) {
-            AppPrefs.authToken = ""
+            appPrefs.authToken = ""
         }
         return response
     }

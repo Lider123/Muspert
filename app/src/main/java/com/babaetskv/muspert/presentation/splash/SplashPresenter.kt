@@ -4,7 +4,7 @@ import com.arellomobile.mvp.InjectViewState
 import com.babaetskv.muspert.data.ErrorHandler
 import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.models.User
-import com.babaetskv.muspert.data.prefs.AppPrefs
+import com.babaetskv.muspert.data.prefs.app.AppPrefs
 import com.babaetskv.muspert.data.repository.ProfileRepository
 import com.babaetskv.muspert.presentation.base.BasePresenter
 import com.babaetskv.muspert.ui.fragments.SplashFragmentDirections
@@ -17,9 +17,10 @@ class SplashPresenter : BasePresenter<SplashView>() {
     private val schedulersProvider: SchedulersProvider by inject()
     private val errorHandler: ErrorHandler by inject()
     private val notifier: Notifier by inject()
+    private val appPrefs: AppPrefs by inject()
 
     fun onDelay() {
-        if (AppPrefs.isAuthorized) {
+        if (appPrefs.isAuthorized) {
             loadProfile()
         } else navigator.replaceWith(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
     }

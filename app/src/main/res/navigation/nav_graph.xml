@@ -115,12 +115,12 @@
         tools:layout="@layout/fragment_player">
 
         <argument
-            android:name="trackId"
+            android:name="albumId"
             app:argType="long"
             app:defaultValue="-1"/>
 
         <argument
-            android:name="albumId"
+            android:name="trackId"
             app:argType="long"
             app:defaultValue="-1"/>
     </fragment>
