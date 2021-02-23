@@ -30,6 +30,8 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
     private var prevCallback: (() -> Unit)? = null
     private var playCallback: (() -> Unit)? = null
     private var nextCallback: (() -> Unit)? = null
+    private var shuffleCallback: (() -> Unit)? = null
+    private var repeatCallback: (() -> Unit)? = null
     private var progressListener: PlaybackControls.ProgressListener? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,6 +78,14 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
         prevCallback = callback
     }
 
+    override fun setShuffleCallback(callback: (() -> Unit)?) {
+        shuffleCallback = callback
+    }
+
+    override fun setRepeatCallback(callback: (() -> Unit)?) {
+        repeatCallback = callback
+    }
+
     override fun setProgress(progress: Int) {
         seekbar.progress = progress
         tvProgress.text = formatTime(progress.toLong() * 1000)
@@ -88,6 +98,14 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
     override fun setTitle(artistName: String, trackTitle: String) {
         tvTitle.text = trackTitle
         tvArtistName.text = artistName
+    }
+
+    override fun setShuffleEnabled(enabled: Boolean) {
+        btnShuffle.setImageResource(if (enabled) R.drawable.ic_shuffle_active else R.drawable.ic_shuffle_inactive)
+    }
+
+    override fun setRepeatEnabled(enabled: Boolean) {
+        btnRepeat.setImageResource(if (enabled) R.drawable.ic_repeat_active else R.drawable.ic_repeat_inactive)
     }
 
     override fun show() = Unit
@@ -108,6 +126,12 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
         }
         btnNext.setOnClickListener {
             nextCallback?.invoke()
+        }
+        btnShuffle.setOnClickListener {
+            shuffleCallback?.invoke()
+        }
+        btnRepeat.setOnClickListener {
+            repeatCallback?.invoke()
         }
         seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             private var shouldResumePlayback: Boolean = false

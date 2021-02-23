@@ -12,6 +12,10 @@ import com.babaetskv.muspert.data.network.HeaderInterceptorFactory
 import com.babaetskv.muspert.data.network.gateway.AuthGateway
 import com.babaetskv.muspert.data.network.gateway.AuthGatewayImpl
 import com.babaetskv.muspert.data.network.mappers.*
+import com.babaetskv.muspert.data.prefs.app.AppPrefsImpl
+import com.babaetskv.muspert.data.prefs.app.AppPrefs
+import com.babaetskv.muspert.data.prefs.player.PlayerPrefs
+import com.babaetskv.muspert.data.prefs.player.PlayerPrefsImpl
 import com.babaetskv.muspert.data.repository.CatalogRepository
 import com.babaetskv.muspert.data.repository.CatalogRepositoryImpl
 import com.babaetskv.muspert.data.repository.ProfileRepository
@@ -98,15 +102,15 @@ val retrofitModule = module {
     factory(named("AuthClient")) {
         OkHttpClient.Builder()
             .addInterceptor(getHttpLoggingInterceptor())
-            .addInterceptor(HeaderInterceptorFactory.createAuthInterceptor())
-            .addInterceptor(ErrorResponseInterceptor())
+            .addInterceptor(HeaderInterceptorFactory.createAuthInterceptor(get()))
+            .addInterceptor(ErrorResponseInterceptor(get()))
             .addNetworkInterceptor(StethoInterceptor())
             .build()
     }
     factory(named("CommonClient")) {
         OkHttpClient.Builder()
             .addInterceptor(getHttpLoggingInterceptor())
-            .addInterceptor(ErrorResponseInterceptor())
+            .addInterceptor(ErrorResponseInterceptor(get()))
             .addNetworkInterceptor(StethoInterceptor())
             .build()
     }
@@ -126,7 +130,12 @@ private val mapperModule = module {
 }
 
 private val gatewayModule = module {
-    factory<AuthGateway> { AuthGatewayImpl(get(), get()) }
+    factory<AuthGateway> { AuthGatewayImpl(get(), get(), get()) }
+}
+
+private val prefsModule = module {
+    single<AppPrefs> { AppPrefsImpl() }
+    single<PlayerPrefs> { PlayerPrefsImpl() }
 }
 
 val appModules = listOf(
@@ -135,5 +144,6 @@ val appModules = listOf(
     retrofitModule,
     apiModule,
     mapperModule,
-    gatewayModule
+    gatewayModule,
+    prefsModule
 )

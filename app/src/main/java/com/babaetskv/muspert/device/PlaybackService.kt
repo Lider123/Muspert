@@ -15,6 +15,7 @@ import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.models.PlaybackData
 import com.babaetskv.muspert.data.models.ProgressData
 import com.babaetskv.muspert.data.models.Track
+import com.babaetskv.muspert.data.prefs.player.PlayerPrefs
 import com.babaetskv.muspert.data.repository.CatalogRepository
 import com.babaetskv.muspert.device.mediaplayer.MediaPlayer
 import com.babaetskv.muspert.device.mediaplayer.MusicPlayer
@@ -22,12 +23,14 @@ import com.babaetskv.muspert.ui.MainActivity
 import com.squareup.picasso.Picasso
 import io.reactivex.subjects.BehaviorSubject
 import org.koin.android.ext.android.inject
+import timber.log.Timber
 import java.util.*
 
 class PlaybackService : BaseService() {
     private val catalogRepository: CatalogRepository by inject()
     private val schedulersProvider: SchedulersProvider by inject()
     private val notificationManager: NotificationManager by inject()
+    private val playerPrefs: PlayerPrefs by inject()
 
     private lateinit var player: MediaPlayer
     private var tracks: Deque<Track> = ArrayDeque()
@@ -53,6 +56,7 @@ class PlaybackService : BaseService() {
             Action.Start.id -> {
                 val albumId = intent.getLongExtra(EXTRA_ALBUM_ID, -1L)
                 val trackId = intent.getLongExtra(EXTRA_TRACK_ID, -1L)
+                Timber.d("ACTION start(albumId=$albumId, trackId=$trackId)")
                 if (albumId != -1L) {
                     stopCurrentTrack()
                     if (this.albumId != albumId) loadAlbum(albumId, trackId) else {
@@ -61,21 +65,44 @@ class PlaybackService : BaseService() {
                 }
             }
             Action.Prev.id -> {
+                Timber.d("ACTION prev()")
                 stopCurrentTrack()
                 playPrev()
             }
             Action.Next.id -> {
+                Timber.d("ACTION next()")
                 stopCurrentTrack()
                 playNext()
             }
             Action.Play.id -> {
+                Timber.d("ACTION play()")
                 togglePlaying()
-                setTrackSubject.onNext(PlaybackData(tracks.first, player.isPlaying))
+                setTrackSubject.onNext(PlaybackData(tracks.first, player.isPlaying, playerPrefs))
             }
             Action.Stop.id -> {
+                Timber.d("ACTION stop()")
                 stopCurrentTrack()
                 stopForeground(true)
                 stopSelf()
+            }
+            Action.Shuffle.id -> {
+                Timber.d("ACTION shuffle()")
+                playerPrefs.shuffleEnabled = !playerPrefs.shuffleEnabled
+                if (!playerPrefs.shuffleEnabled) {
+                    val currTrackId: Long? = tracks.firstOrNull()?.id
+                    if (currTrackId != null) {
+                        tracks = ArrayDeque(tracks.sortedBy { it.title })
+                        while (tracks.first.id != currTrackId) {
+                            tracks.removeFirst().also { tracks.addLast(it) }
+                        }
+                    }
+                }
+                setTrackSubject.onNext(PlaybackData(tracks.first, player.isPlaying, playerPrefs))
+            }
+            Action.Repeat.id -> {
+                Timber.d("ACTION repeat()")
+                playerPrefs.repeatEnabled = !playerPrefs.repeatEnabled
+                setTrackSubject.onNext(PlaybackData(tracks.first, player.isPlaying, playerPrefs))
             }
             Action.Progress(0f).id -> {
                 val progressPercent = intent.getFloatExtra(EXTRA_PROGRESS_PERCENT, -1F)
@@ -87,7 +114,7 @@ class PlaybackService : BaseService() {
 
     override fun onDestroy() {
         player.onDestroy()
-        setTrackSubject.onNext(PlaybackData(null, false))
+        setTrackSubject.onNext(PlaybackData(null, false, playerPrefs))
         albumId = -1
         trackId = -1
         instance = null
@@ -96,7 +123,7 @@ class PlaybackService : BaseService() {
 
     private fun stopCurrentTrack() {
         tracks.firstOrNull()?.let {
-            setTrackSubject.onNext(PlaybackData(it, false))
+            setTrackSubject.onNext(PlaybackData(it, false, playerPrefs))
         }
     }
 
@@ -107,7 +134,7 @@ class PlaybackService : BaseService() {
     private fun initPlayer() {
         player = MusicPlayer(this).apply {
             setOnCompleteListener {
-                playNext()
+                if (playerPrefs.repeatEnabled) playCurrent() else playNext()
             }
             setProgressListener {
                 setProgressSubject.onNext(it)
@@ -115,26 +142,41 @@ class PlaybackService : BaseService() {
         }
     }
 
+    private fun playCurrent() {
+        if (tracks.isEmpty()) return
+
+        val track = tracks.first()
+        player.setTrack(track, true)
+        trackId = track.id
+        setTrackSubject.onNext(PlaybackData(track, true, playerPrefs))
+    }
+
     private fun playNext() {
         if (tracks.isEmpty()) return
 
         val item = tracks.removeFirst()
+        if (playerPrefs.shuffleEnabled) {
+            tracks = ArrayDeque(tracks.shuffled())
+        }
         tracks.addLast(item)
-        val track = tracks.first()
-        player.setTrack(track, true)
-        trackId = track.id
-        setTrackSubject.onNext(PlaybackData(track, true))
+        val trackToPlay = tracks.first()
+        player.setTrack(trackToPlay, true)
+        trackId = trackToPlay.id
+        setTrackSubject.onNext(PlaybackData(trackToPlay, true, playerPrefs))
     }
 
     private fun playPrev() {
         if (tracks.isEmpty()) return
 
         val item = tracks.removeLast()
+        if (playerPrefs.shuffleEnabled) {
+            tracks = ArrayDeque(tracks.shuffled())
+        }
         tracks.addFirst(item)
         val track = tracks.first()
         player.setTrack(track, true)
         trackId = track.id
-        setTrackSubject.onNext(PlaybackData(track, true))
+        setTrackSubject.onNext(PlaybackData(track, true, playerPrefs))
     }
 
     private fun loadAlbum(albumId: Long, trackId: Long) {
@@ -163,7 +205,7 @@ class PlaybackService : BaseService() {
         this.tracks.firstOrNull()?.let {
             player.setTrack(it, true)
             trackId = it.id
-            setTrackSubject.onNext(PlaybackData(it, true))
+            setTrackSubject.onNext(PlaybackData(it, true, playerPrefs))
         }
     }
 
@@ -255,6 +297,8 @@ class PlaybackService : BaseService() {
         object Prev : Action("PlaybackService.action.prev")
         object Next : Action("PlaybackService.action.next")
         object Play : Action("PlaybackService.action.play")
+        object Shuffle : Action("PlaybackService.action.shuffle")
+        object Repeat : Action("PlaybackService.action.repeat")
         data class Progress(val progressPercent: Float) : Action("PlaybackService.action.progress")
     }
 
@@ -269,7 +313,12 @@ class PlaybackService : BaseService() {
 
         private var instance: PlaybackService? = null
 
-        val setTrackSubject = BehaviorSubject.createDefault(PlaybackData(null, false))
+        val setTrackSubject = BehaviorSubject.createDefault(PlaybackData(
+            null,
+            isPlaying = false,
+            shuffleEnabled = false,
+            repeatEnabled = false
+        ))
         val setProgressSubject = BehaviorSubject.createDefault(ProgressData(0, 0))
         val isPlaying: Boolean
             get() = instance?.player?.isPlaying ?: false

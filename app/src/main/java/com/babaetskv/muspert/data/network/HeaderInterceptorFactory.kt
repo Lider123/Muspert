@@ -1,6 +1,6 @@
 package com.babaetskv.muspert.data.network
 
-import com.babaetskv.muspert.data.prefs.AppPrefs
+import com.babaetskv.muspert.data.prefs.app.AppPrefs
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -12,14 +12,14 @@ object HeaderInterceptorFactory {
     private const val AUTHORIZATION = "Authorization"
     private const val TOKEN_TEMPLATE = "Token %s"
 
-    fun createAuthInterceptor(): Interceptor = object : Interceptor {
+    fun createAuthInterceptor(appPrefs: AppPrefs): Interceptor = object : Interceptor {
 
         override fun intercept(chain: Interceptor.Chain): Response {
             val request = chain.request()
             val requestBuilder = request.newBuilder()
             requestBuilder.removeHeader(AUTHORIZATION)
-            if (AppPrefs.isAuthorized) {
-                val authHeader = String.format(TOKEN_TEMPLATE, AppPrefs.authToken)
+            if (appPrefs.isAuthorized) {
+                val authHeader = String.format(TOKEN_TEMPLATE, appPrefs.authToken)
                 requestBuilder.addHeader(AUTHORIZATION, authHeader)
             }
             return chain.proceed(requestBuilder.build())

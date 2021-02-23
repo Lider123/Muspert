@@ -62,6 +62,8 @@ abstract class PlaybackFragment : BaseFragment() {
 
             setTitle(data.track.artistName, data.track.title)
             setIsPlaying(data.isPlaying)
+            setShuffleEnabled(data.shuffleEnabled)
+            setRepeatEnabled(data.repeatEnabled)
             setPlayCallback {
                 PlaybackService.sendAction(requireContext(), PlaybackService.Action.Play)
             }
@@ -70,6 +72,12 @@ abstract class PlaybackFragment : BaseFragment() {
             }
             setNextCallback {
                 PlaybackService.sendAction(requireContext(), PlaybackService.Action.Next)
+            }
+            setShuffleCallback {
+                PlaybackService.sendAction(requireContext(), PlaybackService.Action.Shuffle)
+            }
+            setRepeatCallback {
+                PlaybackService.sendAction(requireContext(), PlaybackService.Action.Repeat)
             }
             setProgressListener(object : PlaybackControls.ProgressListener {
 

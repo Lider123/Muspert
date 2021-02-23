@@ -51,12 +51,18 @@ class TracksPresenter(
     }
 
     fun onSelectTrack(track: Track) {
-        val action = TracksFragmentDirections.actionTracksFragmentToPlayerFragment(track.id, track.albumId)
+        val action = TracksFragmentDirections.actionTracksFragmentToPlayerFragment(
+            albumId = track.albumId,
+            trackId = track.id
+        )
         navigator.forward(action)
     }
 
     fun onPlaybackControlsClick() {
-        val action = TracksFragmentDirections.actionTracksFragmentToPlayerFragment(PlaybackService.albumId, PlaybackService.trackId)
+        val action = TracksFragmentDirections.actionTracksFragmentToPlayerFragment(
+            albumId = PlaybackService.albumId,
+            trackId = PlaybackService.trackId
+        )
         navigator.forward(action)
     }
 }
