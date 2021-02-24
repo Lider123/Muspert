@@ -1,8 +1,12 @@
 package com.babaetskv.muspert.ui.fragments
 
+import android.database.ContentObserver
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.media.AudioManager
 import android.os.Bundle
+import android.os.Handler
+import android.provider.Settings
 import android.view.View
 import android.widget.SeekBar
 import androidx.navigation.fragment.navArgs
@@ -16,10 +20,12 @@ import com.babaetskv.muspert.ui.base.PlaybackControls
 import com.babaetskv.muspert.ui.base.PlaybackFragment
 import com.babaetskv.muspert.utils.formatTime
 import kotlinx.android.synthetic.main.fragment_player.*
+import org.koin.android.ext.android.inject
 
 class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
     @InjectPresenter
     lateinit var presenter: PlayerPresenter
+    private val audioManager: AudioManager by inject()
 
     override val layoutResId: Int
         get() = R.layout.fragment_player
@@ -33,10 +39,28 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
     private var shuffleCallback: (() -> Unit)? = null
     private var repeatCallback: (() -> Unit)? = null
     private var progressListener: PlaybackControls.ProgressListener? = null
+    private val settingsContentObserver = object : ContentObserver(Handler()) {
+
+        override fun onChange(selfChange: Boolean) {
+            super.onChange(selfChange)
+            val currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+            presenter.onVolumeChange(currentVolume)
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireContext().contentResolver.registerContentObserver(Settings.System.CONTENT_URI, true, settingsContentObserver)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
+    }
+
+    override fun onDestroy() {
+        requireContext().contentResolver.unregisterContentObserver(settingsContentObserver)
+        super.onDestroy()
     }
 
     override fun startPlayer(albumId: Long, trackId: Long) {
@@ -58,7 +82,7 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
     }
 
     override fun setDuration(duration: Int) {
-        seekbar.max = duration
+        seekProgress.max = duration
         tvDuration.text = formatTime(duration.toLong() * 1000)
     }
 
@@ -87,7 +111,7 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
     }
 
     override fun setProgress(progress: Int) {
-        seekbar.progress = progress
+        seekProgress.progress = progress
         tvProgress.text = formatTime(progress.toLong() * 1000)
     }
 
@@ -114,6 +138,11 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
         progressListener = listener
     }
 
+    override fun populateVolume(max: Int, current: Int) {
+        seekVolume.max = max
+        seekVolume.progress = current
+    }
+
     private fun initListeners() {
         toolbar.setNavigationOnClickListener {
             onBackPressed()
@@ -133,7 +162,7 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
         btnRepeat.setOnClickListener {
             repeatCallback?.invoke()
         }
-        seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        seekProgress.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             private var shouldResumePlayback: Boolean = false
 
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) = Unit
@@ -150,8 +179,18 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
                 shouldResumePlayback = false
             }
         })
+        seekVolume.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                presenter.onVolumeChange(progress)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) = Unit
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) = Unit
+        })
     }
 
     @ProvidePresenter
-    fun providePresenter() = PlayerPresenter(args.albumId, args.trackId)
+    fun providePresenter() = PlayerPresenter(args.albumId, args.trackId, audioManager)
 }
