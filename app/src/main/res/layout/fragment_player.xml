@@ -9,10 +9,36 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?android:attr/actionBarSize"
         android:background="@android:color/transparent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_arrow_back_accent" />
+        app:navigationIcon="@drawable/ic_arrow_back_accent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/layout_baseline_default"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_volume_low" />
+
+            <SeekBar
+                android:id="@+id/seekVolume"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:max="10"
+                tools:progress="4"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_volume_high"/>
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgCover"
@@ -69,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_baseline_default"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/seekbar"
+            app:layout_constraintBottom_toTopOf="@id/seekProgress"
             tools:text="02:30"/>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -78,11 +104,11 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/layout_baseline_default"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/seekbar"
+            app:layout_constraintBottom_toTopOf="@id/seekProgress"
             tools:text="01:01:00"/>
 
         <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/seekbar"
+            android:id="@+id/seekProgress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
