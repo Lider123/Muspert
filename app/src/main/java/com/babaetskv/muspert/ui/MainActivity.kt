@@ -8,13 +8,13 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.SchedulersProvider
+import com.babaetskv.muspert.databinding.ActivityMainBinding
 import com.babaetskv.muspert.navigation.AppNavigator
 import com.babaetskv.muspert.utils.notifier.Notifier
 import com.babaetskv.muspert.utils.notifier.SystemMessage
 import com.babaetskv.muspert.utils.safeDispose
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
@@ -23,10 +23,12 @@ class MainActivity : AppCompatActivity() {
     private val navigator: AppNavigator by inject()
 
     private var notifierDisposable: Disposable? = null
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         navigator.controller = findNavController(R.id.navHostFragment)
         if (savedInstanceState == null) {
             val externalIntentProcessed = processExternalIntent(intent.getLongExtra(EXTRA_TRACK_ID, -1))
@@ -96,7 +98,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createSnackbar(text: String, level: SystemMessage.Level): Snackbar =
-        Snackbar.make(content, text, Snackbar.LENGTH_LONG).apply {
+        Snackbar.make(binding.content, text, Snackbar.LENGTH_LONG).apply {
 
             setActionTextColor(ContextCompat.getColor(this@MainActivity, R.color.colorAccent))
             val backgroundColor: Int

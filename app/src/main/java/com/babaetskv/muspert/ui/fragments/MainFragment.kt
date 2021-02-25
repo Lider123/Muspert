@@ -8,11 +8,11 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commitNow
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.babaetskv.muspert.R
+import com.babaetskv.muspert.databinding.FragmentMainBinding
 import com.babaetskv.muspert.presentation.main.MainPresenter
 import com.babaetskv.muspert.presentation.main.MainView
 import com.babaetskv.muspert.ui.base.PlaybackControls
 import com.babaetskv.muspert.ui.base.PlaybackFragment
-import kotlinx.android.synthetic.main.fragment_main.*
 import java.util.*
 
 class MainFragment : PlaybackFragment(), MainView {
@@ -20,14 +20,16 @@ class MainFragment : PlaybackFragment(), MainView {
     lateinit var presenter: MainPresenter
 
     private val tabFragments: MutableMap<MainTab, Fragment> = EnumMap(MainTab::class.java)
+    private lateinit var binding: FragmentMainBinding
 
     override val layoutResId: Int
         get() = R.layout.fragment_main
     override val playbackControls: PlaybackControls
-        get() = viewPlaybackControls
+        get() = binding.viewPlaybackControls
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = FragmentMainBinding.bind(view)
         initListeners()
         initTabs()
         initBottomNavigation()
@@ -42,7 +44,7 @@ class MainFragment : PlaybackFragment(), MainView {
     }
 
     private fun initListeners() {
-        viewPlaybackControls.setOnClickListener {
+        binding.viewPlaybackControls.setOnClickListener {
             presenter.onPlaybackControlsClick()
         }
     }
@@ -76,7 +78,7 @@ class MainFragment : PlaybackFragment(), MainView {
         }
 
     private fun initBottomNavigation() {
-        bottomNavigationView.setOnNavigationItemSelectedListener {
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener {
             presenter.onBottomNavigate(it)
             true
         }

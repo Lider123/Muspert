@@ -9,6 +9,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.models.Album
 import com.babaetskv.muspert.data.models.Genre
+import com.babaetskv.muspert.databinding.FragmentCatalogBinding
 import com.babaetskv.muspert.presentation.catalog.CatalogPresenter
 import com.babaetskv.muspert.presentation.catalog.CatalogView
 import com.babaetskv.muspert.ui.EmptyDividerDecoration
@@ -22,7 +23,6 @@ import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IAdapter
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.adapters.ItemAdapter
-import kotlinx.android.synthetic.main.fragment_catalog.*
 
 class CatalogFragment : BaseFragment(), CatalogView {
     @InjectPresenter
@@ -32,6 +32,7 @@ class CatalogFragment : BaseFragment(), CatalogView {
     private lateinit var albumsItemAdapter: ItemAdapter<IItem<*>>
     private lateinit var genresAdapter: FastAdapter<IItem<*>>
     private lateinit var genresItemAdapter: ItemAdapter<IItem<*>>
+    private lateinit var binding: FragmentCatalogBinding
 
     override val layoutResId: Int
         get() = R.layout.fragment_catalog
@@ -43,24 +44,25 @@ class CatalogFragment : BaseFragment(), CatalogView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = FragmentCatalogBinding.bind(view)
         initRecyclerViews()
         initListeners()
     }
 
     override fun showProgress() {
-        progress.setVisible()
+        binding.progress.setVisible()
     }
 
     override fun hideProgress() {
-        progress.setGone()
+        binding.progress.setGone()
     }
 
     override fun populateAlbums(albums: List<Album>) {
         if (albums.isEmpty()) {
-            recyclerAlbums.setGone()
+            binding.recyclerAlbums.setGone()
             showAlbumsEmptyView(true)
         } else {
-            recyclerAlbums.setVisible()
+            binding.recyclerAlbums.setVisible()
             showAlbumsEmptyView(false)
             albumsItemAdapter.setNewList(albums.map { AlbumSmallItem(it) })
         }
@@ -68,17 +70,17 @@ class CatalogFragment : BaseFragment(), CatalogView {
 
     override fun populateGenres(genres: List<Genre>) {
         if (genres.isEmpty()) {
-            recyclerGenres.setGone()
+            binding.recyclerGenres.setGone()
             showGenresEmptyView(true)
         } else {
-            recyclerGenres.setVisible()
+            binding.recyclerGenres.setVisible()
             showGenresEmptyView(false)
             genresItemAdapter.setNewList(genres.map { GenreSmallItem(it) })
         }
     }
 
     override fun showAlbumsErrorView(show: Boolean) {
-        with (emptyViewAlbums) {
+        with (binding.emptyViewAlbums) {
             if (show) {
                 setIcon(R.drawable.ic_error)
                 setMessage(R.string.error_albums_message)
@@ -93,7 +95,7 @@ class CatalogFragment : BaseFragment(), CatalogView {
     }
 
     override fun showGenresErrorView(show: Boolean) {
-        with (emptyViewGenres) {
+        with (binding.emptyViewGenres) {
             if (show) {
                 setIcon(R.drawable.ic_error)
                 setMessage(R.string.error_genres_message)
@@ -108,7 +110,7 @@ class CatalogFragment : BaseFragment(), CatalogView {
     }
 
     private fun showAlbumsEmptyView(show: Boolean) {
-        with (emptyViewAlbums) {
+        with (binding.emptyViewAlbums) {
             if (show) {
                 setIcon(R.drawable.ic_empty_list)
                 setMessage(R.string.empty_album_list_message)
@@ -123,7 +125,7 @@ class CatalogFragment : BaseFragment(), CatalogView {
     }
 
     private fun showGenresEmptyView(show: Boolean) {
-        with (emptyViewGenres) {
+        with (binding.emptyViewGenres) {
             if (show) {
                 setIcon(R.drawable.ic_empty_list)
                 setMessage(R.string.empty_genre_list_message)
@@ -173,13 +175,13 @@ class CatalogFragment : BaseFragment(), CatalogView {
     }
 
     private fun initRecyclerViews() {
-        recyclerAlbums.apply {
+        binding.recyclerAlbums.apply {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
             adapter = albumsAdapter
             itemAnimator = null
             addItemDecoration(EmptyDividerDecoration(requireContext(), R.dimen.layout_baseline_default))
         }
-        recyclerGenres.apply {
+        binding.recyclerGenres.apply {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
             adapter = genresAdapter
             itemAnimator = null
@@ -188,10 +190,10 @@ class CatalogFragment : BaseFragment(), CatalogView {
     }
 
     private fun initListeners() {
-        tvAlbums.setOnClickListener {
+        binding.tvAlbums.setOnClickListener {
             presenter.onAlbumsClick()
         }
-        tvGenres.setOnClickListener {
+        binding.tvGenres.setOnClickListener {
             presenter.onGenresClick()
         }
     }

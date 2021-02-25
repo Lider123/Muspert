@@ -13,6 +13,7 @@ import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.models.Album
 import com.babaetskv.muspert.data.models.PlaybackData
 import com.babaetskv.muspert.data.models.Track
+import com.babaetskv.muspert.databinding.FragmentTracksBinding
 import com.babaetskv.muspert.device.PlaybackService
 import com.babaetskv.muspert.presentation.tracks.TracksPresenter
 import com.babaetskv.muspert.presentation.tracks.TracksView
@@ -28,7 +29,6 @@ import com.mikepenz.fastadapter.IAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.listeners.ClickEventHook
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_tracks.*
 
 class TracksFragment : PlaybackFragment(), TracksView {
     @InjectPresenter
@@ -37,11 +37,12 @@ class TracksFragment : PlaybackFragment(), TracksView {
     private val args: TracksFragmentArgs by navArgs()
     private lateinit var adapter: FastAdapter<TrackItem>
     private lateinit var itemAdapter: ItemAdapter<TrackItem>
+    private lateinit var binding: FragmentTracksBinding
 
     override val layoutResId: Int
         get() = R.layout.fragment_tracks
     override val playbackControls: PlaybackControls
-        get() = viewPlaybackControls
+        get() = binding.viewPlaybackControls
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +51,7 @@ class TracksFragment : PlaybackFragment(), TracksView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = FragmentTracksBinding.bind(view)
         initRecyclerView()
         initListeners()
     }
@@ -68,26 +70,26 @@ class TracksFragment : PlaybackFragment(), TracksView {
 
     override fun populateAlbum(album: Album) {
         view?.post {
-            toolbar.title = album.title
+            binding.toolbar.title = album.title
             Picasso.with(requireContext())
                 .load(BuildConfig.API_URL + album.cover)
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder)
                 .resize(0, 600)
-                .into(imgBackdrop)
+                .into(binding.imgBackdrop)
         }
     }
 
     override fun showProgress() {
-        progress.setVisible()
+        binding.progress.setVisible()
     }
 
     override fun hideProgress() {
-        progress.setGone()
+        binding.progress.setGone()
     }
 
     override fun showErrorView(show: Boolean) {
-        with (emptyViewTracks) {
+        with (binding.emptyViewTracks) {
             if (show) {
                 setBanner(R.drawable.ic_error)
                 setTitle(R.string.empty_track_list_title)
@@ -113,7 +115,7 @@ class TracksFragment : PlaybackFragment(), TracksView {
     }
 
     private fun showEmptyView(show: Boolean) {
-        with (emptyViewTracks) {
+        with (binding.emptyViewTracks) {
             if (show) {
                 setBanner(R.drawable.ic_empty_list)
                 setTitle(R.string.empty_track_list_title)
@@ -130,7 +132,7 @@ class TracksFragment : PlaybackFragment(), TracksView {
     }
 
     private fun initRecyclerView() {
-        recyclerTracks.apply {
+        binding.recyclerTracks.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = this@TracksFragment.adapter
             itemAnimator = null
@@ -157,7 +159,7 @@ class TracksFragment : PlaybackFragment(), TracksView {
             addEventHook(object : ClickEventHook<TrackItem>() {
 
                 override fun onBind(viewHolder: RecyclerView.ViewHolder): View? =
-                    (viewHolder as? TrackItem.ViewHolder)?.buttonPlayPause
+                    if (viewHolder is TrackItem.ViewHolder) viewHolder.btnPlay else null
 
                 override fun onClick(
                     v: View,
@@ -176,10 +178,10 @@ class TracksFragment : PlaybackFragment(), TracksView {
     }
 
     private fun initListeners() {
-        toolbar.setNavigationOnClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
-        viewPlaybackControls.setOnClickListener {
+        binding.viewPlaybackControls.setOnClickListener {
             presenter.onPlaybackControlsClick()
         }
     }

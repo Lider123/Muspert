@@ -12,6 +12,7 @@ import com.babaetskv.muspert.BuildConfig
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.models.User
+import com.babaetskv.muspert.databinding.FragmentProfileBinding
 import com.babaetskv.muspert.presentation.profile.ProfilePresenter
 import com.babaetskv.muspert.presentation.profile.ProfileView
 import com.babaetskv.muspert.ui.base.BaseFragment
@@ -32,7 +33,6 @@ import com.miguelbcr.ui.rx_paparazzo2.entities.Response
 import com.squareup.picasso.Picasso
 import com.yalantis.ucrop.UCrop
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.fragment_profile.*
 import org.koin.android.ext.android.inject
 
 /**
@@ -45,6 +45,7 @@ class ProfileFragment : BaseFragment(),
     private val notifier: Notifier by inject()
     private val schedulersProvider: SchedulersProvider by inject()
 
+    private lateinit var binding: FragmentProfileBinding
     private val cropOptions: UCrop.Options
         get() = UCrop.Options().apply {
             val primaryColor = ContextCompat.getColor(requireContext(), R.color.colorBackground)
@@ -69,34 +70,35 @@ class ProfileFragment : BaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = FragmentProfileBinding.bind(view)
         initListeners()
     }
 
     override fun populateData(data: User) {
-        usernameTextView.text = getString(R.string.username_placeholder, data.firstName, data.lastName)
-        nicknameTextView.text = data.nickname
+        binding.usernameTextView.text = getString(R.string.username_placeholder, data.firstName, data.lastName)
+        binding.nicknameTextView.text = data.nickname
         data.avatar?.let {
             Picasso.with(requireContext())
                 .load(BuildConfig.API_URL + it)
                 .resize(0, 400)
                 .placeholder(R.drawable.ic_avatar_placeholder)
                 .error(R.drawable.ic_avatar_placeholder)
-                .into(avatarImageView)
+                .into(binding.avatarImageView)
         } ?: run {
-            avatarImageView.setImageResource(R.drawable.ic_avatar_placeholder)
+            binding.avatarImageView.setImageResource(R.drawable.ic_avatar_placeholder)
         }
     }
 
     override fun showProgress() {
-        progress.setVisible()
+        binding.progress.setVisible()
     }
 
     override fun hideProgress() {
-        progress.setGone()
+        binding.progress.setGone()
     }
 
     private fun initListeners() {
-        btnLogout.setOnClickListener {
+        binding.btnLogout.setOnClickListener {
             TwoChoiceDialogParams(
                 schema = TwoChoiceDialogParams.Schema.ACCENT_RIGHT,
                 message = getString(R.string.logout_message),
@@ -113,7 +115,7 @@ class ProfileFragment : BaseFragment(),
                 requireContext().showDialog(it)
             }
         }
-        avatarImageView.setOnClickListener {
+        binding.avatarImageView.setOnClickListener {
             TwoChoiceDialogParams(
                 schema = TwoChoiceDialogParams.Schema.ACCENT_BOTH,
                 message = getString(R.string.edit_avatar),
