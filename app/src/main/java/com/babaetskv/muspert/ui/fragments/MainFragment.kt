@@ -53,13 +53,17 @@ class MainFragment : PlaybackFragment(), MainView {
         tabFragments.clear()
         tabFragments.putAll(
             mapOf(
-                MainTab.CATALOG to childFragmentManager.getFragmentByTag(
-                    MainTab.CATALOG,
-                    CatalogFragment()
+                MainTab.HOME to childFragmentManager.getFragmentByTag(
+                    MainTab.HOME,
+                    HomeFragment()
                 ),
-                MainTab.FEED to childFragmentManager.getFragmentByTag(
-                    MainTab.FEED,
-                    FeedFragment()
+                MainTab.SEARCH to childFragmentManager.getFragmentByTag(
+                    MainTab.SEARCH,
+                    SearchFragment()
+                ),
+                MainTab.LIBRARY to childFragmentManager.getFragmentByTag(
+                    MainTab.LIBRARY,
+                    LibraryFragment()
                 ),
                 MainTab.PROFILE to childFragmentManager.getFragmentByTag(
                     MainTab.PROFILE,
@@ -82,12 +86,13 @@ class MainFragment : PlaybackFragment(), MainView {
             presenter.onBottomNavigate(it)
             true
         }
-        openTab(MainTab.CATALOG.id)
+        openTab(MainTab.HOME.id)
     }
 
     private enum class MainTab(@IdRes val id: Int) {
-        CATALOG(R.id.catalog),
-        FEED(R.id.feed),
+        HOME(R.id.home),
+        SEARCH(R.id.search),
+        LIBRARY(R.id.library),
         PROFILE(R.id.profile)
     }
 }

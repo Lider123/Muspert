@@ -9,7 +9,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.models.Album
 import com.babaetskv.muspert.data.models.Genre
-import com.babaetskv.muspert.databinding.FragmentCatalogBinding
+import com.babaetskv.muspert.databinding.FragmentHomeBinding
 import com.babaetskv.muspert.presentation.catalog.CatalogPresenter
 import com.babaetskv.muspert.presentation.catalog.CatalogView
 import com.babaetskv.muspert.ui.EmptyDividerDecoration
@@ -25,7 +25,7 @@ import com.mikepenz.fastadapter.IAdapter
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 
-class CatalogFragment : BaseFragment(), CatalogView {
+class HomeFragment : BaseFragment(), CatalogView {
     @InjectPresenter
     lateinit var presenter: CatalogPresenter
 
@@ -33,10 +33,10 @@ class CatalogFragment : BaseFragment(), CatalogView {
     private lateinit var albumsItemAdapter: ItemAdapter<IItem<*>>
     private lateinit var genresAdapter: FastAdapter<IItem<*>>
     private lateinit var genresItemAdapter: ItemAdapter<IItem<*>>
-    private val binding: FragmentCatalogBinding by viewBinding()
+    private val binding: FragmentHomeBinding by viewBinding()
 
     override val layoutResId: Int
-        get() = R.layout.fragment_catalog
+        get() = R.layout.fragment_home
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

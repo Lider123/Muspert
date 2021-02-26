@@ -5,8 +5,9 @@
     <string name="in_development">Функция в разработке</string>
 
     <!-- Tab names -->
-    <string name="catalog">Каталог</string>
-    <string name="feed">Лента</string>
+    <string name="home">Категории</string>
+    <string name="search">Поиск</string>
+    <string name="library">Хранилище</string>
     <string name="profile">Профиль</string>
 
     <!-- Button titles -->
