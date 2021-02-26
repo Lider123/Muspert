@@ -23,6 +23,7 @@ import com.babaetskv.muspert.ui.base.PlaybackControls
 import com.babaetskv.muspert.ui.base.PlaybackFragment
 import com.babaetskv.muspert.utils.setGone
 import com.babaetskv.muspert.utils.setVisible
+import com.babaetskv.muspert.utils.viewBinding
 import com.mikepenz.fastadapter.ClickListener
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IAdapter
@@ -37,7 +38,7 @@ class TracksFragment : PlaybackFragment(), TracksView {
     private val args: TracksFragmentArgs by navArgs()
     private lateinit var adapter: FastAdapter<TrackItem>
     private lateinit var itemAdapter: ItemAdapter<TrackItem>
-    private lateinit var binding: FragmentTracksBinding
+    private val binding: FragmentTracksBinding by viewBinding()
 
     override val layoutResId: Int
         get() = R.layout.fragment_tracks
@@ -51,7 +52,6 @@ class TracksFragment : PlaybackFragment(), TracksView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentTracksBinding.bind(view)
         initRecyclerView()
         initListeners()
     }

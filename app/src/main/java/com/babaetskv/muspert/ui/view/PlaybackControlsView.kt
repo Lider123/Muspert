@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -13,6 +12,7 @@ import com.babaetskv.muspert.databinding.ViewPlaybackControlsBinding
 import com.babaetskv.muspert.ui.base.PlaybackControls
 import com.babaetskv.muspert.utils.setGone
 import com.babaetskv.muspert.utils.setVisible
+import com.babaetskv.muspert.utils.viewBinding
 
 class PlaybackControlsView @JvmOverloads constructor(
     context: Context,
@@ -22,8 +22,7 @@ class PlaybackControlsView @JvmOverloads constructor(
     private var prevCallback: (() -> Unit)? = null
     private var playCallback: (() -> Unit)? = null
     private var nextCallback: (() -> Unit)? = null
-    private val binding: ViewPlaybackControlsBinding =
-        ViewPlaybackControlsBinding.inflate(LayoutInflater.from(context), this, true)
+    private val binding: ViewPlaybackControlsBinding by viewBinding()
 
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.PlaybackControlsView)

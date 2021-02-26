@@ -20,6 +20,7 @@ import com.babaetskv.muspert.presentation.player.PlayerView
 import com.babaetskv.muspert.ui.base.PlaybackControls
 import com.babaetskv.muspert.ui.base.PlaybackFragment
 import com.babaetskv.muspert.utils.formatTime
+import com.babaetskv.muspert.utils.viewBinding
 import org.koin.android.ext.android.inject
 
 class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
@@ -42,7 +43,7 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
             presenter.onVolumeChange(currentVolume)
         }
     }
-    private lateinit var binding: FragmentPlayerBinding
+    private val binding: FragmentPlayerBinding by viewBinding()
 
     override val layoutResId: Int
         get() = R.layout.fragment_player
@@ -56,7 +57,6 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentPlayerBinding.bind(view)
         initListeners()
     }
 

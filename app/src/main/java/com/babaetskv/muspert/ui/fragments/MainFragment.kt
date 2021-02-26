@@ -13,6 +13,7 @@ import com.babaetskv.muspert.presentation.main.MainPresenter
 import com.babaetskv.muspert.presentation.main.MainView
 import com.babaetskv.muspert.ui.base.PlaybackControls
 import com.babaetskv.muspert.ui.base.PlaybackFragment
+import com.babaetskv.muspert.utils.viewBinding
 import java.util.*
 
 class MainFragment : PlaybackFragment(), MainView {
@@ -20,7 +21,7 @@ class MainFragment : PlaybackFragment(), MainView {
     lateinit var presenter: MainPresenter
 
     private val tabFragments: MutableMap<MainTab, Fragment> = EnumMap(MainTab::class.java)
-    private lateinit var binding: FragmentMainBinding
+    private val binding: FragmentMainBinding by viewBinding()
 
     override val layoutResId: Int
         get() = R.layout.fragment_main
@@ -29,7 +30,6 @@ class MainFragment : PlaybackFragment(), MainView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentMainBinding.bind(view)
         initListeners()
         initTabs()
         initBottomNavigation()

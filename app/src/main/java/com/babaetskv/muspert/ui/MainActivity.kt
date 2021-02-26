@@ -13,6 +13,7 @@ import com.babaetskv.muspert.navigation.AppNavigator
 import com.babaetskv.muspert.utils.notifier.Notifier
 import com.babaetskv.muspert.utils.notifier.SystemMessage
 import com.babaetskv.muspert.utils.safeDispose
+import com.babaetskv.muspert.utils.viewBinding
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.Disposable
 import org.koin.android.ext.android.inject
@@ -23,11 +24,10 @@ class MainActivity : AppCompatActivity() {
     private val navigator: AppNavigator by inject()
 
     private var notifierDisposable: Disposable? = null
-    private lateinit var binding: ActivityMainBinding
+    private val binding: ActivityMainBinding by viewBinding()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         navigator.controller = findNavController(R.id.navHostFragment)
         if (savedInstanceState == null) {

@@ -11,24 +11,20 @@ import com.babaetskv.muspert.databinding.FragmentSignUpBinding
 import com.babaetskv.muspert.presentation.signup.SignUpPresenter
 import com.babaetskv.muspert.presentation.signup.SignUpView
 import com.babaetskv.muspert.ui.base.BaseFragment
-import com.babaetskv.muspert.utils.doOnTextChanged
-import com.babaetskv.muspert.utils.setGone
-import com.babaetskv.muspert.utils.setInvisible
-import com.babaetskv.muspert.utils.setVisible
+import com.babaetskv.muspert.utils.*
 
 class SignUpFragment : BaseFragment(), SignUpView {
     @InjectPresenter
     lateinit var presenter: SignUpPresenter
 
     private val args: SignUpFragmentArgs by navArgs()
-    private lateinit var binding: FragmentSignUpBinding
+    private val binding: FragmentSignUpBinding by viewBinding()
 
     override val layoutResId: Int
         get() = R.layout.fragment_sign_up
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentSignUpBinding.bind(view)
         initListeners()
     }
 

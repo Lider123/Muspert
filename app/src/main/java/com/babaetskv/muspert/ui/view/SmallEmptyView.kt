@@ -3,7 +3,6 @@ package com.babaetskv.muspert.ui.view
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
@@ -13,6 +12,7 @@ import com.babaetskv.muspert.R
 import com.babaetskv.muspert.databinding.ViewEmptySmallBinding
 import com.babaetskv.muspert.utils.setGone
 import com.babaetskv.muspert.utils.setVisible
+import com.babaetskv.muspert.utils.viewBinding
 
 class SmallEmptyView @JvmOverloads constructor(
     context: Context,
@@ -21,8 +21,7 @@ class SmallEmptyView @JvmOverloads constructor(
     defStyleRef: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRef) {
     private var actionCallback: (() -> Unit)? = null
-    private val binding: ViewEmptySmallBinding =
-        ViewEmptySmallBinding.inflate(LayoutInflater.from(context), this, true)
+    private val binding: ViewEmptySmallBinding by viewBinding()
 
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.SmallEmptyView)

@@ -27,7 +27,7 @@ class LoginFragment : BaseFragment(), LoginView, PhoneAuthProvider.OnSendSmsList
 
     private var authBuilder: AuthBuilder? = null
     private var smsAutoFilled = false
-    private lateinit var binding: FragmentLoginBinding
+    private val binding: FragmentLoginBinding by viewBinding()
 
     override val layoutResId: Int
         get() = R.layout.fragment_login
@@ -44,7 +44,6 @@ class LoginFragment : BaseFragment(), LoginView, PhoneAuthProvider.OnSendSmsList
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentLoginBinding.bind(view)
         initListeners()
         binding.countryCodePicker.registerCarrierNumberEditText(binding.etPhone)
         setMode(LoginView.Mode.LOGIN)
@@ -97,7 +96,7 @@ class LoginFragment : BaseFragment(), LoginView, PhoneAuthProvider.OnSendSmsList
                 binding.layoutLogin.setGone()
                 binding.layoutSms.setVisible()
                 Handler().postDelayed({
-                    with (etSmsCode) {
+                    with (binding.etSmsCode) {
                         if (text.isNullOrEmpty()) {
                             requestFocus()
                             showKeyboard()
@@ -110,7 +109,7 @@ class LoginFragment : BaseFragment(), LoginView, PhoneAuthProvider.OnSendSmsList
 
     override fun authPhone() {
         val phone = binding.countryCodePicker.fullNumberWithPlus
-        tvCurrPhone.text = getString(R.string.current_phone_placeholder, phone)
+        binding.tvCurrPhone.text = getString(R.string.current_phone_placeholder, phone)
         val params = HashMap<String, Any>()
         params[PhoneAuthProvider.PARAM_PHONE] = phone
         params[PhoneAuthProvider.PARAM_RECEIVE_SMS_CALLBACK] = this

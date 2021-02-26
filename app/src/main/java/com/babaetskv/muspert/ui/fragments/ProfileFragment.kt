@@ -21,6 +21,7 @@ import com.babaetskv.muspert.utils.dialog.showDialog
 import com.babaetskv.muspert.utils.notifier.Notifier
 import com.babaetskv.muspert.utils.setGone
 import com.babaetskv.muspert.utils.setVisible
+import com.babaetskv.muspert.utils.viewBinding
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
@@ -45,7 +46,7 @@ class ProfileFragment : BaseFragment(),
     private val notifier: Notifier by inject()
     private val schedulersProvider: SchedulersProvider by inject()
 
-    private lateinit var binding: FragmentProfileBinding
+    private val binding: FragmentProfileBinding by viewBinding()
     private val cropOptions: UCrop.Options
         get() = UCrop.Options().apply {
             val primaryColor = ContextCompat.getColor(requireContext(), R.color.colorBackground)
@@ -70,7 +71,6 @@ class ProfileFragment : BaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentProfileBinding.bind(view)
         initListeners()
     }
 

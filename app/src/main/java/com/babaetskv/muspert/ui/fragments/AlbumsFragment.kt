@@ -17,6 +17,7 @@ import com.babaetskv.muspert.ui.base.PlaybackFragment
 import com.babaetskv.muspert.ui.item.AlbumItem
 import com.babaetskv.muspert.utils.setGone
 import com.babaetskv.muspert.utils.setVisible
+import com.babaetskv.muspert.utils.viewBinding
 import com.mikepenz.fastadapter.ClickListener
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IAdapter
@@ -31,7 +32,7 @@ class AlbumsFragment : PlaybackFragment(), AlbumsView {
 
     private lateinit var adapter: FastAdapter<AlbumItem>
     private lateinit var itemAdapter: ItemAdapter<AlbumItem>
-    private lateinit var binding: FragmentAlbumsBinding
+    private val binding: FragmentAlbumsBinding by viewBinding()
 
     override val layoutResId: Int
         get() = R.layout.fragment_albums
@@ -45,7 +46,6 @@ class AlbumsFragment : PlaybackFragment(), AlbumsView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentAlbumsBinding.bind(view)
         initRecyclerView()
         initListeners()
     }

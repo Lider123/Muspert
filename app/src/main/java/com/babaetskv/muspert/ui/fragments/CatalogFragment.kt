@@ -18,6 +18,7 @@ import com.babaetskv.muspert.ui.item.AlbumSmallItem
 import com.babaetskv.muspert.ui.item.GenreSmallItem
 import com.babaetskv.muspert.utils.setGone
 import com.babaetskv.muspert.utils.setVisible
+import com.babaetskv.muspert.utils.viewBinding
 import com.mikepenz.fastadapter.ClickListener
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IAdapter
@@ -32,7 +33,7 @@ class CatalogFragment : BaseFragment(), CatalogView {
     private lateinit var albumsItemAdapter: ItemAdapter<IItem<*>>
     private lateinit var genresAdapter: FastAdapter<IItem<*>>
     private lateinit var genresItemAdapter: ItemAdapter<IItem<*>>
-    private lateinit var binding: FragmentCatalogBinding
+    private val binding: FragmentCatalogBinding by viewBinding()
 
     override val layoutResId: Int
         get() = R.layout.fragment_catalog
@@ -44,7 +45,6 @@ class CatalogFragment : BaseFragment(), CatalogView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentCatalogBinding.bind(view)
         initRecyclerViews()
         initListeners()
     }
