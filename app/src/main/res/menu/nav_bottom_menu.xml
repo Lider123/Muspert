@@ -5,23 +5,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:ignore="AlwaysShowAction">
 
-    <item android:id="@+id/catalog"
-        android:title="@string/catalog"
+    <item android:id="@+id/home"
+        android:title="@string/home"
         app:showAsAction="always"
         android:orderInCategory="1"
-        android:icon="@drawable/ic_catalog"/>
+        android:icon="@drawable/ic_home"/>
 
-    <item android:id="@+id/feed"
-        android:title="@string/feed"
+    <item android:id="@+id/search"
+        android:title="@string/search"
         app:showAsAction="always"
         android:orderInCategory="2"
-        android:icon="@drawable/ic_feed"/>
+        android:icon="@drawable/ic_search"/>
 
+    <item android:id="@+id/library"
+        android:title="@string/library"
+        app:showAsAction="always"
+        android:orderInCategory="2"
+        android:icon="@drawable/ic_library" />
 
     <item android:id="@+id/profile"
         android:title="@string/profile"
         app:showAsAction="always"
         android:orderInCategory="2"
         android:icon="@drawable/ic_profile" />
-
 </menu>

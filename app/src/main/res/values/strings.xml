@@ -5,8 +5,9 @@
     <string name="in_development">Feature is in development</string>
 
     <!-- Tab names -->
-    <string name="catalog">Catalog</string>
-    <string name="feed">Feed</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="library">Library</string>
     <string name="profile">Profile</string>
 
     <!-- Button titles -->
