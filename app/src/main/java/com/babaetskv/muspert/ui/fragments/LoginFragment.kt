@@ -2,6 +2,7 @@ package com.babaetskv.muspert.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -11,7 +12,6 @@ import com.babaetskv.muspert.auth.PhoneAuthProvider
 import com.babaetskv.muspert.presentation.login.LoginPresenter
 import com.babaetskv.muspert.presentation.login.LoginView
 import com.babaetskv.muspert.ui.base.BaseFragment
-import com.babaetskv.muspert.ui.base.PlaybackControls
 import com.babaetskv.muspert.utils.*
 import com.babaetskv.muspert.utils.notifier.Notifier
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -46,26 +46,22 @@ class LoginFragment : BaseFragment(), LoginView, PhoneAuthProvider.OnSendSmsList
         initListeners()
         countryCodePicker.registerCarrierNumberEditText(etPhone)
         setMode(LoginView.Mode.LOGIN)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        with (etPhone) {
-            if (text.isNullOrEmpty()) {
-                requestFocus()
-                showKeyboard()
+        Handler().postDelayed({
+            with (etPhone) {
+                if (text.isNullOrEmpty()) {
+                    requestFocus()
+                    showKeyboard()
+                }
             }
-        }
+        }, 500L)
     }
 
     override fun showAuthProgress() {
         progressAuth.setVisible()
-        loginButton.setInvisible()
     }
 
     override fun hideAuthProgress() {
         progressAuth.setGone()
-        loginButton.setVisible()
     }
 
     override fun showVerificationProgress() {
@@ -98,13 +94,23 @@ class LoginFragment : BaseFragment(), LoginView, PhoneAuthProvider.OnSendSmsList
             LoginView.Mode.SMS -> {
                 layoutLogin.setGone()
                 layoutSms.setVisible()
+                Handler().postDelayed({
+                    with (etSmsCode) {
+                        if (text.isNullOrEmpty()) {
+                            requestFocus()
+                            showKeyboard()
+                        }
+                    }
+                }, 500L)
             }
         }
     }
 
     override fun authPhone() {
+        val phone = countryCodePicker.fullNumberWithPlus
+        tvCurrPhone.text = getString(R.string.current_phone_placeholder, phone)
         val params = HashMap<String, Any>()
-        params[PhoneAuthProvider.PARAM_PHONE] = countryCodePicker.fullNumberWithPlus
+        params[PhoneAuthProvider.PARAM_PHONE] = phone
         params[PhoneAuthProvider.PARAM_RECEIVE_SMS_CALLBACK] = this
         authBuilder?.loginPhone(params)
     }
