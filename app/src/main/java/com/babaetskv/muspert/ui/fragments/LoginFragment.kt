@@ -46,10 +46,6 @@ class LoginFragment : BaseFragment(), LoginView, PhoneAuthProvider.OnSendSmsList
         initListeners()
         countryCodePicker.registerCarrierNumberEditText(etPhone)
         setMode(LoginView.Mode.LOGIN)
-    }
-
-    override fun onResume() {
-        super.onResume()
         Handler().postDelayed({
             with (etPhone) {
                 if (text.isNullOrEmpty()) {
@@ -98,6 +94,14 @@ class LoginFragment : BaseFragment(), LoginView, PhoneAuthProvider.OnSendSmsList
             LoginView.Mode.SMS -> {
                 layoutLogin.setGone()
                 layoutSms.setVisible()
+                Handler().postDelayed({
+                    with (etSmsCode) {
+                        if (text.isNullOrEmpty()) {
+                            requestFocus()
+                            showKeyboard()
+                        }
+                    }
+                }, 500L)
             }
         }
     }
