@@ -1,11 +1,10 @@
 package com.babaetskv.muspert.ui.item
 
 import android.view.View
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.appcompat.widget.AppCompatTextView
 import com.babaetskv.muspert.BuildConfig
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.models.Album
+import com.babaetskv.muspert.databinding.ItemAlbumBinding
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 import com.squareup.picasso.Picasso
@@ -19,10 +18,8 @@ class AlbumItem(val album: Album?) : AbstractItem<AlbumItem.ViewHolder>() {
 
     override fun getViewHolder(v: View): ViewHolder = ViewHolder(v)
 
-    inner class ViewHolder(view: View) : FastAdapter.ViewHolder<AlbumItem>(view) {
-        private val imgCover: AppCompatImageView = view.findViewById(R.id.imgCover)
-        private val tvTitle: AppCompatTextView = view.findViewById(R.id.tvTitle)
-        private val tvArtistName: AppCompatTextView = view.findViewById(R.id.tvArtistName)
+    class ViewHolder(view: View) : FastAdapter.ViewHolder<AlbumItem>(view) {
+        private val binding: ItemAlbumBinding = ItemAlbumBinding.bind(view)
 
         override fun bindView(item: AlbumItem, payloads: List<Any>) {
             val album = item.album ?: run {
@@ -30,22 +27,22 @@ class AlbumItem(val album: Album?) : AbstractItem<AlbumItem.ViewHolder>() {
                 return
             }
 
-            tvTitle.text = album.title
-            tvTitle.isSelected = true
-            tvArtistName.text = album.artistName
-            Picasso.with(imgCover.context)
+            binding.tvTitle.text = album.title
+            binding.tvTitle.isSelected = true
+            binding.tvArtistName.text = album.artistName
+            Picasso.with(binding.imgCover.context)
                 .load(BuildConfig.API_URL + album.cover)
                 .resize(0, 400)
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder)
-                .into(imgCover)
+                .into(binding.imgCover)
         }
 
         override fun unbindView(item: AlbumItem) = Unit
 
         private fun bindPlaceholder() {
-            tvTitle.text = "..."
-            imgCover.setImageResource(R.drawable.placeholder)
+            binding.tvTitle.text = "..."
+            binding.imgCover.setImageResource(R.drawable.placeholder)
         }
     }
 }

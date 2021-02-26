@@ -13,24 +13,20 @@ import androidx.navigation.fragment.navArgs
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.babaetskv.muspert.R
+import com.babaetskv.muspert.databinding.FragmentPlayerBinding
 import com.babaetskv.muspert.device.PlaybackService
 import com.babaetskv.muspert.presentation.player.PlayerPresenter
 import com.babaetskv.muspert.presentation.player.PlayerView
 import com.babaetskv.muspert.ui.base.PlaybackControls
 import com.babaetskv.muspert.ui.base.PlaybackFragment
 import com.babaetskv.muspert.utils.formatTime
-import kotlinx.android.synthetic.main.fragment_player.*
+import com.babaetskv.muspert.utils.viewBinding
 import org.koin.android.ext.android.inject
 
 class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
     @InjectPresenter
     lateinit var presenter: PlayerPresenter
     private val audioManager: AudioManager by inject()
-
-    override val layoutResId: Int
-        get() = R.layout.fragment_player
-    override val playbackControls: PlaybackControls
-        get() = this
 
     private val args: PlayerFragmentArgs by navArgs()
     private var prevCallback: (() -> Unit)? = null
@@ -47,6 +43,12 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
             presenter.onVolumeChange(currentVolume)
         }
     }
+    private val binding: FragmentPlayerBinding by viewBinding()
+
+    override val layoutResId: Int
+        get() = R.layout.fragment_player
+    override val playbackControls: PlaybackControls
+        get() = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,24 +72,24 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
     override fun hide() = Unit
 
     override fun setCover(bitmap: Bitmap?) {
-        imgCover.setImageBitmap(bitmap)
+        binding.imgCover.setImageBitmap(bitmap)
     }
 
     override fun setCover(drawableRes: Int) {
-        imgCover.setImageResource(drawableRes)
+        binding.imgCover.setImageResource(drawableRes)
     }
 
     override fun setCover(drawable: Drawable?) {
-        imgCover.setImageDrawable(drawable)
+        binding.imgCover.setImageDrawable(drawable)
     }
 
     override fun setDuration(duration: Int) {
-        seekProgress.max = duration
-        tvDuration.text = formatTime(duration.toLong() * 1000)
+        binding.seekProgress.max = duration
+        binding.tvDuration.text = formatTime(duration.toLong() * 1000)
     }
 
     override fun setIsPlaying(isPlaying: Boolean) {
-        btnPlay.setImageResource(if (isPlaying) R.drawable.pause else R.drawable.play)
+        binding.btnPlay.setImageResource(if (isPlaying) R.drawable.pause else R.drawable.play)
     }
 
     override fun setNextCallback(callback: (() -> Unit)?) {
@@ -111,25 +113,25 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
     }
 
     override fun setProgress(progress: Int) {
-        seekProgress.progress = progress
-        tvProgress.text = formatTime(progress.toLong() * 1000)
+        binding.seekProgress.progress = progress
+        binding.tvProgress.text = formatTime(progress.toLong() * 1000)
     }
 
     override fun setTitle(stringRes: Int) {
-        tvTitle.text = getString(stringRes)
+        binding.tvTitle.text = getString(stringRes)
     }
 
     override fun setTitle(artistName: String, trackTitle: String) {
-        tvTitle.text = trackTitle
-        tvArtistName.text = artistName
+        binding.tvTitle.text = trackTitle
+        binding.tvArtistName.text = artistName
     }
 
     override fun setShuffleEnabled(enabled: Boolean) {
-        btnShuffle.setImageResource(if (enabled) R.drawable.ic_shuffle_active else R.drawable.ic_shuffle_inactive)
+        binding.btnShuffle.setImageResource(if (enabled) R.drawable.ic_shuffle_active else R.drawable.ic_shuffle_inactive)
     }
 
     override fun setRepeatEnabled(enabled: Boolean) {
-        btnRepeat.setImageResource(if (enabled) R.drawable.ic_repeat_active else R.drawable.ic_repeat_inactive)
+        binding.btnRepeat.setImageResource(if (enabled) R.drawable.ic_repeat_active else R.drawable.ic_repeat_inactive)
     }
 
     override fun show() = Unit
@@ -139,30 +141,30 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
     }
 
     override fun populateVolume(max: Int, current: Int) {
-        seekVolume.max = max
-        seekVolume.progress = current
+        binding.seekVolume.max = max
+        binding.seekVolume.progress = current
     }
 
     private fun initListeners() {
-        toolbar.setNavigationOnClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
-        btnPrev.setOnClickListener {
+        binding.btnPrev.setOnClickListener {
             prevCallback?.invoke()
         }
-        btnPlay.setOnClickListener {
+        binding.btnPlay.setOnClickListener {
             playCallback?.invoke()
         }
-        btnNext.setOnClickListener {
+        binding.btnNext.setOnClickListener {
             nextCallback?.invoke()
         }
-        btnShuffle.setOnClickListener {
+        binding.btnShuffle.setOnClickListener {
             shuffleCallback?.invoke()
         }
-        btnRepeat.setOnClickListener {
+        binding.btnRepeat.setOnClickListener {
             repeatCallback?.invoke()
         }
-        seekProgress.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        binding.seekProgress.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             private var shouldResumePlayback: Boolean = false
 
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) = Unit
@@ -179,7 +181,7 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
                 shouldResumePlayback = false
             }
         })
-        seekVolume.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        binding.seekVolume.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 presenter.onVolumeChange(progress)

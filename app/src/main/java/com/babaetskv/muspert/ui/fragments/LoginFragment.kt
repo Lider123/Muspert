@@ -9,12 +9,12 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.auth.AuthBuilder
 import com.babaetskv.muspert.auth.PhoneAuthProvider
+import com.babaetskv.muspert.databinding.FragmentLoginBinding
 import com.babaetskv.muspert.presentation.login.LoginPresenter
 import com.babaetskv.muspert.presentation.login.LoginView
 import com.babaetskv.muspert.ui.base.BaseFragment
 import com.babaetskv.muspert.utils.*
 import com.babaetskv.muspert.utils.notifier.Notifier
-import kotlinx.android.synthetic.main.fragment_login.*
 import org.koin.android.ext.android.inject
 
 /**
@@ -27,6 +27,7 @@ class LoginFragment : BaseFragment(), LoginView, PhoneAuthProvider.OnSendSmsList
 
     private var authBuilder: AuthBuilder? = null
     private var smsAutoFilled = false
+    private val binding: FragmentLoginBinding by viewBinding()
 
     override val layoutResId: Int
         get() = R.layout.fragment_login
@@ -44,10 +45,10 @@ class LoginFragment : BaseFragment(), LoginView, PhoneAuthProvider.OnSendSmsList
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
-        countryCodePicker.registerCarrierNumberEditText(etPhone)
+        binding.countryCodePicker.registerCarrierNumberEditText(binding.etPhone)
         setMode(LoginView.Mode.LOGIN)
         Handler().postDelayed({
-            with (etPhone) {
+            with (binding.etPhone) {
                 if (text.isNullOrEmpty()) {
                     requestFocus()
                     showKeyboard()
@@ -57,28 +58,28 @@ class LoginFragment : BaseFragment(), LoginView, PhoneAuthProvider.OnSendSmsList
     }
 
     override fun showAuthProgress() {
-        progressAuth.setVisible()
+        binding.progressAuth.setVisible()
     }
 
     override fun hideAuthProgress() {
-        progressAuth.setGone()
+        binding.progressAuth.setGone()
     }
 
     override fun showVerificationProgress() {
-        progressVerification.setVisible()
+        binding.progressVerification.setVisible()
     }
 
     override fun hideVerificationProgress() {
-        progressVerification.setGone()
+        binding.progressVerification.setGone()
     }
 
     override fun verifySms() {
-        if (etSmsCode.text.isEmpty()) {
+        if (binding.etSmsCode.text.isEmpty()) {
             hideVerificationProgress()
             notifier.sendMessage(getString(R.string.enter_sms_code))
         } else {
             Intent().apply {
-                putExtra(PhoneAuthProvider.EXTRA_SMS_CODE, etSmsCode.text.toString())
+                putExtra(PhoneAuthProvider.EXTRA_SMS_CODE, binding.etSmsCode.text.toString())
             }.let {
                 authBuilder?.onActivityResult(PhoneAuthProvider.REQUEST_PHONE_SIGN_IN, 0, it)
             }
@@ -88,14 +89,14 @@ class LoginFragment : BaseFragment(), LoginView, PhoneAuthProvider.OnSendSmsList
     override fun setMode(mode: LoginView.Mode) {
         when (mode) {
             LoginView.Mode.LOGIN -> {
-                layoutLogin.setVisible()
-                layoutSms.setGone()
+                binding.layoutLogin.setVisible()
+                binding.layoutSms.setGone()
             }
             LoginView.Mode.SMS -> {
-                layoutLogin.setGone()
-                layoutSms.setVisible()
+                binding.layoutLogin.setGone()
+                binding.layoutSms.setVisible()
                 Handler().postDelayed({
-                    with (etSmsCode) {
+                    with (binding.etSmsCode) {
                         if (text.isNullOrEmpty()) {
                             requestFocus()
                             showKeyboard()
@@ -107,8 +108,8 @@ class LoginFragment : BaseFragment(), LoginView, PhoneAuthProvider.OnSendSmsList
     }
 
     override fun authPhone() {
-        val phone = countryCodePicker.fullNumberWithPlus
-        tvCurrPhone.text = getString(R.string.current_phone_placeholder, phone)
+        val phone = binding.countryCodePicker.fullNumberWithPlus
+        binding.tvCurrPhone.text = getString(R.string.current_phone_placeholder, phone)
         val params = HashMap<String, Any>()
         params[PhoneAuthProvider.PARAM_PHONE] = phone
         params[PhoneAuthProvider.PARAM_RECEIVE_SMS_CALLBACK] = this
@@ -117,8 +118,8 @@ class LoginFragment : BaseFragment(), LoginView, PhoneAuthProvider.OnSendSmsList
 
     override fun onSmsReceived(code: String) {
         smsAutoFilled = true
-        etSmsCode.setText(code)
-        etSmsCode.setSelection(etSmsCode.length())
+        binding.etSmsCode.setText(code)
+        binding.etSmsCode.setSelection(binding.etSmsCode.length())
     }
 
     override fun onSendSms() {
@@ -127,32 +128,32 @@ class LoginFragment : BaseFragment(), LoginView, PhoneAuthProvider.OnSendSmsList
     }
 
     private fun initListeners() {
-        toolbar.setNavigationOnClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             setMode(LoginView.Mode.LOGIN)
         }
-        loginButton.setOnClickListener {
-            etPhone.hideKeyboard()
+        binding.loginButton.setOnClickListener {
+            binding.etPhone.hideKeyboard()
             presenter.onLoginClick()
         }
-        etPhone.setOnEditorActionListener { v, actionId, event ->
+        binding.etPhone.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                loginButton.performClick()
+                binding.loginButton.performClick()
                 true
             } else false
         }
-        etSmsCode.doOnTextChanged { text, _, _, _ ->
+        binding.etSmsCode.doOnTextChanged { text, _, _, _ ->
             if (smsAutoFilled) {
                 smsAutoFilled = false
             } else if (text?.length == SMS_CODE_LENGTH) {
-                etSmsCode.hideKeyboard()
+                binding.etSmsCode.hideKeyboard()
                 presenter.onCodeEntered()
             }
         }
-        etPhone.doOnTextChanged { _, _, _, _ ->
-            etSmsCode.setText("")
+        binding.etPhone.doOnTextChanged { _, _, _, _ ->
+            binding.etSmsCode.setText("")
         }
-        countryCodePicker.setPhoneNumberValidityChangeListener { isValidNumber ->
-            loginButton.isEnabled = isValidNumber
+        binding.countryCodePicker.setPhoneNumberValidityChangeListener { isValidNumber ->
+            binding.loginButton.isEnabled = isValidNumber
         }
     }
 

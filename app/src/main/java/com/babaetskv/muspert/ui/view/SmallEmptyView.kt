@@ -3,16 +3,16 @@ package com.babaetskv.muspert.ui.view
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.babaetskv.muspert.R
+import com.babaetskv.muspert.databinding.ViewEmptySmallBinding
 import com.babaetskv.muspert.utils.setGone
 import com.babaetskv.muspert.utils.setVisible
-import kotlinx.android.synthetic.main.view_empty_small.view.*
+import com.babaetskv.muspert.utils.viewBinding
 
 class SmallEmptyView @JvmOverloads constructor(
     context: Context,
@@ -21,9 +21,9 @@ class SmallEmptyView @JvmOverloads constructor(
     defStyleRef: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRef) {
     private var actionCallback: (() -> Unit)? = null
+    private val binding: ViewEmptySmallBinding by viewBinding()
 
     init {
-        View.inflate(context, R.layout.view_empty_small, this)
         val a = context.obtainStyledAttributes(attrs, R.styleable.SmallEmptyView)
         val iconRes = a.getDrawable(R.styleable.SmallEmptyView_small_empty_icon)
         val message = a.getString(R.styleable.SmallEmptyView_small_empty_message)
@@ -33,7 +33,7 @@ class SmallEmptyView @JvmOverloads constructor(
             ContextCompat.getColor(context, R.color.colorOnBackground)
         )
         a.recycle()
-        btnAction.setOnClickListener {
+        binding.btnAction.setOnClickListener {
             actionCallback?.invoke()
         }
         setIcon(iconRes)
@@ -43,30 +43,30 @@ class SmallEmptyView @JvmOverloads constructor(
     }
 
     fun setIcon(drawable: Drawable?) {
-        imgIcon.setImageDrawable(drawable)
+        binding.imgIcon.setImageDrawable(drawable)
     }
 
     fun setIcon(@DrawableRes drawableRes: Int) {
-        imgIcon.setImageResource(drawableRes)
+        binding.imgIcon.setImageResource(drawableRes)
     }
 
     fun setMessage(text: String?) {
-        tvMessage.text = text
-        if (text.isNullOrEmpty()) tvMessage.setGone() else tvMessage.setVisible()
+        binding.tvMessage.text = text
+        if (text.isNullOrEmpty()) binding.tvMessage.setGone() else binding.tvMessage.setVisible()
     }
 
     fun setMessage(@StringRes stringRes: Int) = setMessage(resources.getString(stringRes))
 
     fun setActionIcon(drawable: Drawable?) {
-        btnAction.setImageDrawable(drawable)
+        binding.btnAction.setImageDrawable(drawable)
     }
 
     fun setActionIcon(@DrawableRes drawableRes: Int) {
-        btnAction.setImageResource(drawableRes)
+        binding.btnAction.setImageResource(drawableRes)
     }
 
     fun setMessageColor(@ColorInt colorRes: Int) {
-        tvMessage.setTextColor(colorRes)
+        binding.tvMessage.setTextColor(colorRes)
     }
 
     fun setActionCallback(callback: (() -> Unit)?) {

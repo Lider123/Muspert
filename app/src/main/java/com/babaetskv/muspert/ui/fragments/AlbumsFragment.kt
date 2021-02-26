@@ -4,27 +4,26 @@ import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.models.Album
+import com.babaetskv.muspert.databinding.FragmentAlbumsBinding
 import com.babaetskv.muspert.presentation.albums.AlbumsPresenter
 import com.babaetskv.muspert.presentation.albums.AlbumsView
-import com.babaetskv.muspert.ui.EmptyDividerDecoration
 import com.babaetskv.muspert.ui.base.PlaybackControls
 import com.babaetskv.muspert.ui.base.PlaybackFragment
 import com.babaetskv.muspert.ui.item.AlbumItem
 import com.babaetskv.muspert.utils.setGone
 import com.babaetskv.muspert.utils.setVisible
+import com.babaetskv.muspert.utils.viewBinding
 import com.mikepenz.fastadapter.ClickListener
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.listeners.OnBindViewHolderListenerImpl
 import com.mikepenz.fastadapter.paged.ExperimentalPagedSupport
-import kotlinx.android.synthetic.main.fragment_albums.*
 
 @ExperimentalPagedSupport
 class AlbumsFragment : PlaybackFragment(), AlbumsView {
@@ -33,11 +32,12 @@ class AlbumsFragment : PlaybackFragment(), AlbumsView {
 
     private lateinit var adapter: FastAdapter<AlbumItem>
     private lateinit var itemAdapter: ItemAdapter<AlbumItem>
+    private val binding: FragmentAlbumsBinding by viewBinding()
 
     override val layoutResId: Int
         get() = R.layout.fragment_albums
     override val playbackControls: PlaybackControls
-        get() = viewPlaybackControls
+        get() = binding.viewPlaybackControls
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,15 +51,15 @@ class AlbumsFragment : PlaybackFragment(), AlbumsView {
     }
 
     override fun showProgress() {
-        progress.setVisible()
+        binding.progress.setVisible()
     }
 
     override fun hideProgress() {
-        progress.setGone()
+        binding.progress.setGone()
     }
 
     override fun showEmptyView(show: Boolean) {
-        with (emptyViewAlbums) {
+        with (binding.emptyViewAlbums) {
             if (show) {
                 setBanner(R.drawable.ic_empty_list)
                 setTitle(R.string.empty_album_list_title)
@@ -76,7 +76,7 @@ class AlbumsFragment : PlaybackFragment(), AlbumsView {
     }
 
     override fun showErrorView(show: Boolean) {
-        with (emptyViewAlbums) {
+        with (binding.emptyViewAlbums) {
             if (show) {
                 setBanner(R.drawable.ic_error)
                 setTitle(R.string.empty_album_list_title)
@@ -97,13 +97,13 @@ class AlbumsFragment : PlaybackFragment(), AlbumsView {
     }
 
     private fun initListeners() {
-        viewPlaybackControls.setOnClickListener {
+        binding.viewPlaybackControls.setOnClickListener {
             presenter.onPlaybackControlsClick()
         }
-        toolbar.setNavigationOnClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
-        toolbar.setOnMenuItemClickListener {
+        binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_refresh -> {
                     presenter.refreshAlbums()
@@ -128,7 +128,7 @@ class AlbumsFragment : PlaybackFragment(), AlbumsView {
                 ) {
                     super.onBindViewHolder(viewHolder, position, payloads)
                     if (position == adapter.itemCount - preloadMargin) {
-                        recyclerAlbums.post {
+                        binding.recyclerAlbums.post {
                             presenter.loadNextPage()
                         }
                     }
@@ -150,7 +150,7 @@ class AlbumsFragment : PlaybackFragment(), AlbumsView {
     }
 
     private fun initRecyclerView() {
-        recyclerAlbums.apply {
+        binding.recyclerAlbums.apply {
             val orientation: Int
             layoutManager = LinearLayoutManager(requireContext()).also {
                 orientation = it.orientation
