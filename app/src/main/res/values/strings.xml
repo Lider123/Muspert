@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Muspert</string>
+    <string name="text_splash" translatable="false">Powered by babaetskv</string>
 
     <string name="in_development">Feature is in development</string>
 
@@ -19,15 +20,19 @@
     <string name="logout">Log out</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="next">next</string>
 
     <!-- Toolbar titles -->
-    <string name="enter_sms_code">Enter SMS code</string>
     <string name="sign_up">Sign Up</string>
     <string name="edit_photo">Edit photo</string>
+    <string name="validation">Validation</string>
 
     <!-- Labels -->
     <string name="albums">Albums</string>
     <string name="genres">Genres</string>
+    <string name="enter_sms_code">Enter SMS code</string>
+    <string name="phone_hint">Enter your phone number</string>
+    <string name="sms_hint">Enter the code that was sent to your phone</string>
 
     <!-- Hints -->
     <string name="enter_first_name">Enter first name</string>
@@ -71,4 +76,5 @@
     <!-- Placeholders -->
     <string name="username_placeholder" translatable="false">%s %s</string>
     <string name="track_with_artist_placeholder" translatable="false">%s - %s</string>
+    <string name="current_phone_placeholder">Phone number:\n%s</string>
 </resources>

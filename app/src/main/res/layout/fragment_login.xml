@@ -18,7 +18,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
-            app:title="@string/enter_sms_code"
+            app:title="@string/validation"
             app:navigationIcon="@drawable/ic_arrow_back_white"/>
 
         <LinearLayout
@@ -29,42 +29,43 @@
             android:padding="@dimen/layout_baseline_default">
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvCurrPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="Phone number:\n+7 999 999-99-99"
                 style="@style/AppTheme.AppCompatTextView.Hint"/>
 
-            <Space
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/layout_baseline_default"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_baseline_large"
+                android:text="@string/sms_hint"
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@id/imageViewLogo"
+                style="@style/AppTheme.AppCompatTextView.Label"/>
 
             <EditText
                 android:id="@+id/etSmsCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_baseline_large"
                 android:inputType="number"
                 android:textAlignment="center"
                 android:hint="@string/enter_sms_code"
                 tools:text="111111"/>
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/layout_baseline_default"/>
-
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/buttonResendCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_baseline_large"
                 android:text="@string/resend_sms_code"/>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/layout_baseline_default"/>
 
             <com.babaetskv.muspert.ui.view.SquareProgress
                 android:id="@+id/progressVerification"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_baseline_default"
                 android:visibility="gone"
                 tools:visibility="visible"/>
         </LinearLayout>
@@ -78,25 +79,39 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageViewLogo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/layout_baseline_extra_large"
             android:src="@drawable/logo"
-            android:paddingStart="64dp"
-            android:paddingEnd="64dp"
+            app:layout_constraintWidth_percent="0.3"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPhoneHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/layout_baseline_default"
+            android:layout_marginTop="@dimen/layout_baseline_extra_large"
+            android:text="@string/phone_hint"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@id/imageViewLogo"
+            style="@style/AppTheme.AppCompatTextView.Label"/>
+
         <LinearLayout
+            android:id="@+id/layoutPhone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="12dp"
-            android:layout_marginStart="@dimen/layout_baseline_default"
-            android:layout_marginEnd="@dimen/layout_baseline_default"
+            android:layout_marginTop="@dimen/layout_baseline_large"
+            android:layout_marginHorizontal="@dimen/layout_baseline_default"
             android:gravity="center_vertical"
             android:background="@drawable/bg_surface_rounded"
-            app:layout_constraintTop_toBottomOf="@id/imageViewLogo"
+            app:layout_constraintTop_toBottomOf="@id/tvPhoneHint"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/layoutActionLogin">
+            app:layout_constraintEnd_toEndOf="parent">
 
             <com.hbb20.CountryCodePicker
                 android:id="@+id/countryCodePicker"
@@ -125,27 +140,24 @@
                 style="@style/AppTheme.AppCompatEditText"/>
         </LinearLayout>
 
-        <FrameLayout
-            android:id="@+id/layoutActionLogin"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/loginButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_baseline_large"
+            android:layout_marginHorizontal="@dimen/layout_baseline_default"
+            android:text="@string/next"
+            app:layout_constraintTop_toBottomOf="@id/layoutPhone"/>
+
+        <com.babaetskv.muspert.ui.view.SquareProgress
+            android:id="@+id/progressAuth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="@dimen/layout_baseline_default"
-            app:layout_constraintTop_toBottomOf="@id/imageViewLogo"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/loginButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/login" />
-
-            <com.babaetskv.muspert.ui.view.SquareProgress
-                android:id="@+id/progressAuth"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:visibility="gone"/>
-        </FrameLayout>
+            android:layout_marginTop="@dimen/layout_baseline_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/loginButton"
+            android:visibility="gone"
+            tools:visibility="visible"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
