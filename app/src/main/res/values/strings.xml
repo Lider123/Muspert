@@ -22,6 +22,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="next">next</string>
+    <string name="skip">Skip</string>
 
     <!-- Toolbar titles -->
     <string name="sign_up">Sign Up</string>
@@ -49,6 +50,12 @@
     <string name="empty_track_list_title">No tracks</string>
     <string name="empty_track_list_message">There are no available tracks at the moment.\nPlease try again later.</string>
     <string name="logout_message">Are you sure you want to log out?</string>
+    <string name="welcome_1_title">Welcome to Muspert</string>
+    <string name="welcome_1_message">Enjoy you favorite tracks every day</string>
+    <string name="welcome_2_title">Explore new</string>
+    <string name="welcome_2_message">Get access to unlimited amount of albums</string>
+    <string name="welcome_3_title">Listen everywhere</string>
+    <string name="welcome_3_message">Listen to your favorite songs everywhere you want</string>
 
     <!-- Alerts -->
     <string name="phone_number_is_null">Phone number is null</string>

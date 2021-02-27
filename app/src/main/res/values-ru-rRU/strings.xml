@@ -21,7 +21,8 @@
     <string name="logout">Выйти</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
-    <string name="next">далее</string>
+    <string name="next">Далее</string>
+    <string name="skip">Пропустить</string>
 
     <!-- Toolbar titles -->
     <string name="sign_up">Регистрация</string>
@@ -49,6 +50,12 @@
     <string name="empty_track_list_title">Нет треков</string>
     <string name="empty_track_list_message">В настоящее время нет доступных треков.\nПопробуйте позже.</string>
     <string name="logout_message">Вы уверены, что хотите выйти?</string>
+    <string name="welcome_1_title">Добро пожаловать в Muspert</string>
+    <string name="welcome_1_message">Наслаждайтесь любимыми трекам каждый день</string>
+    <string name="welcome_2_title">Откройте для себя новое</string>
+    <string name="welcome_2_message">Получите доступ к неограниченному количеству альбомов</string>
+    <string name="welcome_3_title">Слушайте везде</string>
+    <string name="welcome_3_message">Слушайте ваши любимые песни везде, где захотите</string>
 
     <!-- Alerts -->
     <string name="phone_number_is_null">Введите номер телефона</string>

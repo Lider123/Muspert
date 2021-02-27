@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/layoutControls"/>
+
+    <RelativeLayout
+        android:id="@+id/layoutControls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSkip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_baseline_small"
+            android:layout_alignParentStart="true"
+            android:layout_alignStart="@id/dotsIndicator"
+            android:text="@string/skip"
+            android:textColor="@color/colorOnPrimary"
+            style="@style/AppTheme.AppCompatButton.Text"/>
+
+        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+            android:id="@+id/dotsIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:dotsColor="@android:color/darker_gray"
+            app:dotsCornerRadius="2dp"
+            app:dotsSize="8dp"
+            app:dotsWidthFactor="3"
+            app:selectedDotColor="@color/colorOnPrimary"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/layout_baseline_small"
+            android:layout_alignParentEnd="true"
+            android:layout_alignEnd="@id/dotsIndicator"
+            android:gravity="center_vertical"
+            android:text="@string/next"
+            android:textColor="@color/colorOnPrimary"
+            android:drawableEnd="@drawable/ic_arrow_forward_onprimary"
+            style="@style/AppTheme.AppCompatButton.Text"/>
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

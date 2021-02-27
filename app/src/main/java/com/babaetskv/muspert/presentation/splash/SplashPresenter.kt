@@ -20,7 +20,9 @@ class SplashPresenter : BasePresenter<SplashView>() {
     private val appPrefs: AppPrefs by inject()
 
     fun onDelay() {
-        if (appPrefs.isAuthorized) {
+        if (!appPrefs.welcomeShowed) {
+            navigator.replaceWith(SplashFragmentDirections.actionSplashFragmentToWelcomeFragment())
+        } else if (appPrefs.isAuthorized) {
             loadProfile()
         } else navigator.replaceWith(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
     }

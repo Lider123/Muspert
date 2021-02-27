@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="@color/colorPrimary">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/layout_baseline_large"
+        android:src="@drawable/welcome_1_image"
+        android:scaleType="fitCenter"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/layout_baseline_default"
+        android:layout_marginBottom="@dimen/layout_baseline_default"
+        android:text="@string/welcome_1_title"
+        app:layout_constraintBottom_toTopOf="@id/tvMessage"
+        style="@style/AppTheme.AppCompatTextView.Title.Welcome"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/layout_baseline_default"
+        android:layout_marginBottom="@dimen/layout_baseline_extra_large"
+        android:text="@string/welcome_1_message"
+        android:textAlignment="viewStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/AppTheme.AppCompatTextView.Title"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

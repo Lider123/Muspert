@@ -23,6 +23,10 @@
         <action
             android:id="@+id/action_splashFragment_to_mainFragment"
             app:destination="@id/mainFragment"/>
+
+        <action
+            android:id="@+id/action_splashFragment_to_welcomeFragment"
+            app:destination="@id/welcomeFragment"/>
     </fragment>
 
     <fragment
@@ -123,5 +127,15 @@
             android:name="trackId"
             app:argType="long"
             app:defaultValue="-1"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="com.babaetskv.muspert.ui.fragments.WelcomeFragment"
+        android:label="Welcome"
+        tools:layout="@layout/fragment_welcome">
+        <action
+            android:id="@+id/action_welcomeFragment_to_loginFragment"
+            app:destination="@id/loginFragment"/>
     </fragment>
 </navigation>
