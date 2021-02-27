@@ -12,7 +12,7 @@ class WelcomePresenter : BasePresenter<WelcomeView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        // appPrefs.welcomeShowed = true TODO: uncomment
+        appPrefs.welcomeShowed = true
     }
 
     fun onNext() {
