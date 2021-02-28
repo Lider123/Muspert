@@ -5,7 +5,7 @@ buildscript {
         fastadapter_version = '5.2.3'
         koin_version = '2.1.5'
         kotlin_version = '1.4.20'
-        moxy_version = '1.7.0'
+        moxy_version = '2.2.1'
         nav_version = '2.3.0'
         paging_version = '2.1.2'
         retrofit_version = '2.7.2'

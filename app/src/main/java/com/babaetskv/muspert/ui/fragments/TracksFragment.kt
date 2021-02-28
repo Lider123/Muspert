@@ -6,8 +6,6 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.babaetskv.muspert.BuildConfig
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.models.Album
@@ -30,12 +28,14 @@ import com.mikepenz.fastadapter.IAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.listeners.ClickEventHook
 import com.squareup.picasso.Picasso
+import moxy.ktx.moxyPresenter
+import org.koin.android.ext.android.get
 
 class TracksFragment : PlaybackFragment(), TracksView {
-    @InjectPresenter
-    lateinit var presenter: TracksPresenter
-
     private val args: TracksFragmentArgs by navArgs()
+    private val presenter: TracksPresenter by moxyPresenter {
+        TracksPresenter(args.album, get(), get(), get(), get(), get())
+    }
     private lateinit var adapter: FastAdapter<TrackItem>
     private lateinit var itemAdapter: ItemAdapter<TrackItem>
     private val binding: FragmentTracksBinding by viewBinding()
@@ -185,7 +185,4 @@ class TracksFragment : PlaybackFragment(), TracksView {
             presenter.onPlaybackControlsClick()
         }
     }
-
-    @ProvidePresenter
-    fun providePresenter() = TracksPresenter(args.album)
 }

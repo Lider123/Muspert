@@ -2,7 +2,6 @@ package com.babaetskv.muspert.ui.fragments
 
 import android.os.Bundle
 import android.view.View
-import com.arellomobile.mvp.presenter.InjectPresenter
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.adapter.WelcomePagerAdapter
 import com.babaetskv.muspert.databinding.FragmentWelcomeBinding
@@ -10,11 +9,13 @@ import com.babaetskv.muspert.presentation.welcome.WelcomePresenter
 import com.babaetskv.muspert.presentation.welcome.WelcomeView
 import com.babaetskv.muspert.ui.base.BaseFragment
 import com.babaetskv.muspert.utils.viewBinding
+import moxy.ktx.moxyPresenter
+import org.koin.android.ext.android.get
 
 class WelcomeFragment : BaseFragment(), WelcomeView {
-    @InjectPresenter
-    lateinit var presenter: WelcomePresenter
-
+    private val presenter: WelcomePresenter by moxyPresenter {
+        WelcomePresenter(get(), get(), get(), get())
+    }
     private lateinit var adapter: WelcomePagerAdapter
     private val binding: FragmentWelcomeBinding by viewBinding()
 

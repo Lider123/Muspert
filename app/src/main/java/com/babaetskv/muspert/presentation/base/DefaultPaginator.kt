@@ -18,7 +18,7 @@ class DefaultPaginator<T>(
         currPage++
         currData.addAll(items)
         if (items.isEmpty()) {
-            if (currPage <= 1) callback.onEmpty()
+            if (currPage <= 1) callback.onEmptyData()
             lastPageLoaded = true
         } else {
             callback.onNextLoaded(currData)
@@ -26,7 +26,7 @@ class DefaultPaginator<T>(
     }
 
     private fun onError(t: Throwable) {
-        callback.onError(t)
+        callback.onPagingError(t)
     }
 
     fun onDestroy() {
@@ -52,7 +52,7 @@ class DefaultPaginator<T>(
 
     interface PaginatorCallback<T> {
         fun onNextLoaded(items: List<T>)
-        fun onEmpty()
-        fun onError(t: Throwable)
+        fun onEmptyData()
+        fun onPagingError(t: Throwable)
     }
 }

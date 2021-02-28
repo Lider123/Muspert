@@ -1,26 +1,27 @@
 package com.babaetskv.muspert.presentation.albums
 
-import com.arellomobile.mvp.InjectViewState
 import com.babaetskv.muspert.data.ErrorHandler
 import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.models.Album
 import com.babaetskv.muspert.data.models.GetAlbumsParams
 import com.babaetskv.muspert.data.repository.CatalogRepository
 import com.babaetskv.muspert.device.PlaybackService
+import com.babaetskv.muspert.navigation.AppNavigator
 import com.babaetskv.muspert.presentation.base.BasePresenter
 import com.babaetskv.muspert.presentation.base.DefaultPaginator
 import com.babaetskv.muspert.ui.fragments.AlbumsFragmentDirections
 import com.babaetskv.muspert.utils.notifier.Notifier
 import io.reactivex.Single
-import org.koin.core.inject
+import moxy.InjectViewState
 
 @InjectViewState
-class AlbumsPresenter : BasePresenter<AlbumsView>(), DefaultPaginator.PaginatorCallback<Album> {
-    private val errorHandler: ErrorHandler by inject()
-    private val notifier: Notifier by inject()
-    private val catalogRepository: CatalogRepository by inject()
-    private val schedulersProvider: SchedulersProvider by inject()
-
+class AlbumsPresenter(
+    private val catalogRepository: CatalogRepository,
+    private val schedulersProvider: SchedulersProvider,
+    private val navigator: AppNavigator,
+    errorHandler: ErrorHandler,
+    notifier: Notifier
+) : BasePresenter<AlbumsView>(errorHandler, notifier), DefaultPaginator.PaginatorCallback<Album> {
     private lateinit var paginator: DefaultPaginator<Album>
 
     override fun onFirstViewAttach() {
@@ -40,12 +41,12 @@ class AlbumsPresenter : BasePresenter<AlbumsView>(), DefaultPaginator.PaginatorC
         viewState.populateAlbums(items)
     }
 
-    override fun onEmpty() {
+    override fun onEmptyData() {
         viewState.showEmptyView(true)
     }
 
-    override fun onError(t: Throwable) {
-        errorHandler.handle(t) { notifier.sendMessage(it) }
+    override fun onPagingError(t: Throwable) {
+        onError(t)
         viewState.showErrorView(true)
     }
 

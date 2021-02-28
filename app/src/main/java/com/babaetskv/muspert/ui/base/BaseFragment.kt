@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import com.arellomobile.mvp.MvpAppCompatFragment
 import com.babaetskv.muspert.navigation.AppNavigator
+import moxy.MvpAppCompatFragment
 import org.koin.android.ext.android.inject
 
 /**
