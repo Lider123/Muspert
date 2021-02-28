@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    android:orientation="vertical"
     tools:context=".ui.fragments.SignUpFragment">
 
     <androidx.appcompat.widget.Toolbar
@@ -14,55 +13,58 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:title="@string/sign_up"
-        app:navigationIcon="@drawable/ic_arrow_back_white"/>
+        app:navigationIcon="@drawable/ic_arrow_back_white"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="@dimen/layout_baseline_default">
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/firstNameEditText"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/enter_first_name"
-            android:inputType="text"
-            android:imeOptions="actionNext"/>
+            android:orientation="vertical"
+            android:padding="@dimen/layout_baseline_default">
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/layout_baseline_default"/>
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/firstNameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_first_name"
+                android:inputType="text"
+                android:imeOptions="actionNext"/>
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/lastNameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/enter_last_name"
-            android:inputType="text"
-            android:imeOptions="actionNext"/>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_baseline_default"/>
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/layout_baseline_default"/>
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/lastNameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_last_name"
+                android:inputType="text"
+                android:imeOptions="actionNext"/>
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/nicknameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/think_up_nickname"
-            android:inputType="text"
-            android:imeOptions="actionDone"/>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_baseline_default"/>
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:minHeight="@dimen/layout_baseline_default"
-            android:layout_weight="1"/>
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/nicknameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/think_up_nickname"
+                android:inputType="text"
+                android:imeOptions="actionDone"/>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:minHeight="@dimen/layout_baseline_default"
+                android:layout_weight="1"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/confirmButton"
@@ -72,14 +74,18 @@
                 android:text="@string/done"
                 android:enabled="false"
                 android:visibility="visible"/>
+        </LinearLayout>
+    </ScrollView>
 
-            <com.babaetskv.muspert.ui.view.SquareProgress
-                android:id="@+id/confirmProgress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                tools:visibility="visible"/>
-        </FrameLayout>
-    </LinearLayout>
-</LinearLayout>
+    <com.babaetskv.muspert.ui.view.SquareProgress
+        android:id="@+id/confirmProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
