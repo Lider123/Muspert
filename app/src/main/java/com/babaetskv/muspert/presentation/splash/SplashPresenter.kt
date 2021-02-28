@@ -1,23 +1,23 @@
 package com.babaetskv.muspert.presentation.splash
 
-import com.arellomobile.mvp.InjectViewState
 import com.babaetskv.muspert.data.ErrorHandler
 import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.models.User
 import com.babaetskv.muspert.data.prefs.app.AppPrefs
 import com.babaetskv.muspert.data.repository.ProfileRepository
+import com.babaetskv.muspert.navigation.AppNavigator
 import com.babaetskv.muspert.presentation.base.BasePresenter
 import com.babaetskv.muspert.ui.fragments.SplashFragmentDirections
 import com.babaetskv.muspert.utils.notifier.Notifier
-import org.koin.core.inject
 
-@InjectViewState
-class SplashPresenter : BasePresenter<SplashView>() {
-    private val profileRepository: ProfileRepository by inject()
-    private val schedulersProvider: SchedulersProvider by inject()
-    private val errorHandler: ErrorHandler by inject()
-    private val notifier: Notifier by inject()
-    private val appPrefs: AppPrefs by inject()
+class SplashPresenter(
+    private val profileRepository: ProfileRepository,
+    private val schedulersProvider: SchedulersProvider,
+    private val appPrefs: AppPrefs,
+    private val navigator: AppNavigator,
+    errorHandler: ErrorHandler,
+    notifier: Notifier
+) : BasePresenter<SplashView>(errorHandler, notifier) {
 
     fun onDelay() {
         if (!appPrefs.welcomeShowed) {

@@ -1,25 +1,24 @@
 package com.babaetskv.muspert.presentation.tracks
 
-import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.babaetskv.muspert.data.models.Album
 import com.babaetskv.muspert.data.models.Track
 import com.babaetskv.muspert.presentation.base.BaseView
+import moxy.viewstate.strategy.alias.AddToEndSingle
 
 interface TracksView : BaseView {
 
-    @StateStrategyType(AddToEndSingleStrategy::class)
+    @AddToEndSingle
     fun populateTracks(tracks: List<Track>)
 
-    @StateStrategyType(AddToEndSingleStrategy::class)
+    @AddToEndSingle
     fun populateAlbum(album: Album)
 
-    @StateStrategyType(AddToEndSingleStrategy::class)
+    @AddToEndSingle
     fun showProgress()
 
-    @StateStrategyType(AddToEndSingleStrategy::class)
+    @AddToEndSingle
     fun hideProgress()
 
-    @StateStrategyType(AddToEndSingleStrategy::class)
+    @AddToEndSingle
     fun showErrorView(show: Boolean)
 }

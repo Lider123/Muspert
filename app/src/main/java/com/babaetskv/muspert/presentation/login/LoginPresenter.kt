@@ -1,23 +1,29 @@
 package com.babaetskv.muspert.presentation.login
 
-import com.arellomobile.mvp.InjectViewState
 import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.ErrorHandler
 import com.babaetskv.muspert.data.models.User
 import com.babaetskv.muspert.data.network.gateway.AuthGateway
 import com.babaetskv.muspert.data.repository.ProfileRepository
+import com.babaetskv.muspert.navigation.AppNavigator
 import com.babaetskv.muspert.presentation.base.BasePresenter
 import com.babaetskv.muspert.ui.fragments.LoginFragmentDirections
 import com.babaetskv.muspert.utils.notifier.Notifier
-import org.koin.core.inject
 
-@InjectViewState
-class LoginPresenter : BasePresenter<LoginView>() {
-    private val notifier: Notifier by inject()
-    private val authGateway: AuthGateway by inject()
-    private val profileRepository: ProfileRepository by inject()
-    private val schedulersProvider: SchedulersProvider by inject()
-    private val errorHandler: ErrorHandler by inject()
+class LoginPresenter(
+    private val authGateway: AuthGateway,
+    private val profileRepository: ProfileRepository,
+    private val schedulersProvider: SchedulersProvider,
+    private val navigator: AppNavigator,
+    errorHandler: ErrorHandler,
+    notifier: Notifier
+) : BasePresenter<LoginView>(errorHandler, notifier) {
+
+    override fun onError(t: Throwable) {
+        super.onError(t)
+        viewState.hideAuthProgress()
+        viewState.hideVerificationProgress()
+    }
 
     fun onLoginClick() {
         viewState.showAuthProgress()
@@ -54,11 +60,5 @@ class LoginPresenter : BasePresenter<LoginView>() {
         } else {
             navigator.forward(LoginFragmentDirections.actionLoginFragmentToSignUpFragment(user))
         }
-    }
-
-    private fun onError(t: Throwable) {
-        viewState.hideAuthProgress()
-        viewState.hideVerificationProgress()
-        errorHandler.handle(t) { notifier.sendMessage(it) }
     }
 }

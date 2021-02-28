@@ -1,24 +1,22 @@
 package com.babaetskv.muspert.presentation.signup
 
-import com.arellomobile.mvp.InjectViewState
 import com.babaetskv.muspert.data.ErrorHandler
 import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.models.User
 import com.babaetskv.muspert.data.repository.ProfileRepository
+import com.babaetskv.muspert.navigation.AppNavigator
 import com.babaetskv.muspert.presentation.base.BasePresenter
 import com.babaetskv.muspert.ui.fragments.SignUpFragmentDirections
 import com.babaetskv.muspert.utils.notifier.Notifier
-import org.koin.core.inject
 
-@InjectViewState
 class SignUpPresenter(
-    private val user: User
-) : BasePresenter<SignUpView>() {
-    private val profileRepository: ProfileRepository by inject()
-    private val schedulersProvider: SchedulersProvider by inject()
-    private val errorHandler: ErrorHandler by inject()
-    private val notifier: Notifier by inject()
-
+    private val user: User,
+    private val profileRepository: ProfileRepository,
+    private val schedulersProvider: SchedulersProvider,
+    private val navigator: AppNavigator,
+    errorHandler: ErrorHandler,
+    notifier: Notifier
+) : BasePresenter<SignUpView>(errorHandler, notifier) {
     var firstName = ""
     var lastName = ""
     var nickname = ""
@@ -27,10 +25,6 @@ class SignUpPresenter(
 
     private fun onUpdateProfileSuccess() {
         navigator.newStack(SignUpFragmentDirections.actionSignUpFragmentToMainFragment())
-    }
-
-    private fun onError(t: Throwable) {
-        errorHandler.handle(t) { notifier.sendMessage(it) }
     }
 
     fun onConfirm() {

@@ -6,7 +6,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.arellomobile.mvp.presenter.InjectPresenter
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.models.Album
 import com.babaetskv.muspert.databinding.FragmentAlbumsBinding
@@ -23,13 +22,13 @@ import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.listeners.OnBindViewHolderListenerImpl
-import com.mikepenz.fastadapter.paged.ExperimentalPagedSupport
+import moxy.ktx.moxyPresenter
+import org.koin.android.ext.android.get
 
-@ExperimentalPagedSupport
 class AlbumsFragment : PlaybackFragment(), AlbumsView {
-    @InjectPresenter
-    lateinit var presenter: AlbumsPresenter
-
+    private val presenter: AlbumsPresenter by moxyPresenter {
+        AlbumsPresenter(get(), get(), get(), get(), get())
+    }
     private lateinit var adapter: FastAdapter<AlbumItem>
     private lateinit var itemAdapter: ItemAdapter<AlbumItem>
     private val binding: FragmentAlbumsBinding by viewBinding()

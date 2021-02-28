@@ -6,7 +6,6 @@ import com.babaetskv.muspert.ui.base.BaseFragment
 import com.babaetskv.muspert.utils.argument
 
 class WelcomeTabFragment : BaseFragment() {
-
     override val layoutResId: Int by argument(ARG_LAYOUT_RES)
 
     override fun onBackPressed() = Unit

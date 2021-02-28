@@ -1,5 +1,5 @@
 package com.babaetskv.muspert.presentation.base
 
-import com.arellomobile.mvp.MvpView
+import moxy.MvpView
 
 interface BaseView : MvpView

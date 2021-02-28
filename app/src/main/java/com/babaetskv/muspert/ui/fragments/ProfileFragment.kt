@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
-import com.arellomobile.mvp.presenter.InjectPresenter
 import com.babaetskv.muspert.BuildConfig
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.SchedulersProvider
@@ -34,18 +33,20 @@ import com.miguelbcr.ui.rx_paparazzo2.entities.Response
 import com.squareup.picasso.Picasso
 import com.yalantis.ucrop.UCrop
 import io.reactivex.Observable
+import moxy.ktx.moxyPresenter
+import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 
 /**
  * @author Konstantin on 13.05.2020
  */
-class ProfileFragment : BaseFragment(),
-    ProfileView {
-    @InjectPresenter
-    lateinit var presenter: ProfilePresenter
+class ProfileFragment : BaseFragment(), ProfileView {
     private val notifier: Notifier by inject()
     private val schedulersProvider: SchedulersProvider by inject()
 
+    private val presenter: ProfilePresenter by moxyPresenter {
+        ProfilePresenter(get(), schedulersProvider, get(), get(), get(), notifier)
+    }
     private val binding: FragmentProfileBinding by viewBinding()
     private val cropOptions: UCrop.Options
         get() = UCrop.Options().apply {

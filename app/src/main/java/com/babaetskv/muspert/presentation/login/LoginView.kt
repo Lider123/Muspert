@@ -1,31 +1,30 @@
 package com.babaetskv.muspert.presentation.login
 
-import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
-import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.babaetskv.muspert.presentation.base.BaseView
+import moxy.viewstate.strategy.alias.AddToEndSingle
+import moxy.viewstate.strategy.alias.OneExecution
 
 interface LoginView : BaseView {
 
-    @StateStrategyType(AddToEndSingleStrategy::class)
+    @AddToEndSingle
     fun showAuthProgress()
 
-    @StateStrategyType(AddToEndSingleStrategy::class)
+    @AddToEndSingle
     fun hideAuthProgress()
 
-    @StateStrategyType(AddToEndSingleStrategy::class)
+    @AddToEndSingle
     fun showVerificationProgress()
 
-    @StateStrategyType(AddToEndSingleStrategy::class)
+    @AddToEndSingle
     fun hideVerificationProgress()
 
-    @StateStrategyType(AddToEndSingleStrategy::class)
+    @AddToEndSingle
     fun setMode(mode: Mode)
 
-    @StateStrategyType(OneExecutionStateStrategy::class)
+    @OneExecution
     fun authPhone()
 
-    @StateStrategyType(OneExecutionStateStrategy::class)
+    @OneExecution
     fun verifySms()
 
     enum class Mode {

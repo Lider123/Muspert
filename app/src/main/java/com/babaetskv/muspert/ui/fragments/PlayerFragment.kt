@@ -10,8 +10,6 @@ import android.provider.Settings
 import android.view.View
 import android.widget.SeekBar
 import androidx.navigation.fragment.navArgs
-import com.arellomobile.mvp.presenter.InjectPresenter
-import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.databinding.FragmentPlayerBinding
 import com.babaetskv.muspert.device.PlaybackService
@@ -21,14 +19,17 @@ import com.babaetskv.muspert.ui.base.PlaybackControls
 import com.babaetskv.muspert.ui.base.PlaybackFragment
 import com.babaetskv.muspert.utils.formatTime
 import com.babaetskv.muspert.utils.viewBinding
+import moxy.ktx.moxyPresenter
+import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 
 class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
-    @InjectPresenter
-    lateinit var presenter: PlayerPresenter
     private val audioManager: AudioManager by inject()
 
     private val args: PlayerFragmentArgs by navArgs()
+    private val presenter: PlayerPresenter by moxyPresenter {
+        PlayerPresenter(args.albumId, args.trackId, audioManager, get(), get())
+    }
     private var prevCallback: (() -> Unit)? = null
     private var playCallback: (() -> Unit)? = null
     private var nextCallback: (() -> Unit)? = null
@@ -192,7 +193,4 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
             override fun onStopTrackingTouch(seekBar: SeekBar) = Unit
         })
     }
-
-    @ProvidePresenter
-    fun providePresenter() = PlayerPresenter(args.albumId, args.trackId, audioManager)
 }

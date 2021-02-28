@@ -1,6 +1,5 @@
-package com.babaetskv.muspert.presentation.catalog
+package com.babaetskv.muspert.presentation.home
 
-import com.arellomobile.mvp.InjectViewState
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.ErrorHandler
 import com.babaetskv.muspert.data.SchedulersProvider
@@ -9,17 +8,18 @@ import com.babaetskv.muspert.data.models.Genre
 import com.babaetskv.muspert.data.models.GetAlbumsParams
 import com.babaetskv.muspert.data.models.GetGenresParams
 import com.babaetskv.muspert.data.repository.CatalogRepository
+import com.babaetskv.muspert.navigation.AppNavigator
 import com.babaetskv.muspert.presentation.base.BasePresenter
 import com.babaetskv.muspert.ui.fragments.MainFragmentDirections
 import com.babaetskv.muspert.utils.notifier.Notifier
-import org.koin.core.inject
 
-@InjectViewState
-class CatalogPresenter : BasePresenter<CatalogView>() {
-    private val catalogRepository: CatalogRepository by inject()
-    private val schedulersProvider: SchedulersProvider by inject()
-    private val notifier: Notifier by inject()
-    private val errorHandler: ErrorHandler by inject()
+class HomePresenter(
+    private val catalogRepository: CatalogRepository,
+    private val schedulersProvider: SchedulersProvider,
+    private val navigator: AppNavigator,
+    errorHandler: ErrorHandler,
+    notifier: Notifier
+) : BasePresenter<HomeView>(errorHandler, notifier) {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()

@@ -1,16 +1,18 @@
 package com.babaetskv.muspert.presentation.player
 
 import android.media.AudioManager
-import com.arellomobile.mvp.InjectViewState
+import com.babaetskv.muspert.data.ErrorHandler
 import com.babaetskv.muspert.device.PlaybackService
 import com.babaetskv.muspert.presentation.base.BasePresenter
+import com.babaetskv.muspert.utils.notifier.Notifier
 
-@InjectViewState
 class PlayerPresenter(
     private val albumId: Long,
     private val trackId: Long,
-    private val audioManager: AudioManager
-) : BasePresenter<PlayerView>() {
+    private val audioManager: AudioManager,
+    errorHandler: ErrorHandler,
+    notifier: Notifier
+) : BasePresenter<PlayerView>(errorHandler, notifier) {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()

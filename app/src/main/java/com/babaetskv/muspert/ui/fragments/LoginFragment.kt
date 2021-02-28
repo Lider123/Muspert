@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import com.arellomobile.mvp.presenter.InjectPresenter
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.auth.AuthBuilder
 import com.babaetskv.muspert.auth.PhoneAuthProvider
@@ -15,16 +14,19 @@ import com.babaetskv.muspert.presentation.login.LoginView
 import com.babaetskv.muspert.ui.base.BaseFragment
 import com.babaetskv.muspert.utils.*
 import com.babaetskv.muspert.utils.notifier.Notifier
+import moxy.ktx.moxyPresenter
+import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 
 /**
  * @author Konstantin on 18.05.2020
  */
 class LoginFragment : BaseFragment(), LoginView, PhoneAuthProvider.OnSendSmsListener {
-    @InjectPresenter
-    lateinit var presenter: LoginPresenter
     private val notifier: Notifier by inject()
 
+    private val presenter: LoginPresenter by moxyPresenter {
+        LoginPresenter(get(), get(), get(), get(), get(), notifier)
+    }
     private var authBuilder: AuthBuilder? = null
     private var smsAutoFilled = false
     private val binding: FragmentLoginBinding by viewBinding()

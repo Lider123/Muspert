@@ -5,13 +5,12 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.arellomobile.mvp.presenter.InjectPresenter
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.models.Album
 import com.babaetskv.muspert.data.models.Genre
 import com.babaetskv.muspert.databinding.FragmentHomeBinding
-import com.babaetskv.muspert.presentation.catalog.CatalogPresenter
-import com.babaetskv.muspert.presentation.catalog.CatalogView
+import com.babaetskv.muspert.presentation.home.HomePresenter
+import com.babaetskv.muspert.presentation.home.HomeView
 import com.babaetskv.muspert.ui.EmptyDividerDecoration
 import com.babaetskv.muspert.ui.base.BaseFragment
 import com.babaetskv.muspert.ui.item.AlbumSmallItem
@@ -24,11 +23,13 @@ import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IAdapter
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.adapters.ItemAdapter
+import moxy.ktx.moxyPresenter
+import org.koin.android.ext.android.get
 
-class HomeFragment : BaseFragment(), CatalogView {
-    @InjectPresenter
-    lateinit var presenter: CatalogPresenter
-
+class HomeFragment : BaseFragment(), HomeView {
+    private val presenter: HomePresenter by moxyPresenter {
+        HomePresenter(get(), get(), get(), get(), get())
+    }
     private lateinit var albumsAdapter: FastAdapter<IItem<*>>
     private lateinit var albumsItemAdapter: ItemAdapter<IItem<*>>
     private lateinit var genresAdapter: FastAdapter<IItem<*>>

@@ -54,6 +54,8 @@ dependencies {
     implementation "com.facebook.stetho:stetho-okhttp3:$stetho_version"
     implementation "com.facebook.stetho:stetho-urlconnection:$stetho_version"
     implementation "com.github.miguelbcr:RxPaparazzo:0.6.1-2.x"
+    implementation "com.github.moxy-community:moxy-androidx:$moxy_version"
+    implementation "com.github.moxy-community:moxy-ktx:$moxy_version"
     implementation 'com.google.android.exoplayer:exoplayer:2.11.4'
     implementation 'com.google.firebase:firebase-analytics-ktx:17.4.1'
     implementation 'com.google.firebase:firebase-auth:19.3.1'
@@ -76,12 +78,10 @@ dependencies {
     implementation 'net.danlew:android.joda:2.10.6'
     implementation "org.koin:koin-android:$koin_version"
     implementation "org.koin:koin-android-ext:$koin_version"
-    implementation "tech.schoolhelper:moxy-x:$moxy_version"
-    implementation "tech.schoolhelper:moxy-x-androidx:$moxy_version"
     testImplementation 'junit:junit:4.12'
     testImplementation "org.koin:koin-test:$koin_version"
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-    kapt "tech.schoolhelper:moxy-x-compiler:$moxy_version"
+    kapt "com.github.moxy-community:moxy-compiler:$moxy_version"
 }
