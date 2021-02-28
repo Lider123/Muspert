@@ -30,12 +30,10 @@ class SignUpFragment : BaseFragment(), SignUpView {
 
     override fun showProgress() {
         binding.confirmProgress.setVisible()
-        binding.confirmButton.setInvisible()
     }
 
     override fun hideProgress() {
         binding.confirmProgress.setGone()
-        binding.confirmButton.setVisible()
     }
 
     private fun initListeners() {
