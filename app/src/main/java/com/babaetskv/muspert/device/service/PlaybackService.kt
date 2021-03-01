@@ -84,7 +84,7 @@ class PlaybackService : BaseService() {
                 if (!playerPrefs.shuffleEnabled) {
                     val currTrackId: Long? = tracks.firstOrNull()?.id
                     if (currTrackId != null) {
-                        tracks = ArrayDeque(tracks.sortedBy { it.title })
+                        tracks = ArrayDeque(tracks.sortedBy { it.position })
                         while (tracks.first.id != currTrackId) {
                             tracks.removeFirst().also { tracks.addLast(it) }
                         }

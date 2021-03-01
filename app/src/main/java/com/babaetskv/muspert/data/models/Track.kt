@@ -5,6 +5,7 @@ data class Track(
     val title: String,
     val link: String,
     val albumId: Long,
+    val position: Int,
     val cover: String,
     val albumTitle: String,
     val artistName: String

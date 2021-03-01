@@ -13,7 +13,8 @@ class TrackModelToTrackMapper : Mapper<TrackModel, Track> {
             albumId = it.albumId,
             cover = it.cover,
             albumTitle = it.albumTitle,
-            artistName = it.artistName
+            artistName = it.artistName,
+            position = it.position
         )
     }
 }
