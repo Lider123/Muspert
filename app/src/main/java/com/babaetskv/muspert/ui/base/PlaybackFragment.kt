@@ -5,7 +5,7 @@ import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.models.PlaybackData
 import com.babaetskv.muspert.data.models.ProgressData
-import com.babaetskv.muspert.device.PlaybackService
+import com.babaetskv.muspert.device.service.PlaybackService
 import com.babaetskv.muspert.utils.into
 import com.babaetskv.muspert.utils.safeDispose
 import com.squareup.picasso.Picasso

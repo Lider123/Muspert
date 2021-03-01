@@ -1,6 +1,5 @@
 package com.babaetskv.muspert.di
 
-import android.app.NotificationManager
 import android.content.Context
 import android.media.AudioManager
 import com.babaetskv.muspert.BuildConfig
@@ -21,6 +20,7 @@ import com.babaetskv.muspert.data.repository.CatalogRepository
 import com.babaetskv.muspert.data.repository.CatalogRepositoryImpl
 import com.babaetskv.muspert.data.repository.ProfileRepository
 import com.babaetskv.muspert.data.repository.ProfileRepositoryImpl
+import com.babaetskv.muspert.device.AppNotificationManager
 import com.babaetskv.muspert.device.NotificationReceiver
 import com.babaetskv.muspert.navigation.AppNavigator
 import com.babaetskv.muspert.utils.notifier.Notifier
@@ -56,7 +56,7 @@ private val appModule = module {
     single { AppNavigator() }
     single { FirebaseCrashlytics.getInstance() }
     single { NotificationReceiver() }
-    single { get<Context>().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager }
+    single { AppNotificationManager(get()) }
     single { get<Context>().getSystemService(Context.AUDIO_SERVICE) as AudioManager }
 }
 

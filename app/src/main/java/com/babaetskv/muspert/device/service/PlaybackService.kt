@@ -1,26 +1,19 @@
-package com.babaetskv.muspert.device
+package com.babaetskv.muspert.device.service
 
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.IBinder
-import android.widget.RemoteViews
-import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import com.babaetskv.muspert.BuildConfig
-import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.models.PlaybackData
 import com.babaetskv.muspert.data.models.ProgressData
 import com.babaetskv.muspert.data.models.Track
 import com.babaetskv.muspert.data.prefs.player.PlayerPrefs
 import com.babaetskv.muspert.data.repository.CatalogRepository
+import com.babaetskv.muspert.device.AppNotificationManager
 import com.babaetskv.muspert.device.mediaplayer.MediaPlayer
 import com.babaetskv.muspert.device.mediaplayer.MusicPlayer
-import com.babaetskv.muspert.ui.MainActivity
-import com.squareup.picasso.Picasso
 import io.reactivex.subjects.BehaviorSubject
 import org.koin.android.ext.android.inject
 import timber.log.Timber
@@ -29,8 +22,8 @@ import java.util.*
 class PlaybackService : BaseService() {
     private val catalogRepository: CatalogRepository by inject()
     private val schedulersProvider: SchedulersProvider by inject()
-    private val notificationManager: NotificationManager by inject()
     private val playerPrefs: PlayerPrefs by inject()
+    private val notificationManager: AppNotificationManager by inject()
 
     private lateinit var player: MediaPlayer
     private var tracks: Deque<Track> = ArrayDeque()
@@ -128,7 +121,18 @@ class PlaybackService : BaseService() {
     }
 
     private fun onNextUpdateCommand(data: PlaybackData) {
-        if (data.track != null) showNotification(data.track, data.isPlaying)
+        data.track ?: return
+
+        AppNotificationManager.ForegroundNotificationParams(
+            data.track,
+            data.isPlaying,
+            prevIntent = createActionIntent(this, Action.Prev),
+            nextIntent = createActionIntent(this, Action.Next),
+            playIntent = createActionIntent(this, Action.Play),
+            closeIntent = createActionIntent(this, Action.Stop)
+        ).let {
+            notificationManager.showForegroundNotification(this, it)
+        }
     }
 
     private fun initPlayer() {
@@ -219,78 +223,6 @@ class PlaybackService : BaseService() {
         }
     }
 
-    private fun showNotification(track: Track, isPlaying: Boolean) {
-        val notificationIntent = createPushIntent(track)
-        val previousIntent = createActionIntent(this, Action.Prev)
-        val nextIntent = createActionIntent(this, Action.Next)
-        val playIntent = createActionIntent(this, Action.Play)
-        val closeIntent = createActionIntent(this, Action.Stop)
-        val notificationLayout = RemoteViews(packageName, R.layout.layout_notification_playback).apply {
-            setImageViewResource(R.id.imgCover, R.drawable.logo)
-            setOnClickPendingIntent(R.id.btnPlay, playIntent)
-            setOnClickPendingIntent(R.id.btnPrev, previousIntent)
-            setOnClickPendingIntent(R.id.btnNext, nextIntent)
-            setOnClickPendingIntent(R.id.btnClose, closeIntent)
-            setImageViewResource(R.id.btnPlay, if (isPlaying) R.drawable.ic_pause_accent else R.drawable.ic_play_accent)
-            setTextViewText(R.id.tvTrackTitle, track.title)
-            setTextViewText(R.id.tvArtistName, track.artistName)
-        }
-        val notificationLayoutExpanded = RemoteViews(
-            packageName,
-            R.layout.layout_notification_playback_expanded
-        ).apply {
-            setImageViewResource(R.id.imgCover, R.drawable.logo)
-            setOnClickPendingIntent(R.id.btnPlay, playIntent)
-            setOnClickPendingIntent(R.id.btnPrev, previousIntent)
-            setOnClickPendingIntent(R.id.btnNext, nextIntent)
-            setOnClickPendingIntent(R.id.btnClose, closeIntent)
-            setImageViewResource(R.id.btnPlay, if (isPlaying) R.drawable.ic_pause_accent else R.drawable.ic_play_accent)
-            setTextViewText(R.id.tvTrackTitle, track.title)
-            setTextViewText(R.id.tvAlbumTitle, track.albumTitle)
-            setTextViewText(R.id.tvArtistName, track.artistName)
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createNotificationChannelIfNotExists()
-        }
-        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.logo_white)
-            .setColor(ContextCompat.getColor(this, R.color.colorPrimary))
-            .setStyle(NotificationCompat.DecoratedCustomViewStyle())
-            .setCustomContentView(notificationLayout)
-            .setCustomBigContentView(notificationLayoutExpanded)
-            .setPriority(NotificationCompat.PRIORITY_MAX)
-            .build()
-            .apply {
-                flags = Notification.FLAG_ONGOING_EVENT
-                contentIntent = notificationIntent
-            }
-        Picasso.with(this)
-            .load(BuildConfig.API_URL + track.cover)
-            .resize(0, 200)
-            .run {
-                into(notificationLayout, R.id.imgCover, NOTIFICATION_ID, notification)
-                into(notificationLayoutExpanded, R.id.imgCover, NOTIFICATION_ID, notification)
-            }
-        startForeground(NOTIFICATION_ID, notification)
-    }
-
-    private fun createPushIntent(track: Track): PendingIntent =
-        Intent(NotificationReceiver.BROADCAST_ACTION).apply {
-            putExtra(MainActivity.EXTRA_TRACK_ID, track.id)
-        }.let {
-            PendingIntent.getBroadcast(this, REQUEST_CODE, it, PendingIntent.FLAG_CANCEL_CURRENT)
-        }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun createNotificationChannelIfNotExists() {
-        var channel = notificationManager.getNotificationChannel(CHANNEL_ID)
-        channel ?: return
-
-        channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)
-        channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-        notificationManager.createNotificationChannel(channel)
-    }
-
     sealed class Action(val id: String) {
         object Start : Action("PlaybackService.action.start")
         object Stop : Action("PlaybackService.action.stop")
@@ -306,10 +238,6 @@ class PlaybackService : BaseService() {
         private const val EXTRA_ALBUM_ID = "PlaybackService.AlbumId"
         private const val EXTRA_TRACK_ID = "PlaybackService.TrackId"
         private const val EXTRA_PROGRESS_PERCENT = "PlaybackService.ProgressPercentage"
-        private const val NOTIFICATION_ID = 101
-        private const val CHANNEL_ID = "MuspertNotifications"
-        private const val CHANNEL_NAME = "Muspert notifications"
-        private const val REQUEST_CODE = 1
 
         private var instance: PlaybackService? = null
 

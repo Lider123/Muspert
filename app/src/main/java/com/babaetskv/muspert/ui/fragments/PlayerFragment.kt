@@ -12,7 +12,7 @@ import android.widget.SeekBar
 import androidx.navigation.fragment.navArgs
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.databinding.FragmentPlayerBinding
-import com.babaetskv.muspert.device.PlaybackService
+import com.babaetskv.muspert.device.service.PlaybackService
 import com.babaetskv.muspert.presentation.player.PlayerPresenter
 import com.babaetskv.muspert.presentation.player.PlayerView
 import com.babaetskv.muspert.ui.base.PlaybackControls

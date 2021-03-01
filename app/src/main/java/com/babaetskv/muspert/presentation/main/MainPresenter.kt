@@ -2,7 +2,7 @@ package com.babaetskv.muspert.presentation.main
 
 import android.view.MenuItem
 import com.babaetskv.muspert.data.ErrorHandler
-import com.babaetskv.muspert.device.PlaybackService
+import com.babaetskv.muspert.device.service.PlaybackService
 import com.babaetskv.muspert.navigation.AppNavigator
 import com.babaetskv.muspert.presentation.base.BasePresenter
 import com.babaetskv.muspert.ui.fragments.MainFragmentDirections

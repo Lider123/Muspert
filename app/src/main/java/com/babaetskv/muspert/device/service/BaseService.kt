@@ -1,4 +1,4 @@
-package com.babaetskv.muspert.device
+package com.babaetskv.muspert.device.service
 
 import android.app.Service
 import com.babaetskv.muspert.utils.safeDispose

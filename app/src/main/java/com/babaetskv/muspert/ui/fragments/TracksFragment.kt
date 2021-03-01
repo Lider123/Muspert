@@ -12,7 +12,7 @@ import com.babaetskv.muspert.data.models.Album
 import com.babaetskv.muspert.data.models.PlaybackData
 import com.babaetskv.muspert.data.models.Track
 import com.babaetskv.muspert.databinding.FragmentTracksBinding
-import com.babaetskv.muspert.device.PlaybackService
+import com.babaetskv.muspert.device.service.PlaybackService
 import com.babaetskv.muspert.presentation.tracks.TracksPresenter
 import com.babaetskv.muspert.presentation.tracks.TracksView
 import com.babaetskv.muspert.ui.EmptyDividerDecoration

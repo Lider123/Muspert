@@ -5,7 +5,7 @@ import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.models.Album
 import com.babaetskv.muspert.data.models.GetAlbumsParams
 import com.babaetskv.muspert.data.repository.CatalogRepository
-import com.babaetskv.muspert.device.PlaybackService
+import com.babaetskv.muspert.device.service.PlaybackService
 import com.babaetskv.muspert.navigation.AppNavigator
 import com.babaetskv.muspert.presentation.base.BasePresenter
 import com.babaetskv.muspert.presentation.base.DefaultPaginator
