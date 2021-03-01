@@ -9,6 +9,9 @@
     <string name="search">Поиск</string>
     <string name="library">Хранилище</string>
     <string name="profile">Профиль</string>
+    <string name="playlists">Плейлисты</string>
+    <string name="favorites">Избранное</string>
+    <string name="history">История</string>
 
     <!-- Button titles -->
     <string name="login">Войти</string>
@@ -35,6 +38,7 @@
     <string name="genres">Жанры</string>
     <string name="enter_sms_code">Введите SMS код</string>
     <string name="phone_hint">Введите ваш номер телефона</string>
+    <string name="music">Музыка</string>
 
     <!-- Hints -->
     <string name="enter_first_name">Введите имя</string>
