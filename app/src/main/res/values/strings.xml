@@ -9,6 +9,9 @@
     <string name="search">Search</string>
     <string name="library">Library</string>
     <string name="profile">Profile</string>
+    <string name="playlists">Playlists</string>
+    <string name="favorites">Favorites</string>
+    <string name="history">History</string>
 
     <!-- Button titles -->
     <string name="login">Login</string>
@@ -35,6 +38,7 @@
     <string name="enter_sms_code">Enter SMS code</string>
     <string name="phone_hint">Enter your phone number</string>
     <string name="sms_hint">Enter the code that was sent to your phone</string>
+    <string name="music">Music</string>
 
     <!-- Hints -->
     <string name="enter_first_name">Enter first name</string>

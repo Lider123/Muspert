@@ -114,4 +114,9 @@
     <style name="AppTheme.CardView" parent="Widget.MaterialComponents.CardView">
         <item name="cardBackgroundColor">@color/colorSurface</item>
     </style>
+
+    <style name="AppTheme.TextAppearance.TabWidget" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>
