@@ -4,6 +4,7 @@ import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.ErrorHandler
 import com.babaetskv.muspert.data.models.User
 import com.babaetskv.muspert.data.network.gateway.AuthGateway
+import com.babaetskv.muspert.data.prefs.app.AppPrefs
 import com.babaetskv.muspert.data.repository.ProfileRepository
 import com.babaetskv.muspert.navigation.AppNavigator
 import com.babaetskv.muspert.presentation.base.BasePresenter
@@ -15,6 +16,7 @@ class LoginPresenter(
     private val profileRepository: ProfileRepository,
     private val schedulersProvider: SchedulersProvider,
     private val navigator: AppNavigator,
+    private val appPrefs: AppPrefs,
     errorHandler: ErrorHandler,
     notifier: Notifier
 ) : BasePresenter<LoginView>(errorHandler, notifier) {
@@ -55,7 +57,8 @@ class LoginPresenter(
     }
 
     private fun onGetProfileSuccess(user: User) {
-        if (user.isRegistered) {
+        appPrefs.profileFilled = user.isFilled
+        if (user.isFilled) {
             navigator.replaceWith(LoginFragmentDirections.actionLoginFragmentToMainFragment())
         } else {
             navigator.forward(LoginFragmentDirections.actionLoginFragmentToSignUpFragment(user))

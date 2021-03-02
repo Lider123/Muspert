@@ -1,7 +1,7 @@
 package com.babaetskv.muspert.data.models
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class User(
@@ -11,13 +11,6 @@ data class User(
     var lastName: String? = null,
     val avatar: String? = null
 ) : Parcelable {
-    val isRegistered: Boolean
+    val isFilled: Boolean
         get() = nickname != null && firstName != null && lastName != null
-
-    fun copy(other: User) {
-        this.id = other.id
-        this.nickname = other.nickname
-        this.firstName = other.firstName
-        this.lastName = other.lastName
-    }
 }

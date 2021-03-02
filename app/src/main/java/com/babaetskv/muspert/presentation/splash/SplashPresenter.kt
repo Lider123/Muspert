@@ -22,9 +22,11 @@ class SplashPresenter(
     fun onDelay() {
         if (!appPrefs.welcomeShowed) {
             navigator.replaceWith(SplashFragmentDirections.actionSplashFragmentToWelcomeFragment())
-        } else if (appPrefs.isAuthorized) {
+        } else if (!appPrefs.isAuthorized) {
+            navigator.replaceWith(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
+        } else if (!appPrefs.profileFilled) {
             loadProfile()
-        } else navigator.replaceWith(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
+        } else navigator.replaceWith(SplashFragmentDirections.actionSplashFragmentToMainFragment())
     }
 
     private fun loadProfile() {
@@ -35,7 +37,8 @@ class SplashPresenter(
     }
 
     private fun onGetProfileSuccess(user: User) {
-        if (user.isRegistered) {
+        appPrefs.profileFilled = user.isFilled
+        if (user.isFilled) {
             navigator.replaceWith(SplashFragmentDirections.actionSplashFragmentToMainFragment())
         } else {
             navigator.replaceWith(SplashFragmentDirections.actionSplashFragmentToSignUpFragment(user))

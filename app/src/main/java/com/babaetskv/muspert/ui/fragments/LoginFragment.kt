@@ -25,7 +25,7 @@ class LoginFragment : BaseFragment(), LoginView, PhoneAuthProvider.OnSendSmsList
     private val notifier: Notifier by inject()
 
     private val presenter: LoginPresenter by moxyPresenter {
-        LoginPresenter(get(), get(), get(), get(), get(), notifier)
+        LoginPresenter(get(), get(), get(), get(), get(), get(), notifier)
     }
     private var authBuilder: AuthBuilder? = null
     private var smsAutoFilled = false
