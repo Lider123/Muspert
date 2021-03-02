@@ -16,7 +16,7 @@ import org.koin.android.ext.android.get
 class SignUpFragment : BaseFragment(), SignUpView {
     private val args: SignUpFragmentArgs by navArgs()
     private val presenter: SignUpPresenter by moxyPresenter {
-        SignUpPresenter(args.user, get(), get(), get(), get(), get())
+        SignUpPresenter(args.user, get(), get(), get(), get(), get(), get())
     }
     private val binding: FragmentSignUpBinding by viewBinding()
 

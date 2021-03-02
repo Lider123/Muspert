@@ -25,7 +25,7 @@ class AuthGatewayImpl(
 
     override fun logout(): Completable =
         Completable.fromAction {
-            appPrefs.authToken = ""
+            appPrefs.reset()
         }
             .subscribeOn(schedulersProvider.IO)
 }
