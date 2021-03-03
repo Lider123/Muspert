@@ -30,4 +30,9 @@ class CatalogRepositoryImpl(
         authApi.getTracks(param)
             .subscribeOn(schedulersProvider.IO)
             .map { it.mapNotNull(trackModelToTrackMapper::map) }
+
+    override fun getFavoriteTracks(params: GetFavoriteTracksParams?): Single<List<Track>> =
+        authApi.getFavoriteTracks(params?.limit, params?.offset)
+            .subscribeOn(schedulersProvider.IO)
+            .map { it.mapNotNull(trackModelToTrackMapper::map) }
 }

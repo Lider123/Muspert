@@ -18,7 +18,7 @@ abstract class PlaybackFragment : BaseFragment() {
     private var playbackDisposable: Disposable? = null
     private var progressDisposable: Disposable? = null
 
-    protected abstract val playbackControls: PlaybackControls
+    protected abstract val playbackControls: PlaybackControls?
 
     override fun onStart() {
         super.onStart()
@@ -47,14 +47,14 @@ abstract class PlaybackFragment : BaseFragment() {
     }
 
     private fun onNextProgressUpdate(data: ProgressData) {
-        playbackControls.run {
+        playbackControls?.run {
             setDuration(data.duration.div(1000).toInt())
             setProgress(data.progress.div(1000).toInt())
         }
     }
 
     protected open fun onNextPlaybackCommand(data: PlaybackData) {
-        playbackControls.run {
+        playbackControls?.run {
             if (data.track == null) {
                 hide()
                 return

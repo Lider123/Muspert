@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.SeekBar
 import androidx.navigation.fragment.navArgs
 import com.babaetskv.muspert.R
+import com.babaetskv.muspert.data.models.PlaybackData
 import com.babaetskv.muspert.databinding.FragmentPlayerBinding
 import com.babaetskv.muspert.device.service.PlaybackService
 import com.babaetskv.muspert.presentation.player.PlayerPresenter
@@ -18,6 +19,8 @@ import com.babaetskv.muspert.presentation.player.PlayerView
 import com.babaetskv.muspert.ui.base.PlaybackControls
 import com.babaetskv.muspert.ui.base.PlaybackFragment
 import com.babaetskv.muspert.utils.formatTime
+import com.babaetskv.muspert.utils.setGone
+import com.babaetskv.muspert.utils.setVisible
 import com.babaetskv.muspert.utils.viewBinding
 import moxy.ktx.moxyPresenter
 import org.koin.android.ext.android.get
@@ -28,7 +31,7 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
 
     private val args: PlayerFragmentArgs by navArgs()
     private val presenter: PlayerPresenter by moxyPresenter {
-        PlayerPresenter(args.albumId, args.trackId, audioManager, get(), get())
+        PlayerPresenter(args.albumId, args.trackId, audioManager, get(), get(), get(), get(), get())
     }
     private var prevCallback: (() -> Unit)? = null
     private var playCallback: (() -> Unit)? = null
@@ -64,6 +67,15 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
     override fun onDestroy() {
         requireContext().contentResolver.unregisterContentObserver(settingsContentObserver)
         super.onDestroy()
+    }
+
+    override fun onNextPlaybackCommand(data: PlaybackData) {
+        super.onNextPlaybackCommand(data)
+        presenter.setCurrentTrack(data.track)
+        val isFavorite = data.track?.isFavorite ?: false
+        with (binding.btnLike) {
+            setImageResource(if (isFavorite) R.drawable.ic_like_on else R.drawable.ic_like_off)
+        }
     }
 
     override fun startPlayer(albumId: Long, trackId: Long) {
@@ -146,6 +158,20 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
         binding.seekVolume.progress = current
     }
 
+    override fun updateIsFavorite(isFavorite: Boolean) {
+        with (binding.btnLike) {
+            setImageResource(if (isFavorite) R.drawable.ic_like_on else R.drawable.ic_like_off)
+        }
+    }
+
+    override fun showProgress() {
+        binding.progress.setVisible()
+    }
+
+    override fun hideProgress() {
+        binding.progress.setGone()
+    }
+
     private fun initListeners() {
         binding.toolbar.setNavigationOnClickListener {
             onBackPressed()
@@ -164,6 +190,9 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
         }
         binding.btnRepeat.setOnClickListener {
             repeatCallback?.invoke()
+        }
+        binding.btnLike.setOnClickListener {
+            presenter.onLike()
         }
         binding.seekProgress.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             private var shouldResumePlayback: Boolean = false

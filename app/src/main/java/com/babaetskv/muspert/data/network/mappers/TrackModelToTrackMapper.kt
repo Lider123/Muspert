@@ -14,7 +14,8 @@ class TrackModelToTrackMapper : Mapper<TrackModel, Track> {
             cover = it.cover,
             albumTitle = it.albumTitle,
             artistName = it.artistName,
-            position = it.position
+            position = it.position,
+            isFavorite = it.isFavorite
         )
     }
 }

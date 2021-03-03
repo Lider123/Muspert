@@ -5,12 +5,16 @@ import android.media.AudioManager
 import com.babaetskv.muspert.BuildConfig
 import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.ErrorHandler
+import com.babaetskv.muspert.data.event.EventHub
+import com.babaetskv.muspert.data.event.EventHubImpl
 import com.babaetskv.muspert.data.network.AuthApi
 import com.babaetskv.muspert.data.network.CommonApi
 import com.babaetskv.muspert.data.network.ErrorResponseInterceptor
 import com.babaetskv.muspert.data.network.HeaderInterceptorFactory
 import com.babaetskv.muspert.data.network.gateway.AuthGateway
 import com.babaetskv.muspert.data.network.gateway.AuthGatewayImpl
+import com.babaetskv.muspert.data.network.gateway.FavoritesGateway
+import com.babaetskv.muspert.data.network.gateway.FavoritesGatewayImpl
 import com.babaetskv.muspert.data.network.mappers.*
 import com.babaetskv.muspert.data.prefs.app.AppPrefsImpl
 import com.babaetskv.muspert.data.prefs.app.AppPrefs
@@ -58,6 +62,7 @@ private val appModule = module {
     single { NotificationReceiver() }
     single { AppNotificationManager(get()) }
     single { get<Context>().getSystemService(Context.AUDIO_SERVICE) as AudioManager }
+    single<EventHub> { EventHubImpl(get()) }
 }
 
 val repositoryModule = module {
@@ -133,6 +138,7 @@ private val mapperModule = module {
 
 private val gatewayModule = module {
     factory<AuthGateway> { AuthGatewayImpl(get(), get(), get()) }
+    factory<FavoritesGateway> { FavoritesGatewayImpl(get(), get()) }
 }
 
 private val prefsModule = module {

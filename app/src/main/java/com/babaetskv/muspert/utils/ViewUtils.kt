@@ -5,7 +5,9 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat.getSystemService
+import java.util.*
 
 fun View.setVisible() {
     visibility = View.VISIBLE
@@ -41,3 +43,26 @@ fun EditText.doOnTextChanged(callback: ((s: CharSequence?, start: Int, before: I
 
     })
 }
+
+fun View.showPopup(options: List<PopupOption>) {
+    if (options.isEmpty()) return
+
+    val popup = PopupMenu(this.context, this)
+    with (popup.menu) {
+        options.mapIndexed { index, option ->
+            add(1, option.hashCode(), index, option.title)
+        }
+    }
+    popup.setOnMenuItemClickListener { item ->
+        options.find { it.hashCode() == item.itemId }?.let {
+            it.action.invoke()
+            true
+        } ?: false
+    }
+    popup.show()
+}
+
+data class PopupOption(
+    val title: String,
+    val action: () -> Unit
+)
