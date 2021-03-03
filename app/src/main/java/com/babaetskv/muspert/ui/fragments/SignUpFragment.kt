@@ -3,6 +3,7 @@ package com.babaetskv.muspert.ui.fragments
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import androidx.core.widget.doOnTextChanged
 import androidx.navigation.fragment.navArgs
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.databinding.FragmentSignUpBinding

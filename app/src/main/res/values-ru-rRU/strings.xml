@@ -65,6 +65,9 @@
     <string name="added_to_favorites_message">Добавлено в избранное</string>
     <string name="removed_from_favorites_message">Удалено из избранного</string>
     <string name="empty_favorites_list_message">Отсутствуют треки в избранном</string>
+    <string name="presearch_title">Введите поисковый запрос</string>
+    <string name="empty_search_results_title">Отсутствуют результаты</string>
+    <string name="empty_search_results_message">Отсутствуют результаты поиска. Попробуйте изменить поисковый запрос.</string>
 
     <!-- Alerts -->
     <string name="phone_number_is_null">Введите номер телефона</string>
