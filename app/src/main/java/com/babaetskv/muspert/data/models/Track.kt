@@ -8,5 +8,6 @@ data class Track(
     val position: Int,
     val cover: String,
     val albumTitle: String,
-    val artistName: String
+    val artistName: String,
+    var isFavorite: Boolean
 )

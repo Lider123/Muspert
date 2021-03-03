@@ -4,6 +4,8 @@ import com.babaetskv.muspert.data.models.Album
 import com.babaetskv.muspert.data.models.Track
 import com.babaetskv.muspert.presentation.base.BaseView
 import moxy.viewstate.strategy.alias.AddToEndSingle
+import moxy.viewstate.strategy.alias.OneExecution
+import moxy.viewstate.strategy.alias.Skip
 
 interface TracksView : BaseView {
 

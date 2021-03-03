@@ -1,9 +1,6 @@
 package com.babaetskv.muspert.data.network
 
-import com.babaetskv.muspert.data.network.models.AlbumModel
-import com.babaetskv.muspert.data.network.models.GenreModel
-import com.babaetskv.muspert.data.network.models.TrackModel
-import com.babaetskv.muspert.data.network.models.UserModel
+import com.babaetskv.muspert.data.network.models.*
 import io.reactivex.Completable
 import io.reactivex.Single
 import okhttp3.MultipartBody
@@ -43,5 +40,21 @@ interface AuthApi {
     @GET("api/catalog/tracks")
     fun getTracks(
         @Query("albumId") albumId: Long
+    ): Single<List<TrackModel>>
+
+    @POST("api/favorites")
+    fun addToFavorites(
+        @Body request: AddToFavoritesRequest
+    ): Completable
+
+    @DELETE("api/favorites/{trackId}")
+    fun removeFromFavorites(
+        @Path("trackId") trackId: Long
+    ): Completable
+
+    @GET("api/catalog/favorites")
+    fun getFavoriteTracks(
+        @Query("limit") limit: Long?,
+        @Query("offset") offset: Long?
     ): Single<List<TrackModel>>
 }

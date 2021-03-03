@@ -26,6 +26,8 @@ class TrackItem(val track: Track, var isPlaying: Boolean) : AbstractItem<TrackIt
 
         val btnPlay: AppCompatImageButton
             get() = binding.buttonPlayPause
+        val btnOptions: AppCompatImageButton
+            get() = binding.buttonOptions
 
         override fun bindView(item: TrackItem, payloads: List<Any>) {
             binding.tvTitle.text = item.track.title

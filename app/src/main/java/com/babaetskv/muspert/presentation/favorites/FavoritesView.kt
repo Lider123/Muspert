@@ -1,5 +1,6 @@
-package com.babaetskv.muspert.presentation.player
+package com.babaetskv.muspert.presentation.favorites
 
+import com.babaetskv.muspert.data.models.Track
 import com.babaetskv.muspert.presentation.base.BaseView
 import moxy.viewstate.strategy.AddToEndSingleTagStrategy
 import moxy.viewstate.strategy.StateStrategyType
@@ -7,13 +8,7 @@ import moxy.viewstate.strategy.alias.AddToEndSingle
 import moxy.viewstate.strategy.alias.OneExecution
 import moxy.viewstate.strategy.alias.Skip
 
-interface PlayerView : BaseView {
-
-    @OneExecution
-    fun startPlayer(albumId: Long, trackId: Long)
-
-    @AddToEndSingle
-    fun populateVolume(max: Int, current: Int)
+interface FavoritesView : BaseView {
 
     @StateStrategyType(AddToEndSingleTagStrategy::class, tag = PROGRESS)
     fun showProgress()
@@ -21,10 +16,17 @@ interface PlayerView : BaseView {
     @StateStrategyType(AddToEndSingleTagStrategy::class, tag = PROGRESS)
     fun hideProgress()
 
-    @Skip
-    fun updateIsFavorite(isFavorite: Boolean)
+    @AddToEndSingle
+    fun showErrorView(show: Boolean)
+
+    @AddToEndSingle
+    fun showEmptyView(show: Boolean)
+
+    @AddToEndSingle
+    fun populateTracks(tracks: List<Track>)
 
     companion object {
         private const val PROGRESS = "PROGRESS"
+        private const val DATA_UPDATE = "DATA_UPDATE"
     }
 }

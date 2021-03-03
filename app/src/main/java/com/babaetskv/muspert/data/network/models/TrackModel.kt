@@ -10,5 +10,6 @@ data class TrackModel(
     @SerializedName("position") val position: Int,
     @SerializedName("cover") val cover: String,
     @SerializedName("albumTitle") val albumTitle: String,
-    @SerializedName("artistName") val artistName: String
+    @SerializedName("artistName") val artistName: String,
+    @SerializedName("isFavorite") val isFavorite: Boolean
 )

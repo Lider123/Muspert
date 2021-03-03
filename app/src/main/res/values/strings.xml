@@ -39,6 +39,8 @@
     <string name="phone_hint">Enter your phone number</string>
     <string name="sms_hint">Enter the code that was sent to your phone</string>
     <string name="music">Music</string>
+    <string name="add_to_favorites">Add to favorites</string>
+    <string name="remove_from_favorites">Remove from favorites</string>
 
     <!-- Hints -->
     <string name="enter_first_name">Enter first name</string>
@@ -60,6 +62,9 @@
     <string name="welcome_2_message">Get access to unlimited amount of albums</string>
     <string name="welcome_3_title">Listen everywhere</string>
     <string name="welcome_3_message">Listen to your favorite songs everywhere you want</string>
+    <string name="added_to_favorites_message">Added to favorites</string>
+    <string name="removed_from_favorites_message">Removed from favorites</string>
+    <string name="empty_favorites_list_message">Your favorites list is empty</string>
 
     <!-- Alerts -->
     <string name="phone_number_is_null">Phone number is null</string>
@@ -84,6 +89,7 @@
     <string name="error_albums_message">An error occurred while retrieving albums. Please try again later.</string>
     <string name="error_genres_message">An error occurred while retrieving genres. Please try again later.</string>
     <string name="error_tracks_message">An error occurred while retrieving tracks. Please try again later.</string>
+    <string name="error_favorites_message">An error occurred while retrieving favorites. Please try again later.</string>
 
     <!-- Placeholders -->
     <string name="username_placeholder" translatable="false">%s %s</string>

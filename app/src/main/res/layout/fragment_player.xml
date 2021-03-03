@@ -16,7 +16,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/layout_baseline_default"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
@@ -37,6 +36,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_volume_high"/>
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btnLike"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="centerCrop"
+                android:layout_marginStart="@dimen/layout_baseline_default"
+                tools:src="@drawable/ic_like_off"/>
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
@@ -185,4 +192,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             tools:src="@drawable/ic_repeat_inactive"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.babaetskv.muspert.ui.view.SquareProgress
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,9 +19,7 @@ import com.babaetskv.muspert.ui.EmptyDividerDecoration
 import com.babaetskv.muspert.ui.item.TrackItem
 import com.babaetskv.muspert.ui.base.PlaybackControls
 import com.babaetskv.muspert.ui.base.PlaybackFragment
-import com.babaetskv.muspert.utils.setGone
-import com.babaetskv.muspert.utils.setVisible
-import com.babaetskv.muspert.utils.viewBinding
+import com.babaetskv.muspert.utils.*
 import com.mikepenz.fastadapter.ClickListener
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IAdapter
@@ -34,7 +32,7 @@ import org.koin.android.ext.android.get
 class TracksFragment : PlaybackFragment(), TracksView {
     private val args: TracksFragmentArgs by navArgs()
     private val presenter: TracksPresenter by moxyPresenter {
-        TracksPresenter(args.album, get(), get(), get(), get(), get())
+        TracksPresenter(args.album, get(), get(), get(), get(), get(), get(), get())
     }
     private lateinit var adapter: FastAdapter<TrackItem>
     private lateinit var itemAdapter: ItemAdapter<TrackItem>
@@ -172,6 +170,26 @@ class TracksFragment : PlaybackFragment(), TracksView {
                     } else {
                         PlaybackService.startPlaybackService(requireContext(), item.track.albumId, item.track.id)
                     }
+                }
+            })
+            addEventHook(object : ClickEventHook<TrackItem>() {
+
+                override fun onBind(viewHolder: RecyclerView.ViewHolder): View? =
+                    if (viewHolder is TrackItem.ViewHolder) viewHolder.btnOptions else null
+
+                override fun onClick(
+                    v: View,
+                    position: Int,
+                    fastAdapter: FastAdapter<TrackItem>,
+                    item: TrackItem
+                ) {
+                    val data = item.track
+                    v.showPopup(listOf(
+                        PopupOption(
+                            title = if (data.isFavorite) getString(R.string.remove_from_favorites) else getString(R.string.add_to_favorites),
+                            action = { if (data.isFavorite) presenter.removeFromFavorites(data) else presenter.addToFavorites(data) }
+                        )
+                    ))
                 }
             })
         }

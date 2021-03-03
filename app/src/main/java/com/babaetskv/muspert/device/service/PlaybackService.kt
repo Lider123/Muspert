@@ -6,6 +6,9 @@ import android.content.Intent
 import android.os.IBinder
 import androidx.core.content.ContextCompat
 import com.babaetskv.muspert.data.SchedulersProvider
+import com.babaetskv.muspert.data.event.Event
+import com.babaetskv.muspert.data.event.EventHub
+import com.babaetskv.muspert.data.event.EventObserver
 import com.babaetskv.muspert.data.models.PlaybackData
 import com.babaetskv.muspert.data.models.ProgressData
 import com.babaetskv.muspert.data.models.Track
@@ -19,11 +22,12 @@ import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.util.*
 
-class PlaybackService : BaseService() {
+class PlaybackService : BaseService(), EventObserver {
     private val catalogRepository: CatalogRepository by inject()
     private val schedulersProvider: SchedulersProvider by inject()
     private val playerPrefs: PlayerPrefs by inject()
     private val notificationManager: AppNotificationManager by inject()
+    private val eventHub: EventHub by inject()
 
     private lateinit var player: MediaPlayer
     private var tracks: Deque<Track> = ArrayDeque()
@@ -33,6 +37,7 @@ class PlaybackService : BaseService() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+        eventHub.subscribe(this, Event.FAVORITES_UPDATE)
         setTrackSubject
             .subscribeOn(schedulersProvider.IO)
             .observeOn(schedulersProvider.UI)
@@ -52,8 +57,12 @@ class PlaybackService : BaseService() {
                 Timber.d("ACTION start(albumId=$albumId, trackId=$trackId)")
                 if (albumId != -1L) {
                     stopCurrentTrack()
-                    if (this.albumId != albumId) loadAlbum(albumId, trackId) else {
+                    if (this.albumId == albumId) {
                         if (this.trackId != trackId) setTrackById(trackId)
+                    } else {
+                        if (albumId == FAVORITES_ALBUM_ID) {
+                            loadFavorites(trackId)
+                        } else loadAlbum(albumId, trackId)
                     }
                 }
             }
@@ -107,11 +116,26 @@ class PlaybackService : BaseService() {
 
     override fun onDestroy() {
         player.onDestroy()
+        eventHub.unsubscribe(this)
         setTrackSubject.onNext(PlaybackData(null, false, playerPrefs))
         albumId = -1
         trackId = -1
         instance = null
         super.onDestroy()
+    }
+
+    override fun onNextEvent(event: Event, data: Any?) {
+        when (event) {
+            Event.FAVORITES_UPDATE -> {
+                if (albumId == FAVORITES_ALBUM_ID && data is Track) {
+                    if (data.isFavorite) {
+                        tracks.add(data)
+                    } else tracks.find { it.id == data.id }?.let {
+                        tracks.remove(it)
+                    }
+                }
+            }
+        }
     }
 
     private fun stopCurrentTrack() {
@@ -192,6 +216,15 @@ class PlaybackService : BaseService() {
             .unsubscribeOnDestroy()
     }
 
+    private fun loadFavorites(trackId: Long) {
+        catalogRepository.getFavoriteTracks(null)
+            .observeOn(schedulersProvider.UI)
+            .subscribe({
+                onGetTracksSuccess(it, FAVORITES_ALBUM_ID, trackId)
+            }, ::onError)
+            .unsubscribeOnDestroy()
+    }
+
     private fun onGetTracksSuccess(tracks: List<Track>, albumId: Long, startTrackId: Long) {
         this.tracks.clear()
         this.tracks.addAll(tracks)
@@ -240,6 +273,8 @@ class PlaybackService : BaseService() {
         private const val EXTRA_PROGRESS_PERCENT = "PlaybackService.ProgressPercentage"
 
         private var instance: PlaybackService? = null
+
+        const val FAVORITES_ALBUM_ID = -101L
 
         val setTrackSubject = BehaviorSubject.createDefault(PlaybackData(
             null,

@@ -66,8 +66,6 @@
                     android:layout_height="wrap_content"
                     android:clipToPadding="false"
                     android:scrollbars="vertical"
-                    android:paddingStart="@dimen/layout_baseline_default"
-                    android:paddingEnd="@dimen/layout_baseline_default"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     tools:itemCount="5"
                     tools:listitem="@layout/item_track"
