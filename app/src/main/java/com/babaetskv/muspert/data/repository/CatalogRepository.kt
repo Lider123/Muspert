@@ -12,4 +12,6 @@ interface CatalogRepository {
     fun getTracks(param: Long): Single<List<Track>>
 
     fun getFavoriteTracks(params: GetFavoriteTracksParams?): Single<List<Track>>
+
+    fun getSearchResult(params: GetSearchResultParams): Single<List<Album>>
 }

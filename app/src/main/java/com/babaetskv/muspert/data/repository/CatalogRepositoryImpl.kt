@@ -35,4 +35,9 @@ class CatalogRepositoryImpl(
         authApi.getFavoriteTracks(params?.limit, params?.offset)
             .subscribeOn(schedulersProvider.IO)
             .map { it.mapNotNull(trackModelToTrackMapper::map) }
+
+    override fun getSearchResult(params: GetSearchResultParams): Single<List<Album>> =
+        authApi.search(params.query, params.limit, params.offset)
+            .subscribeOn(schedulersProvider.IO)
+            .map { it.mapNotNull(albumModelToAlbumMapper::map) }
 }

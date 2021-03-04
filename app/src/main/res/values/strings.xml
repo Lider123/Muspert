@@ -65,6 +65,9 @@
     <string name="added_to_favorites_message">Added to favorites</string>
     <string name="removed_from_favorites_message">Removed from favorites</string>
     <string name="empty_favorites_list_message">Your favorites list is empty</string>
+    <string name="presearch_title">Enter search query</string>
+    <string name="empty_search_results_title">No results</string>
+    <string name="empty_search_results_message">There are no search results. Try to change search query.</string>
 
     <!-- Alerts -->
     <string name="phone_number_is_null">Phone number is null</string>

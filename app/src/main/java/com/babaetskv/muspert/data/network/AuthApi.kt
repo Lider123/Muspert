@@ -57,4 +57,11 @@ interface AuthApi {
         @Query("limit") limit: Long?,
         @Query("offset") offset: Long?
     ): Single<List<TrackModel>>
+
+    @GET("api/search")
+    fun search(
+        @Query("query") query: String,
+        @Query("limit") limit: Long,
+        @Query("offset") offset: Long
+    ): Single<List<AlbumModel>>
 }

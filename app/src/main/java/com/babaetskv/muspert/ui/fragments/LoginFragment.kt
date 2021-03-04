@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import androidx.core.widget.doOnTextChanged
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.auth.AuthBuilder
 import com.babaetskv.muspert.auth.PhoneAuthProvider
