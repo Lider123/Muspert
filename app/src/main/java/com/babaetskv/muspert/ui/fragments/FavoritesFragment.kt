@@ -90,7 +90,7 @@ class FavoritesFragment : PlaybackFragment(), FavoritesView {
             showEmptyView(true)
         } else {
             showEmptyView(false)
-            itemAdapter.setNewList(tracks.map { TrackItem(it, it.id == PlaybackService.trackId) })
+            itemAdapter.setNewList(tracks.map { TrackItem(it, it.id == PlaybackService.currTrackId) })
         }
     }
 
@@ -163,7 +163,7 @@ class FavoritesFragment : PlaybackFragment(), FavoritesView {
                     fastAdapter: FastAdapter<TrackItem>,
                     item: TrackItem
                 ) {
-                    if (item.track.id == PlaybackService.trackId) {
+                    if (item.track.id == PlaybackService.currTrackId) {
                         PlaybackService.sendAction(requireContext(), PlaybackService.Action.Play)
                     } else {
                         PlaybackService.startPlaybackService(requireContext(), PlaybackService.FAVORITES_ALBUM_ID, item.track.id)

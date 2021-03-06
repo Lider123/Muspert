@@ -15,7 +15,10 @@ class MainPresenter(
 ) : BasePresenter<MainView>(errorHandler, notifier) {
 
     fun onPlaybackControlsClick() {
-        val action = MainFragmentDirections.actionMainFragmentToPlayerFragment(PlaybackService.albumId, PlaybackService.trackId)
+        val action = MainFragmentDirections.actionMainFragmentToPlayerFragment(
+            albumId = PlaybackService.currAlbumId,
+            trackId = PlaybackService.currTrackId
+        )
         navigator.forward(action)
     }
 

@@ -64,4 +64,17 @@ interface AuthApi {
         @Query("limit") limit: Long,
         @Query("offset") offset: Long
     ): Single<List<AlbumModel>>
+
+    @GET("api/catalog/favorites/info")
+    fun getFavoriteTrackInfos(): Single<List<TrackInfoModel>>
+
+    @GET("api/catalog/tracks/{trackId}")
+    fun getTrack(
+        @Path("trackId") trackId: Long
+    ): Single<TrackModel>
+
+    @GET("api/catalog/tracks/info")
+    fun getTrackInfos(
+        @Query("albumId") albumId: Long
+    ): Single<List<TrackInfoModel>>
 }

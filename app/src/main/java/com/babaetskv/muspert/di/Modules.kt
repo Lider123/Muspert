@@ -67,7 +67,7 @@ private val appModule = module {
 
 val repositoryModule = module {
     single<ProfileRepository> { ProfileRepositoryImpl(get(), get(), get(), get()) }
-    single<CatalogRepository> { CatalogRepositoryImpl(get(), get(), get(), get(), get()) }
+    single<CatalogRepository> { CatalogRepositoryImpl(get(), get(), get(), get(), get(), get()) }
 }
 
 val retrofitModule = module {
@@ -134,6 +134,7 @@ private val mapperModule = module {
     factory { AlbumModelToAlbumMapper() }
     factory { GenreModelToGenreMapper() }
     factory { TrackModelToTrackMapper() }
+    factory { TrackInfoModelToTrackInfoMapper() }
 }
 
 private val gatewayModule = module {

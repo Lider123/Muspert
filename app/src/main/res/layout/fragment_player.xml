@@ -41,6 +41,7 @@
                 android:id="@+id/btnLike"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_marginEnd="@dimen/layout_baseline_small"
                 android:scaleType="centerCrop"
                 android:layout_marginStart="@dimen/layout_baseline_default"
                 tools:src="@drawable/ic_like_off"/>
