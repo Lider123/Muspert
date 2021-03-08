@@ -149,6 +149,7 @@ class PlaybackService : BaseService(), EventObserver {
 
         AppNotificationManager.ForegroundNotificationParams(
             data.track,
+            currAlbumId,
             data.isPlaying,
             prevIntent = createActionIntent(this, Action.Prev),
             nextIntent = createActionIntent(this, Action.Next),

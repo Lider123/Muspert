@@ -43,7 +43,7 @@ class FavoritesPresenter(
     }
 
     override fun onDestroy() {
-        paginator.onDestroy()
+        if (::paginator.isInitialized) paginator.onDestroy()
         eventHub.unsubscribe(this)
         super.onDestroy()
     }

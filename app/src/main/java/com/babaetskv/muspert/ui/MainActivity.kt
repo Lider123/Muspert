@@ -6,8 +6,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
+import com.babaetskv.muspert.NavGraphDirections
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.SchedulersProvider
+import com.babaetskv.muspert.data.models.TrackPushData
 import com.babaetskv.muspert.databinding.ActivityMainBinding
 import com.babaetskv.muspert.navigation.AppNavigator
 import com.babaetskv.muspert.utils.notifier.Notifier
@@ -31,14 +33,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         navigator.controller = findNavController(R.id.navHostFragment)
         if (savedInstanceState == null) {
-            val externalIntentProcessed = processExternalIntent(intent.getLongExtra(EXTRA_TRACK_ID, -1))
-            // TODO: handle external intent
+            processExternalIntent(intent.getParcelableExtra(EXTRA_TRACK_DATA), false)
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        // TODO: handle external intent
+        processExternalIntent(intent.getParcelableExtra(EXTRA_TRACK_DATA), true)
     }
 
     override fun onStart() {
@@ -53,10 +54,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp() = findNavController(R.id.navHostFragment).navigateUp()
 
-    private fun processExternalIntent(trackId: Long): Boolean {
+    private fun processExternalIntent(trackData: TrackPushData?, fromApp: Boolean): Boolean {
         var processed = false
-        if (trackId != -1L) {
-            // TODO
+        if (trackData != null) {
+            if (fromApp) {
+                navigator.forward(NavGraphDirections.actionToPlayerFragment(trackData.collectionId, trackData.trackId))
+            } else {
+                navigator.newStack(NavGraphDirections.actionToSplashFragment(trackData))
+            }
+            processed = true
         }
         return processed
     }
@@ -135,6 +141,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val EXTRA_TRACK_ID = "EXTRA_TRACK_ID"
+        const val EXTRA_TRACK_DATA = "EXTRA_TRACK_DATA"
     }
 }

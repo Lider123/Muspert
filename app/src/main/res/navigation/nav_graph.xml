@@ -6,11 +6,25 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/splashFragment">
 
+    <action
+        android:id="@+id/action_to_playerFragment"
+        app:destination="@id/playerFragment"/>
+
+    <action
+        android:id="@+id/action_to_splashFragment"
+        app:destination="@id/splashFragment"/>
+
     <fragment
         android:id="@+id/splashFragment"
         android:name="com.babaetskv.muspert.ui.fragments.SplashFragment"
         android:label="Splash"
         tools:layout="@layout/fragment_splash">
+
+        <argument
+            android:name="trackData"
+            app:argType="com.babaetskv.muspert.data.models.TrackPushData"
+            app:nullable="true"
+            android:defaultValue="@null"/>
 
         <action
             android:id="@+id/action_splashFragment_to_loginFragment"

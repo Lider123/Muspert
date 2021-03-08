@@ -42,7 +42,7 @@ class SearchPresenter(
     }
 
     override fun onDestroy() {
-        paginator.onDestroy()
+        if (::paginator.isInitialized) paginator.onDestroy()
         super.onDestroy()
     }
 
