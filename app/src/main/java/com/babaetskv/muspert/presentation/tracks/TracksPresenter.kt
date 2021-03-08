@@ -93,8 +93,8 @@ class TracksPresenter(
 
     fun onPlaybackControlsClick() {
         val action = TracksFragmentDirections.actionTracksFragmentToPlayerFragment(
-            albumId = PlaybackService.albumId,
-            trackId = PlaybackService.trackId
+            albumId = PlaybackService.currAlbumId,
+            trackId = PlaybackService.currTrackId
         )
         navigator.forward(action)
     }

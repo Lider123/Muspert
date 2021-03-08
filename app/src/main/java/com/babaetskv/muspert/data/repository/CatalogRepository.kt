@@ -9,9 +9,15 @@ interface CatalogRepository {
 
     fun getGenres(params: GetGenresParams): Single<List<Genre>>
 
-    fun getTracks(param: Long): Single<List<Track>>
+    fun getTracks(albumId: Long): Single<List<Track>>
 
-    fun getFavoriteTracks(params: GetFavoriteTracksParams?): Single<List<Track>>
+    fun getFavoriteTracks(params: GetFavoriteTracksParams): Single<List<Track>>
 
     fun getSearchResult(params: GetSearchResultParams): Single<List<Album>>
+
+    fun getTrack(trackId: Long): Single<Track>
+
+    fun getTrackInfos(albumId: Long): Single<List<TrackInfo>>
+
+    fun getFavoriteTrackInfos(): Single<List<TrackInfo>>
 }

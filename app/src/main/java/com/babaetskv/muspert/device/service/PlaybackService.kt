@@ -12,6 +12,7 @@ import com.babaetskv.muspert.data.event.EventObserver
 import com.babaetskv.muspert.data.models.PlaybackData
 import com.babaetskv.muspert.data.models.ProgressData
 import com.babaetskv.muspert.data.models.Track
+import com.babaetskv.muspert.data.models.TrackInfo
 import com.babaetskv.muspert.data.prefs.player.PlayerPrefs
 import com.babaetskv.muspert.data.repository.CatalogRepository
 import com.babaetskv.muspert.device.AppNotificationManager
@@ -30,9 +31,9 @@ class PlaybackService : BaseService(), EventObserver {
     private val eventHub: EventHub by inject()
 
     private lateinit var player: MediaPlayer
-    private var tracks: Deque<Track> = ArrayDeque()
-    private var albumId: Long = -1L
-    private var trackId: Long = -1L
+    private var currTrack: Track? = null
+    private var trackInfos: Deque<TrackInfo> = ArrayDeque()
+    private var currAlbumId: Long = -1L
 
     override fun onCreate() {
         super.onCreate()
@@ -57,12 +58,12 @@ class PlaybackService : BaseService(), EventObserver {
                 Timber.d("ACTION start(albumId=$albumId, trackId=$trackId)")
                 if (albumId != -1L) {
                     stopCurrentTrack()
-                    if (this.albumId == albumId) {
-                        if (this.trackId != trackId) setTrackById(trackId)
+                    if (currAlbumId == albumId) {
+                        if (currTrack?.id != trackId) setTrackById(trackId)
                     } else {
                         if (albumId == FAVORITES_ALBUM_ID) {
-                            loadFavorites(trackId)
-                        } else loadAlbum(albumId, trackId)
+                            loadFavoriteTrackInfos(trackId)
+                        } else loadAlbumTrackInfos(albumId, trackId)
                     }
                 }
             }
@@ -79,7 +80,7 @@ class PlaybackService : BaseService(), EventObserver {
             Action.Play.id -> {
                 Timber.d("ACTION play()")
                 togglePlaying()
-                setTrackSubject.onNext(PlaybackData(tracks.first, player.isPlaying, playerPrefs))
+                setTrackSubject.onNext(PlaybackData(currTrack, player.isPlaying, playerPrefs))
             }
             Action.Stop.id -> {
                 Timber.d("ACTION stop()")
@@ -91,20 +92,19 @@ class PlaybackService : BaseService(), EventObserver {
                 Timber.d("ACTION shuffle()")
                 playerPrefs.shuffleEnabled = !playerPrefs.shuffleEnabled
                 if (!playerPrefs.shuffleEnabled) {
-                    val currTrackId: Long? = tracks.firstOrNull()?.id
-                    if (currTrackId != null) {
-                        tracks = ArrayDeque(tracks.sortedBy { it.position })
-                        while (tracks.first.id != currTrackId) {
-                            tracks.removeFirst().also { tracks.addLast(it) }
+                    if (currTrack?.id != null) {
+                        trackInfos = ArrayDeque(trackInfos.sortedBy { it.order })
+                        while (trackInfos.first.id != currTrack!!.id) {
+                            trackInfos.removeFirst().also { trackInfos.addLast(it) }
                         }
                     }
                 }
-                setTrackSubject.onNext(PlaybackData(tracks.first, player.isPlaying, playerPrefs))
+                setTrackSubject.onNext(PlaybackData(currTrack, player.isPlaying, playerPrefs))
             }
             Action.Repeat.id -> {
                 Timber.d("ACTION repeat()")
                 playerPrefs.repeatEnabled = !playerPrefs.repeatEnabled
-                setTrackSubject.onNext(PlaybackData(tracks.first, player.isPlaying, playerPrefs))
+                setTrackSubject.onNext(PlaybackData(currTrack, player.isPlaying, playerPrefs))
             }
             Action.Progress(0f).id -> {
                 val progressPercent = intent.getFloatExtra(EXTRA_PROGRESS_PERCENT, -1F)
@@ -118,8 +118,8 @@ class PlaybackService : BaseService(), EventObserver {
         player.onDestroy()
         eventHub.unsubscribe(this)
         setTrackSubject.onNext(PlaybackData(null, false, playerPrefs))
-        albumId = -1
-        trackId = -1
+        currAlbumId = -1
+        currTrack = null
         instance = null
         super.onDestroy()
     }
@@ -127,11 +127,11 @@ class PlaybackService : BaseService(), EventObserver {
     override fun onNextEvent(event: Event, data: Any?) {
         when (event) {
             Event.FAVORITES_UPDATE -> {
-                if (albumId == FAVORITES_ALBUM_ID && data is Track) {
+                if (currAlbumId == FAVORITES_ALBUM_ID && data is Track) {
                     if (data.isFavorite) {
-                        tracks.add(data)
-                    } else tracks.find { it.id == data.id }?.let {
-                        tracks.remove(it)
+                        trackInfos.add(data.toTrackInfo())
+                    } else trackInfos.find { it.id == data.id }?.let {
+                        trackInfos.remove(it)
                     }
                 }
             }
@@ -139,7 +139,7 @@ class PlaybackService : BaseService(), EventObserver {
     }
 
     private fun stopCurrentTrack() {
-        tracks.firstOrNull()?.let {
+        currTrack?.let {
             setTrackSubject.onNext(PlaybackData(it, false, playerPrefs))
         }
     }
@@ -171,78 +171,80 @@ class PlaybackService : BaseService(), EventObserver {
     }
 
     private fun playCurrent() {
-        if (tracks.isEmpty()) return
+        currTrack ?: return
 
-        val track = tracks.first()
-        player.setTrack(track, true)
-        trackId = track.id
-        setTrackSubject.onNext(PlaybackData(track, true, playerPrefs))
+        player.setTrack(currTrack!!, true)
+        setTrackSubject.onNext(PlaybackData(currTrack, true, playerPrefs))
     }
 
     private fun playNext() {
-        if (tracks.isEmpty()) return
+        if (trackInfos.isEmpty()) return
 
-        val item = tracks.removeFirst()
+        val item = trackInfos.removeFirst()
         if (playerPrefs.shuffleEnabled) {
-            tracks = ArrayDeque(tracks.shuffled())
+            trackInfos = ArrayDeque(trackInfos.shuffled())
         }
-        tracks.addLast(item)
-        val trackToPlay = tracks.first()
-        player.setTrack(trackToPlay, true)
-        trackId = trackToPlay.id
-        setTrackSubject.onNext(PlaybackData(trackToPlay, true, playerPrefs))
+        trackInfos.addLast(item)
+        loadTrack(trackInfos.first.id)
+    }
+
+    private fun loadTrack(id: Long) {
+        catalogRepository.getTrack(id)
+            .observeOn(schedulersProvider.UI)
+            .subscribe(::onGetTrackSuccess, ::onError)
+            .unsubscribeOnDestroy()
+    }
+
+    private fun onGetTrackSuccess(track: Track) {
+        currTrack = track
+        playCurrent()
     }
 
     private fun playPrev() {
-        if (tracks.isEmpty()) return
+        if (trackInfos.isEmpty()) return
 
-        val item = tracks.removeLast()
+        val item = trackInfos.removeLast()
         if (playerPrefs.shuffleEnabled) {
-            tracks = ArrayDeque(tracks.shuffled())
+            trackInfos = ArrayDeque(trackInfos.shuffled())
         }
-        tracks.addFirst(item)
-        val track = tracks.first()
-        player.setTrack(track, true)
-        trackId = track.id
-        setTrackSubject.onNext(PlaybackData(track, true, playerPrefs))
+        trackInfos.addFirst(item)
+        loadTrack(trackInfos.first.id)
     }
 
-    private fun loadAlbum(albumId: Long, trackId: Long) {
-        catalogRepository.getTracks(albumId)
+    private fun loadAlbumTrackInfos(albumId: Long, trackId: Long) {
+        catalogRepository.getTrackInfos(albumId)
             .observeOn(schedulersProvider.UI)
             .subscribe({
-                onGetTracksSuccess(it, albumId, trackId)
+                onGetTrackInfosSuccess(it, albumId, trackId)
             }, ::onError)
             .unsubscribeOnDestroy()
     }
 
-    private fun loadFavorites(trackId: Long) {
-        catalogRepository.getFavoriteTracks(null)
+    private fun loadFavoriteTrackInfos(trackId: Long) {
+        catalogRepository.getFavoriteTrackInfos()
             .observeOn(schedulersProvider.UI)
             .subscribe({
-                onGetTracksSuccess(it, FAVORITES_ALBUM_ID, trackId)
+                onGetTrackInfosSuccess(it, FAVORITES_ALBUM_ID, trackId)
             }, ::onError)
             .unsubscribeOnDestroy()
     }
 
-    private fun onGetTracksSuccess(tracks: List<Track>, albumId: Long, startTrackId: Long) {
-        this.tracks.clear()
-        this.tracks.addAll(tracks)
-        this.albumId = albumId
+    private fun onGetTrackInfosSuccess(infos: List<TrackInfo>, albumId: Long, startTrackId: Long) {
+        trackInfos.clear()
+        trackInfos.addAll(infos)
+        currAlbumId = albumId
         setTrackById(startTrackId)
     }
 
     private fun setTrackById(firstTrackId: Long) {
-        if (this.tracks.find { it.id == firstTrackId } != null) {
-            while (this.tracks.first().id != firstTrackId) {
-                val item = this.tracks.poll()
-                this.tracks.add(item)
+        if (trackInfos.find { it.id == firstTrackId } != null) {
+            while (trackInfos.first().id != firstTrackId) {
+                val item = trackInfos.poll()
+                trackInfos.add(item)
             }
         }
-        this.tracks.firstOrNull()?.let {
-            player.setTrack(it, true)
-            trackId = it.id
-            setTrackSubject.onNext(PlaybackData(it, true, playerPrefs))
+        this.trackInfos.firstOrNull()?.let {
+            loadTrack(it.id)
         }
     }
 
@@ -285,10 +287,10 @@ class PlaybackService : BaseService(), EventObserver {
         val setProgressSubject = BehaviorSubject.createDefault(ProgressData(0, 0))
         val isPlaying: Boolean
             get() = instance?.player?.isPlaying ?: false
-        val albumId: Long
-            get() = instance?.albumId ?: -1L
-        val trackId: Long
-            get() = instance?.trackId ?: -1L
+        val currAlbumId: Long
+            get() = instance?.currAlbumId ?: -1L
+        val currTrackId: Long
+            get() = instance?.currTrack?.id ?: -1L
 
         private fun createActionIntent(context: Context, action: Action): PendingIntent =
             Intent(context, PlaybackService::class.java).apply {
@@ -302,7 +304,7 @@ class PlaybackService : BaseService(), EventObserver {
             }
 
         fun checkCurrTrack(albumId: Long, trackId: Long): Boolean =
-            instance?.albumId == albumId && instance?.trackId == trackId
+            instance?.currAlbumId == albumId && instance?.currTrack?.id == trackId
 
         fun sendAction(context: Context, action: Action) {
             createActionIntent(context, action).send()

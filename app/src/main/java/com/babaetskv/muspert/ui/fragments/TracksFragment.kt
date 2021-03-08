@@ -108,7 +108,7 @@ class TracksFragment : PlaybackFragment(), TracksView {
             showEmptyView(true)
         } else {
             showEmptyView(false)
-            itemAdapter.setNewList(tracks.map { TrackItem(it, it.id == PlaybackService.trackId) })
+            itemAdapter.setNewList(tracks.map { TrackItem(it, it.id == PlaybackService.currTrackId) })
         }
     }
 
@@ -165,7 +165,7 @@ class TracksFragment : PlaybackFragment(), TracksView {
                     fastAdapter: FastAdapter<TrackItem>,
                     item: TrackItem
                 ) {
-                    if (item.track.id == PlaybackService.trackId) {
+                    if (item.track.id == PlaybackService.currTrackId) {
                         PlaybackService.sendAction(requireContext(), PlaybackService.Action.Play)
                     } else {
                         PlaybackService.startPlaybackService(requireContext(), item.track.albumId, item.track.id)

@@ -10,4 +10,11 @@ data class Track(
     val albumTitle: String,
     val artistName: String,
     var isFavorite: Boolean
-)
+) {
+
+    fun toTrackInfo() =
+        TrackInfo(
+            id = id,
+            order = position
+        )
+}
