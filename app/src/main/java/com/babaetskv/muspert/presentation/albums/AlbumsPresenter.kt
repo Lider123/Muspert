@@ -32,7 +32,7 @@ class AlbumsPresenter(
     }
 
     override fun onDestroy() {
-        paginator.onDestroy()
+        if (::paginator.isInitialized) paginator.onDestroy()
         super.onDestroy()
     }
 

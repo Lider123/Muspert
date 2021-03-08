@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import com.babaetskv.muspert.BuildConfig
 import com.babaetskv.muspert.R
 import com.babaetskv.muspert.data.models.Track
+import com.babaetskv.muspert.data.models.TrackPushData
 import com.babaetskv.muspert.ui.MainActivity
 import com.squareup.picasso.Picasso
 
@@ -81,15 +82,16 @@ class AppNotificationManager(
             contentIntent = intent
         }
 
-    private fun createPushIntent(track: Track): PendingIntent =
+    private fun createPushIntent(track: Track, collectionId: Long): PendingIntent =
         Intent(NotificationReceiver.BROADCAST_ACTION).apply {
-            putExtra(MainActivity.EXTRA_TRACK_ID, track.id)
+            val pushData = TrackPushData(track.id, collectionId)
+            putExtra(MainActivity.EXTRA_TRACK_DATA, pushData)
         }.let {
             PendingIntent.getBroadcast(context, REQUEST_CODE, it, PendingIntent.FLAG_CANCEL_CURRENT)
         }
 
     fun showForegroundNotification(service: Service, params: ForegroundNotificationParams) {
-        val notificationIntent = createPushIntent(params.track)
+        val notificationIntent = createPushIntent(params.track, params.collectionId)
         val notificationLayout = createForegroundLayout(service.packageName, params)
         val notificationLayoutExpanded = createForegroundLayoutExpanded(service.packageName, params)
         val channelId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -113,6 +115,7 @@ class AppNotificationManager(
 
     data class ForegroundNotificationParams(
         val track: Track,
+        val collectionId: Long,
         val isPlaying: Boolean,
         val playIntent: PendingIntent,
         val prevIntent: PendingIntent,

@@ -25,6 +25,12 @@ class AppNavigator {
             }
     }
 
+    fun replaceWith(vararg actions: NavDirections) {
+        actions.forEachIndexed { index, action ->
+            if (index == 0) replaceWith(action) else forward(action)
+        }
+    }
+
     fun replaceWith(action: NavDirections) =
         navBuilder
             .setPopUpTo(controller?.currentDestination!!.id, true)

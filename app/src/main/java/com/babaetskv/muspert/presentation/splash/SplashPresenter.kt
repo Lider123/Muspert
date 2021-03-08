@@ -1,7 +1,9 @@
 package com.babaetskv.muspert.presentation.splash
 
+import com.babaetskv.muspert.NavGraphDirections
 import com.babaetskv.muspert.data.ErrorHandler
 import com.babaetskv.muspert.data.SchedulersProvider
+import com.babaetskv.muspert.data.models.TrackPushData
 import com.babaetskv.muspert.data.models.User
 import com.babaetskv.muspert.data.prefs.app.AppPrefs
 import com.babaetskv.muspert.data.repository.ProfileRepository
@@ -11,6 +13,7 @@ import com.babaetskv.muspert.ui.fragments.SplashFragmentDirections
 import com.babaetskv.muspert.utils.notifier.Notifier
 
 class SplashPresenter(
+    private val trackData: TrackPushData?,
     private val profileRepository: ProfileRepository,
     private val schedulersProvider: SchedulersProvider,
     private val appPrefs: AppPrefs,
@@ -26,7 +29,16 @@ class SplashPresenter(
             navigator.replaceWith(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
         } else if (!appPrefs.profileFilled) {
             loadProfile()
-        } else navigator.replaceWith(SplashFragmentDirections.actionSplashFragmentToMainFragment())
+        } else {
+            if (trackData != null) {
+                navigator.replaceWith(
+                    SplashFragmentDirections.actionSplashFragmentToMainFragment(),
+                    NavGraphDirections.actionToPlayerFragment(trackData.collectionId, trackData.trackId)
+                )
+            } else {
+                navigator.replaceWith(SplashFragmentDirections.actionSplashFragmentToMainFragment())
+            }
+        }
     }
 
     private fun loadProfile() {
