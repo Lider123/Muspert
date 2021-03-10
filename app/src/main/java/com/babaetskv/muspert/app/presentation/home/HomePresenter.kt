@@ -1,8 +1,8 @@
 package com.babaetskv.muspert.app.presentation.home
 
+import com.babaetskv.muspert.app.ErrorHandler
 import com.babaetskv.muspert.app.R
-import com.babaetskv.muspert.app.data.ErrorHandler
-import com.babaetskv.muspert.app.data.SchedulersProvider
+import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.domain.model.Album
 import com.babaetskv.muspert.domain.model.Genre
 import com.babaetskv.muspert.domain.model.GetAlbumsParams

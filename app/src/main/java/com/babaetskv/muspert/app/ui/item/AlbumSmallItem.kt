@@ -1,9 +1,9 @@
 package com.babaetskv.muspert.app.ui.item
 
 import android.view.View
-import com.babaetskv.muspert.app.BuildConfig
 import com.babaetskv.muspert.app.R
 import com.babaetskv.muspert.app.databinding.ItemAlbumSmallBinding
+import com.babaetskv.muspert.data.BuildConfig
 import com.babaetskv.muspert.domain.model.Album
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem

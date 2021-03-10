@@ -6,7 +6,6 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.babaetskv.muspert.app.BuildConfig
 import com.babaetskv.muspert.app.R
 import com.babaetskv.muspert.app.databinding.FragmentTracksBinding
 import com.babaetskv.muspert.domain.model.Album
@@ -20,6 +19,7 @@ import com.babaetskv.muspert.app.ui.item.TrackItem
 import com.babaetskv.muspert.app.utils.*
 import com.babaetskv.muspert.app.ui.base.PlaybackControls
 import com.babaetskv.muspert.app.ui.base.PlaybackFragment
+import com.babaetskv.muspert.data.BuildConfig
 import com.mikepenz.fastadapter.ClickListener
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IAdapter

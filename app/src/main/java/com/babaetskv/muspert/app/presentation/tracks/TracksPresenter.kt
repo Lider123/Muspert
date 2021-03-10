@@ -1,11 +1,11 @@
 package com.babaetskv.muspert.app.presentation.tracks
 
+import com.babaetskv.muspert.app.ErrorHandler
 import com.babaetskv.muspert.app.R
-import com.babaetskv.muspert.app.data.ErrorHandler
-import com.babaetskv.muspert.app.data.SchedulersProvider
-import com.babaetskv.muspert.app.data.event.Event
-import com.babaetskv.muspert.app.data.event.EventHub
-import com.babaetskv.muspert.app.data.event.EventObserver
+import com.babaetskv.muspert.data.SchedulersProvider
+import com.babaetskv.muspert.app.event.Event
+import com.babaetskv.muspert.app.event.EventHub
+import com.babaetskv.muspert.app.event.EventObserver
 import com.babaetskv.muspert.domain.model.Album
 import com.babaetskv.muspert.domain.model.Track
 import com.babaetskv.muspert.app.device.service.PlaybackService

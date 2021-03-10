@@ -2,7 +2,7 @@ package com.babaetskv.muspert.app.viewmodel.albums
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
-import com.babaetskv.muspert.app.data.SchedulersProvider
+import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.domain.model.Album
 import com.babaetskv.muspert.domain.model.GetAlbumsParams
 import com.babaetskv.muspert.domain.repository.CatalogRepository

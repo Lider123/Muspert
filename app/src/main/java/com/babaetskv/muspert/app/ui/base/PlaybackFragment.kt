@@ -1,13 +1,13 @@
 package com.babaetskv.muspert.app.ui.base
 
-import com.babaetskv.muspert.app.BuildConfig
 import com.babaetskv.muspert.app.R
-import com.babaetskv.muspert.app.data.SchedulersProvider
+import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.domain.model.PlaybackData
 import com.babaetskv.muspert.domain.model.ProgressData
 import com.babaetskv.muspert.app.device.service.PlaybackService
 import com.babaetskv.muspert.app.utils.into
 import com.babaetskv.muspert.app.utils.safeDispose
+import com.babaetskv.muspert.data.BuildConfig
 import com.squareup.picasso.Picasso
 import io.reactivex.disposables.Disposable
 import org.koin.android.ext.android.inject

@@ -4,8 +4,8 @@ import android.content.Context
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
-import com.babaetskv.muspert.app.BuildConfig
 import com.babaetskv.muspert.app.R
+import com.babaetskv.muspert.data.BuildConfig
 import com.babaetskv.muspert.domain.model.ProgressData
 import com.babaetskv.muspert.domain.model.Track
 import com.google.android.exoplayer2.DefaultLoadControl

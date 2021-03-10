@@ -1,6 +1,6 @@
 package com.babaetskv.muspert.app.presentation.welcome
 
-import com.babaetskv.muspert.app.data.ErrorHandler
+import com.babaetskv.muspert.app.ErrorHandler
 import com.babaetskv.muspert.domain.prefs.AppPrefs
 import com.babaetskv.muspert.app.navigation.AppNavigator
 import com.babaetskv.muspert.app.presentation.base.BasePresenter

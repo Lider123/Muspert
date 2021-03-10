@@ -1,8 +1,8 @@
 package com.babaetskv.muspert.app.presentation.profile
 
 import android.net.Uri
-import com.babaetskv.muspert.app.data.ErrorHandler
-import com.babaetskv.muspert.app.data.SchedulersProvider
+import com.babaetskv.muspert.app.ErrorHandler
+import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.domain.model.User
 import com.babaetskv.muspert.domain.gateway.AuthGateway
 import com.babaetskv.muspert.app.navigation.AppNavigator

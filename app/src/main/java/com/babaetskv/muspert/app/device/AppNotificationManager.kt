@@ -8,11 +8,11 @@ import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import com.babaetskv.muspert.app.BuildConfig
 import com.babaetskv.muspert.app.R
 import com.babaetskv.muspert.domain.model.Track
 import com.babaetskv.muspert.domain.model.TrackPushData
 import com.babaetskv.muspert.app.ui.MainActivity
+import com.babaetskv.muspert.data.BuildConfig
 import com.squareup.picasso.Picasso
 
 class AppNotificationManager(

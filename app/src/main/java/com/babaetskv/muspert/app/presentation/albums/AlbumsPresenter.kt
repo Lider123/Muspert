@@ -1,7 +1,7 @@
 package com.babaetskv.muspert.app.presentation.albums
 
-import com.babaetskv.muspert.app.data.ErrorHandler
-import com.babaetskv.muspert.app.data.SchedulersProvider
+import com.babaetskv.muspert.app.ErrorHandler
+import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.domain.model.Album
 import com.babaetskv.muspert.domain.model.GetAlbumsParams
 import com.babaetskv.muspert.app.device.service.PlaybackService

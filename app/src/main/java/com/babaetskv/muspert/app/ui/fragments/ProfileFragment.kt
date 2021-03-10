@@ -7,9 +7,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
-import com.babaetskv.muspert.app.BuildConfig
 import com.babaetskv.muspert.app.R
-import com.babaetskv.muspert.app.data.SchedulersProvider
+import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.app.databinding.FragmentProfileBinding
 import com.babaetskv.muspert.domain.model.User
 import com.babaetskv.muspert.app.presentation.profile.ProfilePresenter
@@ -21,6 +20,7 @@ import com.babaetskv.muspert.app.utils.notifier.Notifier
 import com.babaetskv.muspert.app.utils.setGone
 import com.babaetskv.muspert.app.utils.setVisible
 import com.babaetskv.muspert.app.utils.viewBinding
+import com.babaetskv.muspert.data.BuildConfig
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse

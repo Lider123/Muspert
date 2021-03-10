@@ -1,7 +1,7 @@
 package com.babaetskv.muspert.app.presentation.signup
 
-import com.babaetskv.muspert.app.data.ErrorHandler
-import com.babaetskv.muspert.app.data.SchedulersProvider
+import com.babaetskv.muspert.app.ErrorHandler
+import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.domain.model.User
 import com.babaetskv.muspert.domain.prefs.AppPrefs
 import com.babaetskv.muspert.app.navigation.AppNavigator
