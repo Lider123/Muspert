@@ -65,7 +65,7 @@
                     android:layout_marginTop="@dimen/layout_baseline_large"
                     android:text="@string/resend_sms_code"/>
 
-                <com.babaetskv.muspert.ui.view.SquareProgress
+                <com.babaetskv.muspert.app.ui.view.SquareProgress
                     android:id="@+id/progressVerification"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -158,7 +158,7 @@
                 android:text="@string/next"
                 app:layout_constraintTop_toBottomOf="@id/layoutPhone"/>
 
-            <com.babaetskv.muspert.ui.view.SquareProgress
+            <com.babaetskv.muspert.app.ui.view.SquareProgress
                 android:id="@+id/progressAuth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
