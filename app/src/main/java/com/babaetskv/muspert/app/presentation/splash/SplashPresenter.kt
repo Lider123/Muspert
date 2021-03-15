@@ -1,8 +1,7 @@
 package com.babaetskv.muspert.app.presentation.splash
 
-import com.babaetskv.muspert.app.ErrorHandler
 import com.babaetskv.muspert.app.NavGraphDirections
-import com.babaetskv.muspert.data.SchedulersProvider
+import com.babaetskv.muspert.domain.SchedulersProvider
 import com.babaetskv.muspert.domain.model.TrackPushData
 import com.babaetskv.muspert.domain.model.User
 import com.babaetskv.muspert.domain.prefs.AppPrefs
@@ -10,6 +9,7 @@ import com.babaetskv.muspert.app.navigation.AppNavigator
 import com.babaetskv.muspert.app.presentation.base.BasePresenter
 import com.babaetskv.muspert.app.ui.fragments.SplashFragmentDirections
 import com.babaetskv.muspert.app.utils.notifier.Notifier
+import com.babaetskv.muspert.data.ErrorHandler
 import com.babaetskv.muspert.domain.usecase.GetProfileUseCase
 
 class SplashPresenter(

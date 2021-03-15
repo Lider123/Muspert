@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.babaetskv.muspert.app.NavGraphDirections
 import com.babaetskv.muspert.app.R
-import com.babaetskv.muspert.data.SchedulersProvider
+import com.babaetskv.muspert.domain.SchedulersProvider
 import com.babaetskv.muspert.app.databinding.ActivityMainBinding
 import com.babaetskv.muspert.domain.model.TrackPushData
 import com.babaetskv.muspert.app.navigation.AppNavigator

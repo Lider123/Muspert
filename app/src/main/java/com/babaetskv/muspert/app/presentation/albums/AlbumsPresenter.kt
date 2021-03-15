@@ -1,7 +1,6 @@
 package com.babaetskv.muspert.app.presentation.albums
 
-import com.babaetskv.muspert.app.ErrorHandler
-import com.babaetskv.muspert.data.SchedulersProvider
+import com.babaetskv.muspert.domain.SchedulersProvider
 import com.babaetskv.muspert.domain.model.Album
 import com.babaetskv.muspert.domain.model.GetAlbumsParams
 import com.babaetskv.muspert.app.device.service.PlaybackService
@@ -10,6 +9,7 @@ import com.babaetskv.muspert.app.presentation.base.BasePresenter
 import com.babaetskv.muspert.app.presentation.base.DefaultPaginator
 import com.babaetskv.muspert.app.ui.fragments.AlbumsFragmentDirections
 import com.babaetskv.muspert.app.utils.notifier.Notifier
+import com.babaetskv.muspert.data.ErrorHandler
 import com.babaetskv.muspert.domain.usecase.GetAlbumsUseCase
 import io.reactivex.Single
 import moxy.InjectViewState

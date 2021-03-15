@@ -1,14 +1,14 @@
 package com.babaetskv.muspert.app.presentation.profile
 
 import android.net.Uri
-import com.babaetskv.muspert.app.ErrorHandler
-import com.babaetskv.muspert.data.SchedulersProvider
+import com.babaetskv.muspert.domain.SchedulersProvider
 import com.babaetskv.muspert.domain.model.User
 import com.babaetskv.muspert.domain.gateway.AuthGateway
 import com.babaetskv.muspert.app.navigation.AppNavigator
 import com.babaetskv.muspert.app.presentation.base.BasePresenter
 import com.babaetskv.muspert.app.ui.fragments.MainFragmentDirections
 import com.babaetskv.muspert.app.utils.notifier.Notifier
+import com.babaetskv.muspert.data.ErrorHandler
 import com.babaetskv.muspert.domain.usecase.GetProfileUseCase
 import com.babaetskv.muspert.domain.usecase.UpdateAvatarUseCase
 

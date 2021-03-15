@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import androidx.core.content.ContextCompat
-import com.babaetskv.muspert.data.SchedulersProvider
+import com.babaetskv.muspert.domain.SchedulersProvider
 import com.babaetskv.muspert.app.event.Event
 import com.babaetskv.muspert.app.event.EventHub
 import com.babaetskv.muspert.app.event.EventObserver

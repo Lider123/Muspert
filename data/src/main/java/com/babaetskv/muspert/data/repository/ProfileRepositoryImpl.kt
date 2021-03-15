@@ -1,7 +1,7 @@
 package com.babaetskv.muspert.data.repository
 
 import android.net.Uri
-import com.babaetskv.muspert.data.SchedulersProvider
+import com.babaetskv.muspert.domain.SchedulersProvider
 import com.babaetskv.muspert.domain.model.User
 import com.babaetskv.muspert.data.network.AuthApi
 import com.babaetskv.muspert.data.mappers.UserModelToUserMapper

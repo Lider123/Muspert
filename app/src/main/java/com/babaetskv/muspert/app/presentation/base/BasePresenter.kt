@@ -1,8 +1,8 @@
 package com.babaetskv.muspert.app.presentation.base
 
-import com.babaetskv.muspert.app.ErrorHandler
 import com.babaetskv.muspert.app.utils.notifier.Notifier
 import com.babaetskv.muspert.app.utils.safeDispose
+import com.babaetskv.muspert.data.ErrorHandler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import moxy.MvpPresenter

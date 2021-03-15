@@ -1,15 +1,13 @@
 package com.babaetskv.muspert.app.di
 
 import android.content.Context
+import android.content.res.Resources
 import android.media.AudioManager
-import com.babaetskv.muspert.app.ErrorHandler
-import com.babaetskv.muspert.data.SchedulersProvider
+import com.babaetskv.muspert.app.CrashlyticsErrorHandler
+import com.babaetskv.muspert.app.R
+import com.babaetskv.muspert.domain.SchedulersProvider
 import com.babaetskv.muspert.app.event.EventHub
 import com.babaetskv.muspert.app.event.EventHubImpl
-import com.babaetskv.muspert.data.network.AuthApi
-import com.babaetskv.muspert.data.network.CommonApi
-import com.babaetskv.muspert.data.network.ErrorResponseInterceptor
-import com.babaetskv.muspert.data.network.HeaderInterceptorFactory
 import com.babaetskv.muspert.domain.gateway.AuthGateway
 import com.babaetskv.muspert.data.gateway.AuthGatewayImpl
 import com.babaetskv.muspert.domain.gateway.FavoritesGateway
@@ -26,38 +24,43 @@ import com.babaetskv.muspert.app.device.AppNotificationManager
 import com.babaetskv.muspert.app.device.NotificationReceiver
 import com.babaetskv.muspert.app.navigation.AppNavigator
 import com.babaetskv.muspert.app.utils.notifier.Notifier
-import com.babaetskv.muspert.data.BuildConfig
+import com.babaetskv.muspert.data.ErrorHandler
+import com.babaetskv.muspert.data.ServiceFactory
 import com.babaetskv.muspert.data.mappers.*
 import com.babaetskv.muspert.domain.usecase.*
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.google.gson.GsonBuilder
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 
 private val appModule = module {
     factory { androidContext().resources }
     single<SchedulersProvider> {
-        object : SchedulersProvider() {
-            override val UI: Scheduler
-                get() = AndroidSchedulers.mainThread()
-            override val IO: Scheduler
-                get() = Schedulers.io()
-            override val COMPUTATION: Scheduler
-                get() = Schedulers.computation()
+        object : SchedulersProvider {
+            override val UI: Scheduler = AndroidSchedulers.mainThread()
+            override val IO: Scheduler = Schedulers.io()
+            override val COMPUTATION: Scheduler = Schedulers.computation()
         }
     }
     single { Notifier() }
-    single { ErrorHandler(get(), get()) }
+    single<ErrorHandler> {
+        val errorMessageProvider = object : ErrorHandler.MessageProvider {
+            override val SECURITY_ERROR: String = get<Resources>().getString(R.string.security_error)
+            override val UNKNOWN_ERROR: String = get<Resources>().getString(R.string.unknown_error)
+            override val NETWORK_ERROR: String = get<Resources>().getString(R.string.network_error)
+            override val SERVER_NOT_AVAILABLE_ERROR: String = get<Resources>().getString(R.string.server_not_available_error)
+            override val BAD_REQUEST_ERROR: String = get<Resources>().getString(R.string.bad_request_error)
+            override val UNAUTHORIZED_ERROR: String = get<Resources>().getString(R.string.unauthorized_error)
+            override val FORBIDDEN_ERROR: String = get<Resources>().getString(R.string.forbidden_error)
+            override val NOT_FOUND_ERROR: String = get<Resources>().getString(R.string.not_found_error)
+            override val INTERNAL_SERVER_ERROR: String = get<Resources>().getString(R.string.internal_server_error)
+            override val INVALID_ACCESS_TOKEN_ERROR: String = get<Resources>().getString(R.string.invalid_access_token_error)
+        }
+        CrashlyticsErrorHandler(get(), errorMessageProvider)
+    }
     single { AppNavigator() }
     single { FirebaseCrashlytics.getInstance() }
     single { NotificationReceiver() }
@@ -71,62 +74,10 @@ val repositoryModule = module {
     single<CatalogRepository> { CatalogRepositoryImpl(get(), get(), get(), get(), get(), get()) }
 }
 
-val retrofitModule = module {
-    fun getBuilder(
-        provider: SchedulersProvider,
-        okHttpClient: OkHttpClient
-    ): Retrofit.Builder {
-        val gson = GsonBuilder().serializeNulls().create()
-        return Retrofit.Builder()
-            .client(okHttpClient)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(provider.IO))
-            .addConverterFactory(GsonConverterFactory.create(gson))
-    }
-
-    fun getHttpLoggingInterceptor(): HttpLoggingInterceptor {
-        val httpLoggingInterceptor = HttpLoggingInterceptor()
-        httpLoggingInterceptor.level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
-        return httpLoggingInterceptor
-    }
-
-    single(named("AuthRetrofit")) {
-        get<Retrofit.Builder>(named("AuthBuilder"))
-            .baseUrl(BuildConfig.API_URL)
-            .build()
-    }
-    single(named("CommonRetrofit")) {
-        get<Retrofit.Builder>(named("CommonBuilder"))
-            .baseUrl(BuildConfig.API_URL)
-            .build()
-    }
-
-    factory(named("CommonBuilder")) {
-        getBuilder(provider = get(), okHttpClient = get(named("CommonClient")))
-    }
-    factory(named("AuthBuilder")) {
-        getBuilder(provider = get(), okHttpClient = get(named("AuthClient")))
-    }
-
-    factory(named("AuthClient")) {
-        OkHttpClient.Builder()
-            .addInterceptor(getHttpLoggingInterceptor())
-            .addInterceptor(HeaderInterceptorFactory.createAuthInterceptor(get()))
-            .addInterceptor(ErrorResponseInterceptor(get()))
-            .addNetworkInterceptor(StethoInterceptor())
-            .build()
-    }
-    factory(named("CommonClient")) {
-        OkHttpClient.Builder()
-            .addInterceptor(getHttpLoggingInterceptor())
-            .addInterceptor(ErrorResponseInterceptor(get()))
-            .addNetworkInterceptor(StethoInterceptor())
-            .build()
-    }
-}
-
 val apiModule = module {
-    single<AuthApi> { get<Retrofit>(named("AuthRetrofit")).create(AuthApi::class.java) }
-    single<CommonApi> { get<Retrofit>(named("CommonRetrofit")).create(CommonApi::class.java) }
+    single { ServiceFactory(get(), get()) }
+    single { get<ServiceFactory>().createAuthService(StethoInterceptor()) }
+    single { get<ServiceFactory>().createCommonService(StethoInterceptor()) }
 }
 
 private val mapperModule = module {
@@ -168,7 +119,6 @@ private val domainModule = module {
 val appModules = listOf(
     appModule,
     repositoryModule,
-    retrofitModule,
     apiModule,
     mapperModule,
     gatewayModule,

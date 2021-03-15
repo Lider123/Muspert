@@ -1,6 +1,6 @@
 package com.babaetskv.muspert.data.gateway
 
-import com.babaetskv.muspert.data.SchedulersProvider
+import com.babaetskv.muspert.domain.SchedulersProvider
 import com.babaetskv.muspert.data.model.AccessTokenModel
 import com.babaetskv.muspert.data.network.CommonApi
 import com.babaetskv.muspert.domain.gateway.AuthGateway

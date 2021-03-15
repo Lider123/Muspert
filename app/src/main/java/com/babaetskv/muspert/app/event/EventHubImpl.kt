@@ -1,6 +1,6 @@
 package com.babaetskv.muspert.app.event
 
-import com.babaetskv.muspert.data.SchedulersProvider
+import com.babaetskv.muspert.domain.SchedulersProvider
 import com.babaetskv.muspert.app.utils.safeDispose
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject

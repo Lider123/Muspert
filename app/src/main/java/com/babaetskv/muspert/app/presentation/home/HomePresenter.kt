@@ -1,8 +1,7 @@
 package com.babaetskv.muspert.app.presentation.home
 
-import com.babaetskv.muspert.app.ErrorHandler
 import com.babaetskv.muspert.app.R
-import com.babaetskv.muspert.data.SchedulersProvider
+import com.babaetskv.muspert.domain.SchedulersProvider
 import com.babaetskv.muspert.domain.model.Album
 import com.babaetskv.muspert.domain.model.Genre
 import com.babaetskv.muspert.domain.model.GetAlbumsParams
@@ -11,6 +10,7 @@ import com.babaetskv.muspert.app.navigation.AppNavigator
 import com.babaetskv.muspert.app.presentation.base.BasePresenter
 import com.babaetskv.muspert.app.ui.fragments.MainFragmentDirections
 import com.babaetskv.muspert.app.utils.notifier.Notifier
+import com.babaetskv.muspert.data.ErrorHandler
 import com.babaetskv.muspert.domain.usecase.GetAlbumsUseCase
 import com.babaetskv.muspert.domain.usecase.GetGenresUseCase
 

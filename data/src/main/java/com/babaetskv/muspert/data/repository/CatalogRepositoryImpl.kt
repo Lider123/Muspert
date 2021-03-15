@@ -1,6 +1,6 @@
 package com.babaetskv.muspert.data.repository
 
-import com.babaetskv.muspert.data.SchedulersProvider
+import com.babaetskv.muspert.domain.SchedulersProvider
 import com.babaetskv.muspert.data.network.AuthApi
 import com.babaetskv.muspert.data.mappers.AlbumModelToAlbumMapper
 import com.babaetskv.muspert.data.mappers.GenreModelToGenreMapper

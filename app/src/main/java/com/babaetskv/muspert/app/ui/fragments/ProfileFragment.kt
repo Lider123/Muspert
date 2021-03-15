@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.babaetskv.muspert.app.R
-import com.babaetskv.muspert.data.SchedulersProvider
+import com.babaetskv.muspert.domain.SchedulersProvider
 import com.babaetskv.muspert.app.databinding.FragmentProfileBinding
 import com.babaetskv.muspert.domain.model.User
 import com.babaetskv.muspert.app.presentation.profile.ProfilePresenter

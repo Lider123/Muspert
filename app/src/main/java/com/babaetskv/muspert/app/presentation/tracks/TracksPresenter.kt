@@ -1,8 +1,7 @@
 package com.babaetskv.muspert.app.presentation.tracks
 
-import com.babaetskv.muspert.app.ErrorHandler
 import com.babaetskv.muspert.app.R
-import com.babaetskv.muspert.data.SchedulersProvider
+import com.babaetskv.muspert.domain.SchedulersProvider
 import com.babaetskv.muspert.app.event.Event
 import com.babaetskv.muspert.app.event.EventHub
 import com.babaetskv.muspert.app.event.EventObserver
@@ -13,6 +12,7 @@ import com.babaetskv.muspert.app.navigation.AppNavigator
 import com.babaetskv.muspert.app.presentation.base.BasePresenter
 import com.babaetskv.muspert.app.ui.fragments.TracksFragmentDirections
 import com.babaetskv.muspert.app.utils.notifier.Notifier
+import com.babaetskv.muspert.data.ErrorHandler
 import com.babaetskv.muspert.domain.usecase.AddToFavoritesUseCase
 import com.babaetskv.muspert.domain.usecase.GetAlbumTracksUseCase
 import com.babaetskv.muspert.domain.usecase.RemoveFromFavoritesUseCase

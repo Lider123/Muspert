@@ -1,7 +1,7 @@
 package com.babaetskv.muspert.app.ui.base
 
 import com.babaetskv.muspert.app.R
-import com.babaetskv.muspert.data.SchedulersProvider
+import com.babaetskv.muspert.domain.SchedulersProvider
 import com.babaetskv.muspert.domain.model.PlaybackData
 import com.babaetskv.muspert.domain.model.ProgressData
 import com.babaetskv.muspert.app.device.service.PlaybackService

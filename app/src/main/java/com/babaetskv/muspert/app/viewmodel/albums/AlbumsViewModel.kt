@@ -3,7 +3,7 @@ package com.babaetskv.muspert.app.viewmodel.albums
 import androidx.lifecycle.*
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.babaetskv.muspert.data.SchedulersProvider
+import com.babaetskv.muspert.domain.SchedulersProvider
 import com.babaetskv.muspert.domain.model.Album
 import com.babaetskv.muspert.domain.repository.CatalogRepository
 import com.babaetskv.muspert.app.viewmodel.base.BaseViewModel
