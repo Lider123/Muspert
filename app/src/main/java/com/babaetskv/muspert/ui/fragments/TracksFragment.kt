@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.babaetskv.muspert.BuildConfig
 import com.babaetskv.muspert.R
+import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.models.Album
 import com.babaetskv.muspert.data.models.PlaybackData
 import com.babaetskv.muspert.data.models.Track
@@ -16,9 +17,8 @@ import com.babaetskv.muspert.device.service.PlaybackService
 import com.babaetskv.muspert.presentation.tracks.TracksPresenter
 import com.babaetskv.muspert.presentation.tracks.TracksView
 import com.babaetskv.muspert.ui.EmptyDividerDecoration
+import com.babaetskv.muspert.ui.base.*
 import com.babaetskv.muspert.ui.item.TrackItem
-import com.babaetskv.muspert.ui.base.PlaybackControls
-import com.babaetskv.muspert.ui.base.PlaybackFragment
 import com.babaetskv.muspert.utils.*
 import com.mikepenz.fastadapter.ClickListener
 import com.mikepenz.fastadapter.FastAdapter
@@ -29,7 +29,7 @@ import com.squareup.picasso.Picasso
 import moxy.ktx.moxyPresenter
 import org.koin.android.ext.android.get
 
-class TracksFragment : PlaybackFragment(), TracksView {
+class TracksFragment : BaseFragment(), TracksView {
     private val args: TracksFragmentArgs by navArgs()
     private val presenter: TracksPresenter by moxyPresenter {
         TracksPresenter(args.album, get(), get(), get(), get(), get(), get(), get())
@@ -40,8 +40,12 @@ class TracksFragment : PlaybackFragment(), TracksView {
 
     override val layoutResId: Int
         get() = R.layout.fragment_tracks
-    override val playbackControls: PlaybackControls
-        get() = binding.viewPlaybackControls
+    override val playbackObserverInitializer: ((SchedulersProvider) -> PlaybackObserver) = { provider ->
+        PlaybackObserver.Builder(this, provider)
+            .setPlaybackControls(binding.viewPlaybackControls)
+            .setPlaybackCallback(::onNextPlaybackData)
+            .build()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,18 +56,6 @@ class TracksFragment : PlaybackFragment(), TracksView {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         initListeners()
-    }
-
-    override fun onNextPlaybackCommand(data: PlaybackData) {
-        super.onNextPlaybackCommand(data)
-        val track = data.track
-        val isPlaying = data.isPlaying
-        itemAdapter.adapterItems.mapIndexed { position, item ->
-            if (item.track.id == track?.id) {
-                item.isPlaying = isPlaying
-                adapter.notifyItemChanged(position)
-            }
-        }
     }
 
     override fun populateAlbum(album: Album) {
@@ -109,6 +101,17 @@ class TracksFragment : PlaybackFragment(), TracksView {
         } else {
             showEmptyView(false)
             itemAdapter.setNewList(tracks.map { TrackItem(it, it.id == PlaybackService.currTrackId) })
+        }
+    }
+
+    private fun onNextPlaybackData(data: PlaybackData) {
+        val track = data.track
+        val isPlaying = data.isPlaying
+        itemAdapter.adapterItems.mapIndexed { position, item ->
+            if (item.track.id == track?.id) {
+                item.isPlaying = isPlaying
+                adapter.notifyItemChanged(position)
+            }
         }
     }
 

@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.babaetskv.muspert.R
+import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.models.Album
 import com.babaetskv.muspert.databinding.FragmentAlbumsBinding
 import com.babaetskv.muspert.presentation.albums.AlbumsPresenter
 import com.babaetskv.muspert.presentation.albums.AlbumsView
-import com.babaetskv.muspert.ui.base.PlaybackControls
-import com.babaetskv.muspert.ui.base.PlaybackFragment
+import com.babaetskv.muspert.ui.base.BaseFragment
+import com.babaetskv.muspert.ui.base.PlaybackObserver
 import com.babaetskv.muspert.ui.item.AlbumItem
 import com.babaetskv.muspert.utils.setGone
 import com.babaetskv.muspert.utils.setVisible
@@ -25,7 +26,7 @@ import com.mikepenz.fastadapter.listeners.OnBindViewHolderListenerImpl
 import moxy.ktx.moxyPresenter
 import org.koin.android.ext.android.get
 
-class AlbumsFragment : PlaybackFragment(), AlbumsView {
+class AlbumsFragment : BaseFragment(), AlbumsView {
     private val presenter: AlbumsPresenter by moxyPresenter {
         AlbumsPresenter(get(), get(), get(), get(), get())
     }
@@ -33,10 +34,13 @@ class AlbumsFragment : PlaybackFragment(), AlbumsView {
     private lateinit var itemAdapter: ItemAdapter<AlbumItem>
     private val binding: FragmentAlbumsBinding by viewBinding()
 
+    override val playbackObserverInitializer: ((SchedulersProvider) -> PlaybackObserver) = { provider ->
+        PlaybackObserver.Builder(this, provider)
+            .setPlaybackControls(binding.viewPlaybackControls)
+            .build()
+    }
     override val layoutResId: Int
         get() = R.layout.fragment_albums
-    override val playbackControls: PlaybackControls
-        get() = binding.viewPlaybackControls
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

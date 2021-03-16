@@ -1,11 +1,14 @@
 package com.babaetskv.muspert.ui.base
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 
 interface PlaybackControls {
+    val playbackContext: Context
+
     fun setCover(drawable: Drawable?)
     fun setCover(@DrawableRes drawableRes: Int)
     fun setCover(bitmap: Bitmap?)

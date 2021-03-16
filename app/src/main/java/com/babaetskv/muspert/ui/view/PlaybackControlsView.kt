@@ -15,10 +15,10 @@ import com.babaetskv.muspert.utils.setVisible
 import com.babaetskv.muspert.utils.viewBinding
 
 class PlaybackControlsView @JvmOverloads constructor(
-    context: Context,
+    override val playbackContext: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-    ) : ConstraintLayout(context, attrs, defStyleAttr), PlaybackControls {
+    ) : ConstraintLayout(playbackContext, attrs, defStyleAttr), PlaybackControls {
     private var prevCallback: (() -> Unit)? = null
     private var playCallback: (() -> Unit)? = null
     private var nextCallback: (() -> Unit)? = null

@@ -7,17 +7,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commitNow
 import com.babaetskv.muspert.R
+import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.databinding.FragmentMainBinding
 import com.babaetskv.muspert.presentation.main.MainPresenter
 import com.babaetskv.muspert.presentation.main.MainView
-import com.babaetskv.muspert.ui.base.PlaybackControls
-import com.babaetskv.muspert.ui.base.PlaybackFragment
+import com.babaetskv.muspert.ui.base.*
 import com.babaetskv.muspert.utils.viewBinding
 import moxy.ktx.moxyPresenter
 import org.koin.android.ext.android.get
 import java.util.*
 
-class MainFragment : PlaybackFragment(), MainView {
+class MainFragment : BaseFragment(), MainView {
     private val presenter: MainPresenter by moxyPresenter {
         MainPresenter(get(), get(), get())
     }
@@ -26,8 +26,11 @@ class MainFragment : PlaybackFragment(), MainView {
 
     override val layoutResId: Int
         get() = R.layout.fragment_main
-    override val playbackControls: PlaybackControls
-        get() = binding.viewPlaybackControls
+    override val playbackObserverInitializer: ((SchedulersProvider) -> PlaybackObserver) = { provider ->
+        PlaybackObserver.Builder(this, provider)
+            .setPlaybackControls(binding.viewPlaybackControls)
+            .build()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

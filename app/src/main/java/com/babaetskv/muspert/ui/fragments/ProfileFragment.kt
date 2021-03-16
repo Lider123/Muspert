@@ -9,7 +9,6 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.babaetskv.muspert.BuildConfig
 import com.babaetskv.muspert.R
-import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.models.User
 import com.babaetskv.muspert.databinding.FragmentProfileBinding
 import com.babaetskv.muspert.presentation.profile.ProfilePresenter
@@ -42,7 +41,6 @@ import org.koin.android.ext.android.inject
  */
 class ProfileFragment : BaseFragment(), ProfileView {
     private val notifier: Notifier by inject()
-    private val schedulersProvider: SchedulersProvider by inject()
 
     private val presenter: ProfilePresenter by moxyPresenter {
         ProfilePresenter(get(), schedulersProvider, get(), get(), get(), notifier)
