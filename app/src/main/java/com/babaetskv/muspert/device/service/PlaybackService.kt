@@ -3,7 +3,6 @@ package com.babaetskv.muspert.device.service
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.os.IBinder
 import androidx.core.content.ContextCompat
 import com.babaetskv.muspert.data.SchedulersProvider
 import com.babaetskv.muspert.data.event.Event
@@ -18,12 +17,14 @@ import com.babaetskv.muspert.data.repository.CatalogRepository
 import com.babaetskv.muspert.device.AppNotificationManager
 import com.babaetskv.muspert.device.mediaplayer.MediaPlayer
 import com.babaetskv.muspert.device.mediaplayer.MusicPlayer
+import com.babaetskv.muspert.ui.base.PlaybackObserver
+import com.babaetskv.muspert.ui.base.PlaybackObserverHolder
 import io.reactivex.subjects.BehaviorSubject
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.util.*
 
-class PlaybackService : BaseService(), EventObserver {
+class PlaybackService : BaseService(), EventObserver, PlaybackObserverHolder {
     private val catalogRepository: CatalogRepository by inject()
     private val schedulersProvider: SchedulersProvider by inject()
     private val playerPrefs: PlayerPrefs by inject()
@@ -35,19 +36,17 @@ class PlaybackService : BaseService(), EventObserver {
     private var trackInfos: Deque<TrackInfo> = ArrayDeque()
     private var currAlbumId: Long = -1L
 
+    override val playbackObserver: PlaybackObserver =
+        PlaybackObserver.Builder(applicationContext, this.lifecycle, schedulersProvider)
+            .setPlaybackCallback(::onNextPlaybackData)
+            .build()
+
     override fun onCreate() {
         super.onCreate()
         instance = this
         eventHub.subscribe(this, Event.FAVORITES_UPDATE)
-        setTrackSubject
-            .subscribeOn(schedulersProvider.IO)
-            .observeOn(schedulersProvider.UI)
-            .subscribe(::onNextUpdateCommand)
-            .unsubscribeOnDestroy()
         initPlayer()
     }
-
-    override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
@@ -138,13 +137,7 @@ class PlaybackService : BaseService(), EventObserver {
         }
     }
 
-    private fun stopCurrentTrack() {
-        currTrack?.let {
-            setTrackSubject.onNext(PlaybackData(it, false, playerPrefs))
-        }
-    }
-
-    private fun onNextUpdateCommand(data: PlaybackData) {
+    private fun onNextPlaybackData(data: PlaybackData) {
         data.track ?: return
 
         AppNotificationManager.ForegroundNotificationParams(
@@ -157,6 +150,12 @@ class PlaybackService : BaseService(), EventObserver {
             closeIntent = createActionIntent(this, Action.Stop)
         ).let {
             notificationManager.showForegroundNotification(this, it)
+        }
+    }
+
+    private fun stopCurrentTrack() {
+        currTrack?.let {
+            setTrackSubject.onNext(PlaybackData(it, false, playerPrefs))
         }
     }
 

@@ -16,8 +16,7 @@ import com.babaetskv.muspert.databinding.FragmentPlayerBinding
 import com.babaetskv.muspert.device.service.PlaybackService
 import com.babaetskv.muspert.presentation.player.PlayerPresenter
 import com.babaetskv.muspert.presentation.player.PlayerView
-import com.babaetskv.muspert.ui.base.PlaybackControls
-import com.babaetskv.muspert.ui.base.PlaybackFragment
+import com.babaetskv.muspert.ui.base.*
 import com.babaetskv.muspert.utils.formatTime
 import com.babaetskv.muspert.utils.setGone
 import com.babaetskv.muspert.utils.setVisible
@@ -26,7 +25,7 @@ import moxy.ktx.moxyPresenter
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 
-class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
+class PlayerFragment : BaseFragment(), PlayerView, PlaybackControls, PlaybackObserverHolder {
     private val audioManager: AudioManager by inject()
 
     private val args: PlayerFragmentArgs by navArgs()
@@ -51,8 +50,11 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
 
     override val layoutResId: Int
         get() = R.layout.fragment_player
-    override val playbackControls: PlaybackControls
-        get() = this
+    override val playbackObserver: PlaybackObserver =
+        PlaybackObserver.Builder(requireContext(), lifecycle, get())
+            .setPlaybackControls(this)
+            .setPlaybackCallback(::onNextPlaybackData)
+            .build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,15 +69,6 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
     override fun onDestroy() {
         requireContext().contentResolver.unregisterContentObserver(settingsContentObserver)
         super.onDestroy()
-    }
-
-    override fun onNextPlaybackCommand(data: PlaybackData) {
-        super.onNextPlaybackCommand(data)
-        presenter.setCurrentTrack(data.track)
-        val isFavorite = data.track?.isFavorite ?: false
-        with (binding.btnLike) {
-            setImageResource(if (isFavorite) R.drawable.ic_like_on else R.drawable.ic_like_off)
-        }
     }
 
     override fun startPlayer(albumId: Long, trackId: Long) {
@@ -170,6 +163,14 @@ class PlayerFragment : PlaybackFragment(), PlayerView, PlaybackControls {
 
     override fun hideProgress() {
         binding.progress.setGone()
+    }
+
+    private fun onNextPlaybackData(data: PlaybackData) {
+        presenter.setCurrentTrack(data.track)
+        val isFavorite = data.track?.isFavorite ?: false
+        with (binding.btnLike) {
+            setImageResource(if (isFavorite) R.drawable.ic_like_on else R.drawable.ic_like_off)
+        }
     }
 
     private fun initListeners() {

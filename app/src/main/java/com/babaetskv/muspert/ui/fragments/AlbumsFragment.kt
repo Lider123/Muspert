@@ -11,8 +11,9 @@ import com.babaetskv.muspert.data.models.Album
 import com.babaetskv.muspert.databinding.FragmentAlbumsBinding
 import com.babaetskv.muspert.presentation.albums.AlbumsPresenter
 import com.babaetskv.muspert.presentation.albums.AlbumsView
-import com.babaetskv.muspert.ui.base.PlaybackControls
-import com.babaetskv.muspert.ui.base.PlaybackFragment
+import com.babaetskv.muspert.ui.base.BaseFragment
+import com.babaetskv.muspert.ui.base.PlaybackObserver
+import com.babaetskv.muspert.ui.base.PlaybackObserverHolder
 import com.babaetskv.muspert.ui.item.AlbumItem
 import com.babaetskv.muspert.utils.setGone
 import com.babaetskv.muspert.utils.setVisible
@@ -25,7 +26,7 @@ import com.mikepenz.fastadapter.listeners.OnBindViewHolderListenerImpl
 import moxy.ktx.moxyPresenter
 import org.koin.android.ext.android.get
 
-class AlbumsFragment : PlaybackFragment(), AlbumsView {
+class AlbumsFragment : BaseFragment(), AlbumsView, PlaybackObserverHolder {
     private val presenter: AlbumsPresenter by moxyPresenter {
         AlbumsPresenter(get(), get(), get(), get(), get())
     }
@@ -33,10 +34,12 @@ class AlbumsFragment : PlaybackFragment(), AlbumsView {
     private lateinit var itemAdapter: ItemAdapter<AlbumItem>
     private val binding: FragmentAlbumsBinding by viewBinding()
 
+    override val playbackObserver: PlaybackObserver =
+        PlaybackObserver.Builder(requireContext(), this.lifecycle, get())
+            .setPlaybackControls(binding.viewPlaybackControls)
+            .build()
     override val layoutResId: Int
         get() = R.layout.fragment_albums
-    override val playbackControls: PlaybackControls
-        get() = binding.viewPlaybackControls
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
