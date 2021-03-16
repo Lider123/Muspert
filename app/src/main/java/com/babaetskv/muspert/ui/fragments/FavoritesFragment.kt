@@ -14,8 +14,7 @@ import com.babaetskv.muspert.device.service.PlaybackService
 import com.babaetskv.muspert.presentation.favorites.FavoritesPresenter
 import com.babaetskv.muspert.presentation.favorites.FavoritesView
 import com.babaetskv.muspert.ui.EmptyDividerDecoration
-import com.babaetskv.muspert.ui.base.PlaybackControls
-import com.babaetskv.muspert.ui.base.PlaybackFragment
+import com.babaetskv.muspert.ui.base.*
 import com.babaetskv.muspert.ui.item.TrackItem
 import com.babaetskv.muspert.utils.*
 import com.mikepenz.fastadapter.ClickListener
@@ -27,7 +26,7 @@ import com.mikepenz.fastadapter.listeners.OnBindViewHolderListenerImpl
 import moxy.ktx.moxyPresenter
 import org.koin.android.ext.android.get
 
-class FavoritesFragment : PlaybackFragment(), FavoritesView {
+class FavoritesFragment : BaseFragment(), FavoritesView, PlaybackObserverHolder {
     private val binding: FragmentFavoritesBinding by viewBinding()
     private lateinit var adapter: FastAdapter<TrackItem>
     private lateinit var itemAdapter: ItemAdapter<TrackItem>
@@ -36,7 +35,10 @@ class FavoritesFragment : PlaybackFragment(), FavoritesView {
     }
 
     override val layoutResId: Int = R.layout.fragment_favorites
-    override val playbackControls: PlaybackControls? = null
+    override val playbackObserver: PlaybackObserver =
+        PlaybackObserver.Builder(requireContext(), this.lifecycle, get())
+            .setPlaybackCallback(::onNextPlaybackData)
+            .build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,18 +48,6 @@ class FavoritesFragment : PlaybackFragment(), FavoritesView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
-    }
-
-    override fun onNextPlaybackCommand(data: PlaybackData) {
-        super.onNextPlaybackCommand(data)
-        val track = data.track
-        val isPlaying = data.isPlaying
-        itemAdapter.adapterItems.mapIndexed { position, item ->
-            if (item.track.id == track?.id) {
-                item.isPlaying = isPlaying
-                adapter.notifyItemChanged(position)
-            }
-        }
     }
 
     override fun showProgress() {
@@ -108,6 +98,17 @@ class FavoritesFragment : PlaybackFragment(), FavoritesView {
                 }
                 setVisible()
             } else setGone()
+        }
+    }
+
+    private fun onNextPlaybackData(data: PlaybackData) {
+        val track = data.track
+        val isPlaying = data.isPlaying
+        itemAdapter.adapterItems.mapIndexed { position, item ->
+            if (item.track.id == track?.id) {
+                item.isPlaying = isPlaying
+                adapter.notifyItemChanged(position)
+            }
         }
     }
 
