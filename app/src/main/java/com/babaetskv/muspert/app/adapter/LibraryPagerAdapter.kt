@@ -8,6 +8,7 @@ import com.babaetskv.muspert.app.ui.fragments.FavoritesFragment
 import com.babaetskv.muspert.app.ui.fragments.HistoryFragment
 import com.babaetskv.muspert.app.ui.fragments.PlaylistsFragment
 import com.babaetskv.muspert.app.R
+import com.babaetskv.muspert.app.ui.fragments.CacheFragment
 
 class LibraryPagerAdapter(
     private val resources: Resources,
@@ -33,6 +34,10 @@ class LibraryPagerAdapter(
         FAVORITES(
             titleFactory = { it.getString(R.string.favorites) },
             fragmentFactory = { FavoritesFragment.newInstance() }
+        ),
+        CACHE(
+            titleFactory = { it.getString(R.string.cache) },
+            fragmentFactory = { CacheFragment.newInstance() }
         ),
         HISTORY(
             titleFactory = { it.getString(R.string.history) },

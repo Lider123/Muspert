@@ -12,6 +12,7 @@
     <string name="playlists">Плейлисты</string>
     <string name="favorites">Избранное</string>
     <string name="history">История</string>
+    <string name="cache">Cache</string>
 
     <!-- Button titles -->
     <string name="login">Войти</string>

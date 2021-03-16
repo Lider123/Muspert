@@ -12,6 +12,7 @@
     <string name="playlists">Playlists</string>
     <string name="favorites">Favorites</string>
     <string name="history">History</string>
+    <string name="cache">Cache</string>
 
     <!-- Button titles -->
     <string name="login">Login</string>
