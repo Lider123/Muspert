@@ -84,8 +84,6 @@ class PlaybackService : BaseService(), EventObserver {
             }
             Action.Stop.id -> {
                 Timber.d("ACTION stop()")
-                stopCurrentTrack()
-                stopForeground(true)
                 stopSelf()
             }
             Action.Shuffle.id -> {
@@ -115,6 +113,8 @@ class PlaybackService : BaseService(), EventObserver {
     }
 
     override fun onDestroy() {
+        stopCurrentTrack()
+        stopForeground(true)
         player.onDestroy()
         eventHub.unsubscribe(this)
         setTrackSubject.onNext(PlaybackData(null, false, playerPrefs))
