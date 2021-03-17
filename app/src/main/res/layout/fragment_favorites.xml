@@ -16,13 +16,13 @@
         tools:listitem="@layout/item_track"
         tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-    <com.babaetskv.muspert.ui.view.EmptyView
+    <com.babaetskv.muspert.app.ui.view.EmptyView
         android:id="@+id/emptyViewTracks"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"/>
 
-    <com.babaetskv.muspert.ui.view.SquareProgress
+    <com.babaetskv.muspert.app.ui.view.SquareProgress
         android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".ui.fragments.SignUpFragment">
+    tools:context=".app.ui.fragments.SignUpFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -77,7 +77,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <com.babaetskv.muspert.ui.view.SquareProgress
+    <com.babaetskv.muspert.app.ui.view.SquareProgress
         android:id="@+id/confirmProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context=".ui.fragments.AlbumsFragment">
+    tools:context=".app.ui.fragments.AlbumsFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -29,7 +29,7 @@
         tools:listitem="@layout/item_album"
         tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-    <com.babaetskv.muspert.ui.view.SquareProgress
+    <com.babaetskv.muspert.app.ui.view.SquareProgress
         android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:visibility="visible"/>
 
-    <com.babaetskv.muspert.ui.view.EmptyView
+    <com.babaetskv.muspert.app.ui.view.EmptyView
         android:id="@+id/emptyViewAlbums"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -48,7 +48,7 @@
         app:layout_constraintBottom_toTopOf="@id/viewPlaybackControls"
         android:visibility="gone"/>
 
-    <com.babaetskv.muspert.ui.view.PlaybackControlsView
+    <com.babaetskv.muspert.app.ui.view.PlaybackControlsView
         android:id="@+id/viewPlaybackControls"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
