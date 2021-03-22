@@ -1,7 +1,7 @@
 package com.babaetskv.muspert.data.mappers
 
 import com.babaetskv.muspert.domain.model.Album
-import com.babaetskv.muspert.data.model.AlbumModel
+import com.babaetskv.muspert.data.network.model.AlbumModel
 
 class AlbumModelToAlbumMapper : Mapper<AlbumModel, Album> {
 

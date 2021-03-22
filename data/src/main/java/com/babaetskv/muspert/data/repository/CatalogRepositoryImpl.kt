@@ -1,22 +1,22 @@
 package com.babaetskv.muspert.data.repository
 
+import com.babaetskv.muspert.data.db.AppDatabase
+import com.babaetskv.muspert.data.mappers.*
 import com.babaetskv.muspert.domain.SchedulersProvider
 import com.babaetskv.muspert.data.network.AuthApi
-import com.babaetskv.muspert.data.mappers.AlbumModelToAlbumMapper
-import com.babaetskv.muspert.data.mappers.GenreModelToGenreMapper
-import com.babaetskv.muspert.data.mappers.TrackInfoModelToTrackInfoMapper
-import com.babaetskv.muspert.data.mappers.TrackModelToTrackMapper
 import com.babaetskv.muspert.domain.model.*
 import com.babaetskv.muspert.domain.repository.CatalogRepository
 import io.reactivex.Single
 
 class CatalogRepositoryImpl(
     private val authApi: AuthApi,
+    private val db: AppDatabase,
     private val schedulersProvider: SchedulersProvider,
     private val albumModelToAlbumMapper: AlbumModelToAlbumMapper,
     private val genreModelToGenreMapper: GenreModelToGenreMapper,
     private val trackModelToTrackMapper: TrackModelToTrackMapper,
-    private val trackInfoModelToTrackInfoMapper: TrackInfoModelToTrackInfoMapper
+    private val trackInfoModelToTrackInfoMapper: TrackInfoModelToTrackInfoMapper,
+    private val trackEntityToTrackMapper: TrackEntityToTrackMapper,
 ) : CatalogRepository {
 
     override fun getAlbums(params: GetAlbumsParams): Single<List<Album>> =
@@ -58,4 +58,9 @@ class CatalogRepositoryImpl(
         authApi.getTrackInfos(albumId)
             .subscribeOn(schedulersProvider.IO)
             .map { it.mapNotNull(trackInfoModelToTrackInfoMapper::map) }
+
+    override fun getCacheTracks(params: GetCacheTracksParams): Single<List<Track>> =
+        db.trackDao().getAll()
+            .subscribeOn(schedulersProvider.IO)
+            .map { it.mapNotNull(trackEntityToTrackMapper::map) }
 }

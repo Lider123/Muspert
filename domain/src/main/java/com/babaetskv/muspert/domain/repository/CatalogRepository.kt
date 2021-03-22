@@ -20,4 +20,6 @@ interface CatalogRepository {
     fun getTrackInfos(albumId: Long): Single<List<TrackInfo>>
 
     fun getFavoriteTrackInfos(): Single<List<TrackInfo>>
+
+    fun getCacheTracks(params: GetCacheTracksParams): Single<List<Track>>
 }

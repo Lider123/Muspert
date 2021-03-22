@@ -1,7 +1,7 @@
 package com.babaetskv.muspert.data.network
 
-import com.babaetskv.muspert.data.model.AccessTokenModel
-import com.babaetskv.muspert.data.model.AuthTokenModel
+import com.babaetskv.muspert.data.network.model.AccessTokenModel
+import com.babaetskv.muspert.data.network.model.AuthTokenModel
 import io.reactivex.Single
 import retrofit2.http.Body
 import retrofit2.http.POST

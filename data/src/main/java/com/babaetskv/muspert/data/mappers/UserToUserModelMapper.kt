@@ -1,7 +1,7 @@
 package com.babaetskv.muspert.data.mappers
 
 import com.babaetskv.muspert.domain.model.User
-import com.babaetskv.muspert.data.model.UserModel
+import com.babaetskv.muspert.data.network.model.UserModel
 
 class UserToUserModelMapper : Mapper<User, UserModel> {
 

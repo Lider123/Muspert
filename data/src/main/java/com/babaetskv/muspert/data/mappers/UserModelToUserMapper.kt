@@ -1,7 +1,7 @@
 package com.babaetskv.muspert.data.mappers
 
 import com.babaetskv.muspert.domain.model.User
-import com.babaetskv.muspert.data.model.UserModel
+import com.babaetskv.muspert.data.network.model.UserModel
 
 /**
  * @author Konstantin on 26.06.2020

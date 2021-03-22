@@ -69,6 +69,7 @@
     <string name="presearch_title">Enter search query</string>
     <string name="empty_search_results_title">No results</string>
     <string name="empty_search_results_message">There are no search results. Try to change search query.</string>
+    <string name="empty_cache_list_message">There are no tracks in the cache</string>
 
     <!-- Alerts -->
     <string name="phone_number_is_null">Phone number is null</string>
@@ -94,6 +95,7 @@
     <string name="error_genres_message">An error occurred while retrieving genres. Please try again later.</string>
     <string name="error_tracks_message">An error occurred while retrieving tracks. Please try again later.</string>
     <string name="error_favorites_message">An error occurred while retrieving favorites. Please try again later.</string>
+    <string name="error_cache_message">An error occurred while retrieving favorites. Please try again later.</string>
 
     <!-- Placeholders -->
     <string name="username_placeholder" translatable="false">%s %s</string>
