@@ -1,6 +1,6 @@
 package com.babaetskv.muspert.data.network
 
-import com.babaetskv.muspert.data.model.*
+import com.babaetskv.muspert.data.network.model.*
 import io.reactivex.Completable
 import io.reactivex.Single
 import okhttp3.MultipartBody

@@ -1,7 +1,7 @@
 package com.babaetskv.muspert.data.mappers
 
 import com.babaetskv.muspert.domain.model.Track
-import com.babaetskv.muspert.data.model.TrackModel
+import com.babaetskv.muspert.data.network.model.TrackModel
 
 class TrackModelToTrackMapper : Mapper<TrackModel, Track> {
 

@@ -64,11 +64,11 @@ class PlaybackService : BaseService(), EventObserver {
                     stopCurrentTrack()
                     if (currAlbumId == albumId) {
                         if (currTrack?.id != trackId) setTrackById(trackId)
-                    } else {
-                        if (albumId == FAVORITES_ALBUM_ID) {
-                            loadFavoriteTrackInfos(trackId)
-                        } else loadAlbumTrackInfos(albumId, trackId)
-                    }
+                    } else if (albumId == FAVORITES_ALBUM_ID) {
+                        loadFavoriteTrackInfos(trackId)
+                    } else if (albumId == CACHE_ALBUM_ID) {
+                        // TODO
+                    } else loadAlbumTrackInfos(albumId, trackId)
                 }
             }
             Action.Prev.id -> {
@@ -282,6 +282,7 @@ class PlaybackService : BaseService(), EventObserver {
         private var instance: PlaybackService? = null
 
         const val FAVORITES_ALBUM_ID = -101L
+        const val CACHE_ALBUM_ID = -102L
 
         val setTrackSubject = BehaviorSubject.createDefault(
             PlaybackData(

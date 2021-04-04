@@ -1,4 +1,4 @@
-package com.babaetskv.muspert.data.model
+package com.babaetskv.muspert.data.network.model
 
 import com.google.gson.annotations.SerializedName
 

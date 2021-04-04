@@ -12,6 +12,7 @@
     <string name="playlists">Плейлисты</string>
     <string name="favorites">Избранное</string>
     <string name="history">История</string>
+    <string name="cache">Cache</string>
 
     <!-- Button titles -->
     <string name="login">Войти</string>
@@ -68,6 +69,7 @@
     <string name="presearch_title">Введите поисковый запрос</string>
     <string name="empty_search_results_title">Отсутствуют результаты</string>
     <string name="empty_search_results_message">Отсутствуют результаты поиска. Попробуйте изменить поисковый запрос.</string>
+    <string name="empty_cache_list_message">Отсутствуют сохраненные треки</string>
 
     <!-- Alerts -->
     <string name="phone_number_is_null">Введите номер телефона</string>
@@ -93,6 +95,7 @@
     <string name="error_genres_message">При загрузке жанров произошла ошибка. Попробуйте позже.</string>
     <string name="error_tracks_message">При загрузке треков произошла ошибка. Попробуйте позже.</string>
     <string name="error_favorites_message">При загрузке избранного произошла ошибка. Попробуйте позже.</string>
+    <string name="error_cache_message">При загрузке сохраненных треков произошла ошибка. Попробуйте позже.</string>
 
     <!-- Placeholders -->
     <string name="current_phone_placeholder">Телефон:\n%s</string>

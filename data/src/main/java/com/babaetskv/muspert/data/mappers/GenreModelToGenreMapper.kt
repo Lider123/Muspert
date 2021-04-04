@@ -1,7 +1,7 @@
 package com.babaetskv.muspert.data.mappers
 
 import com.babaetskv.muspert.domain.model.Genre
-import com.babaetskv.muspert.data.model.GenreModel
+import com.babaetskv.muspert.data.network.model.GenreModel
 
 class GenreModelToGenreMapper : Mapper<GenreModel, Genre> {
 

@@ -1,9 +1,6 @@
-package com.babaetskv.muspert.data
+package com.babaetskv.muspert.data.network
 
-import com.babaetskv.muspert.data.network.AuthApi
-import com.babaetskv.muspert.data.network.CommonApi
-import com.babaetskv.muspert.data.network.ErrorResponseInterceptor
-import com.babaetskv.muspert.data.network.HeaderInterceptorFactory
+import com.babaetskv.muspert.data.BuildConfig
 import com.babaetskv.muspert.domain.SchedulersProvider
 import com.babaetskv.muspert.domain.prefs.AppPrefs
 import com.google.gson.GsonBuilder
@@ -14,7 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ServiceFactory(
+class NetworkServiceFactory(
     private val appPrefs: AppPrefs,
     private val schedulersProvider: SchedulersProvider
 ) {

@@ -25,7 +25,8 @@ import com.babaetskv.muspert.app.device.NotificationReceiver
 import com.babaetskv.muspert.app.navigation.AppNavigator
 import com.babaetskv.muspert.app.utils.notifier.Notifier
 import com.babaetskv.muspert.data.ErrorHandler
-import com.babaetskv.muspert.data.ServiceFactory
+import com.babaetskv.muspert.data.network.NetworkServiceFactory
+import com.babaetskv.muspert.data.db.DatabaseFactory
 import com.babaetskv.muspert.data.mappers.*
 import com.babaetskv.muspert.domain.usecase.*
 import com.facebook.stetho.okhttp3.StethoInterceptor
@@ -71,13 +72,13 @@ private val appModule = module {
 
 val repositoryModule = module {
     single<ProfileRepository> { ProfileRepositoryImpl(get(), get(), get(), get()) }
-    single<CatalogRepository> { CatalogRepositoryImpl(get(), get(), get(), get(), get(), get()) }
+    single<CatalogRepository> { CatalogRepositoryImpl(get(), get(), get(), get(), get(), get(), get(), get()) }
 }
 
 val apiModule = module {
-    single { ServiceFactory(get(), get()) }
-    single { get<ServiceFactory>().createAuthService(StethoInterceptor()) }
-    single { get<ServiceFactory>().createCommonService(StethoInterceptor()) }
+    single { NetworkServiceFactory(get(), get()) }
+    single { get<NetworkServiceFactory>().createAuthService(StethoInterceptor()) }
+    single { get<NetworkServiceFactory>().createCommonService(StethoInterceptor()) }
 }
 
 private val mapperModule = module {
@@ -87,6 +88,7 @@ private val mapperModule = module {
     factory { GenreModelToGenreMapper() }
     factory { TrackModelToTrackMapper() }
     factory { TrackInfoModelToTrackInfoMapper() }
+    factory { TrackEntityToTrackMapper() }
 }
 
 private val gatewayModule = module {
@@ -114,6 +116,11 @@ private val domainModule = module {
     factory { GetTrackUseCase(get()) }
     factory { GetAlbumTrackInfosUseCase(get()) }
     factory { GetFavoriteTrackInfosUseCase(get()) }
+    factory { GetCacheTracksUseCase(get()) }
+}
+
+private val databaseModule = module {
+    single { DatabaseFactory(get()).createAppDatabase() }
 }
 
 val appModules = listOf(
@@ -123,5 +130,6 @@ val appModules = listOf(
     mapperModule,
     gatewayModule,
     prefsModule,
+    databaseModule,
     domainModule
 )
