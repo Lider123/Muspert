@@ -1,7 +1,7 @@
 package com.babaetskv.muspert.domain.model
 
 import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class User(
