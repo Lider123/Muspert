@@ -6,8 +6,8 @@ import com.babaetskv.muspert.domain.model.PlaybackData
 import com.babaetskv.muspert.domain.model.ProgressData
 import com.babaetskv.muspert.app.device.service.PlaybackService
 import com.babaetskv.muspert.app.utils.into
+import com.babaetskv.muspert.app.utils.link
 import com.babaetskv.muspert.app.utils.safeDispose
-import com.babaetskv.muspert.data.BuildConfig
 import com.squareup.picasso.Picasso
 import io.reactivex.disposables.Disposable
 import org.koin.android.ext.android.inject
@@ -99,7 +99,7 @@ abstract class PlaybackFragment : BaseFragment() {
                 }
             })
             Picasso.with(requireContext())
-                .load(BuildConfig.API_URL + data.track!!.cover)
+                .load(link(data.track!!.cover))
                 .resize(0, 200)
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder)

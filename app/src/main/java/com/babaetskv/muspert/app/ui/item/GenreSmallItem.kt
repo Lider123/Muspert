@@ -3,7 +3,7 @@ package com.babaetskv.muspert.app.ui.item
 import android.view.View
 import com.babaetskv.muspert.app.R
 import com.babaetskv.muspert.app.databinding.ItemGenreSmallBinding
-import com.babaetskv.muspert.data.BuildConfig
+import com.babaetskv.muspert.app.utils.link
 import com.babaetskv.muspert.domain.model.Genre
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
@@ -23,7 +23,7 @@ class GenreSmallItem(val genre: Genre) : AbstractItem<GenreSmallItem.ViewHolder>
         override fun bindView(item: GenreSmallItem, payloads: List<Any>) {
             binding.tvTitle.text = item.genre.title
             Picasso.with(binding.imgCover.context)
-                .load(BuildConfig.API_URL + item.genre.image)
+                .load(link(item.genre.image))
                 .resize(0, 400)
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder)

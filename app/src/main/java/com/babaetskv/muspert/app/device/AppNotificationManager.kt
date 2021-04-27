@@ -12,7 +12,7 @@ import com.babaetskv.muspert.app.R
 import com.babaetskv.muspert.domain.model.Track
 import com.babaetskv.muspert.domain.model.TrackPushData
 import com.babaetskv.muspert.app.ui.MainActivity
-import com.babaetskv.muspert.data.BuildConfig
+import com.babaetskv.muspert.app.utils.link
 import com.squareup.picasso.Picasso
 
 class AppNotificationManager(
@@ -104,7 +104,7 @@ class AppNotificationManager(
             notificationLayoutExpanded
         )
         Picasso.with(context)
-            .load(BuildConfig.API_URL + params.track.cover)
+            .load(link(params.track.cover))
             .resize(0, 200)
             .run {
                 into(notificationLayout, R.id.imgCover, NOTIFICATION_ID, notification)

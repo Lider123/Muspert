@@ -29,6 +29,17 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    flavorDimensions "mode"
+    productFlavors {
+        demo {
+            dimension "mode"
+            versionNameSuffix "-demo"
+        }
+        full {
+            dimension "mode"
+            versionNameSuffix "-full"
+        }
+    }
 }
 
 dependencies {

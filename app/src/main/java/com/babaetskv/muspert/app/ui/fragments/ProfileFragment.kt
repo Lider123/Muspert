@@ -16,11 +16,11 @@ import com.babaetskv.muspert.app.presentation.profile.ProfileView
 import com.babaetskv.muspert.app.ui.base.BaseFragment
 import com.babaetskv.muspert.app.utils.dialog.TwoChoiceDialogParams
 import com.babaetskv.muspert.app.utils.dialog.showDialog
+import com.babaetskv.muspert.app.utils.link
 import com.babaetskv.muspert.app.utils.notifier.Notifier
 import com.babaetskv.muspert.app.utils.setGone
 import com.babaetskv.muspert.app.utils.setVisible
 import com.babaetskv.muspert.app.utils.viewBinding
-import com.babaetskv.muspert.data.BuildConfig
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
@@ -80,7 +80,7 @@ class ProfileFragment : BaseFragment(), ProfileView {
         binding.nicknameTextView.text = data.nickname
         data.avatar?.let {
             Picasso.with(requireContext())
-                .load(BuildConfig.API_URL + it)
+                .load(link(it))
                 .resize(0, 400)
                 .placeholder(R.drawable.ic_avatar_placeholder)
                 .error(R.drawable.ic_avatar_placeholder)

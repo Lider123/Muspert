@@ -19,7 +19,6 @@ import com.babaetskv.muspert.app.ui.item.TrackItem
 import com.babaetskv.muspert.app.utils.*
 import com.babaetskv.muspert.app.ui.base.PlaybackControls
 import com.babaetskv.muspert.app.ui.base.PlaybackFragment
-import com.babaetskv.muspert.data.BuildConfig
 import com.mikepenz.fastadapter.ClickListener
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IAdapter
@@ -70,7 +69,7 @@ class TracksFragment : PlaybackFragment(), TracksView {
         view?.post {
             binding.toolbar.title = album.title
             Picasso.with(requireContext())
-                .load(BuildConfig.API_URL + album.cover)
+                .load(link(album.cover))
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder)
                 .resize(0, 600)

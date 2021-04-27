@@ -32,6 +32,17 @@ android {
     buildFeatures {
         viewBinding true
     }
+    flavorDimensions "mode"
+    productFlavors {
+        demo {
+            dimension "mode"
+            versionNameSuffix "-demo"
+        }
+        full {
+            dimension "mode"
+            versionNameSuffix "-full"
+        }
+    }
 }
 
 dependencies {

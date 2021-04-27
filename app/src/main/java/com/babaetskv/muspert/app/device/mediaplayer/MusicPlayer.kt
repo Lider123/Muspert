@@ -5,7 +5,7 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import com.babaetskv.muspert.app.R
-import com.babaetskv.muspert.data.BuildConfig
+import com.babaetskv.muspert.app.utils.link
 import com.babaetskv.muspert.domain.model.ProgressData
 import com.babaetskv.muspert.domain.model.Track
 import com.google.android.exoplayer2.DefaultLoadControl
@@ -51,7 +51,7 @@ class MusicPlayer(context: Context) : MediaPlayer, Player.EventListener {
 
     override fun setTrack(track: Track, playOnReady: Boolean) {
         timer.cancel()
-        val uri = BuildConfig.API_URL + track.link
+        val uri = link(track.link)
         val audioSource = ExtractorMediaSource(Uri.parse(uri), dataSourceFactory, extractorsFactory, null, null)
         exoPlayer.prepare(audioSource)
         exoPlayer.seekTo(0)
